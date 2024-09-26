@@ -1,0 +1,107 @@
+{
+  "Menu": [
+    {
+      "title": "Hamburguesa Clásica",
+      "image": "src/assets/menu/comidas/hamburguesa.jpg",
+      "ingredients": "Pan artesanal, carne de res, queso cheddar, lechuga, tomate, cebolla, mayonesa casera",
+      "price": 1500,
+      "category": "comidas"
+    },
+    {
+      "title": "Milanesa Napo",
+      "image": "src/assets/menu/comidas/milanesa.jpg",
+      "ingredients": "Milanesa de ternera, jamón, queso, salsa de tomate, orégano",
+      "price": 1800,
+      "category": "comidas"
+    },
+    {
+      "title": "Pizza a la Parrilla",
+      "image": "src/assets/menu/comidas/pizza.jpg",
+      "ingredients": "Masa fina a la parrilla, salsa de tomate, mozzarella, albahaca fresca",
+      "price": 1600,
+      "category": "comidas"
+    },
+    {
+      "title": "Ensalada Fresca",
+      "image": "src/assets/menu/comidas/ensalada.jpg",
+      "ingredients": "Lechuga, rúcula, tomate cherry, zanahoria, cebolla morada, aceite de oliva",
+      "price": 1200,
+      "category": "comidas"
+    },
+    {
+      "title": "Flan Casero con DLL",
+      "image": "src/assets/menu/postres/flan.jpg",
+      "ingredients": "Flan de huevo, dulce de leche, crema",
+      "price": 700,
+      "category": "postres"
+    },
+    {
+      "title": "Fernet con Coca",
+      "image": "src/assets/menu/bebidas/fernet.jpg",
+      "ingredients": "Fernet Branca, Coca-Cola, hielo",
+      "price": 800,
+      "category": "bebidas"
+    },
+    {
+      "title": "Gin de Cítricos",
+      "image": "src/assets/menu/bebidas/gin.jpg",
+      "ingredients": "Gin, agua tónica, rodajas de limón y naranja, hielo",
+      "price": 950,
+      "category": "bebidas"
+    }
+  ],
+  "Services": [
+    {
+      "image": "src/assets/services/comida.png",
+      "title": "Comida gourmet",
+      "subtitle": "Desde picadas hasta platos caseros como nuestras famosas hamburguesas y milanesas."
+    },
+    {
+      "image": "src/assets/services/bebida.png",
+      "title": "Bebidas artesanales",
+      "subtitle": "Cervezas locales, cócteles de autor y, por supuesto, el infaltable Fernet con Coca."
+    },
+    {
+      "image": "src/assets/services/espacio.png",
+      "title": "Espacios para todos",
+      "subtitle": "Contamos con un patio abierto, mesas al aire libre y espacios para grupos."
+    },
+    {
+      "image": "src/assets/services/reserva.png",
+      "title": "Reservas",
+      "subtitle": "Organizá tus eventos privados, cumpleaños, o celebraciones con nosotros."
+    }
+  ],
+  "Testimonials": [
+    {
+      "image": "src/assets/testimonios/testimonio1.jpg",
+      "name": "Martín Gómez",
+      "opinion": "El ambiente en el bar es increíble, las luces, la música, todo está pensado para pasarla bien con amigos. ¡La cerveza artesanal es la mejor!"
+    },
+    {
+      "image": "src/assets/testimonios/testimonio2.jpg",
+      "name": "Sofía Martínez",
+      "opinion": "Fui con mis amigas y nos encantó la atención. La comida es deliciosa, especialmente las picadas. ¡Volveremos pronto!"
+    },
+    {
+      "image": "src/assets/testimonios/testimonio4.jpg",
+      "name": "Nicolás Pérez",
+      "opinion": "Me encantó la decoración del bar, es muy acogedor. Además, tienen buena música en vivo los fines de semana. ¡Un 10!"
+    },
+    {
+      "image": "src/assets/testimonios/testimonio5.jpg",
+      "name": "Valeria Fernández",
+      "opinion": "Nos recibieron con mucha calidez y las opciones de menú son variadas y sabrosas. Los precios son súper accesibles. ¡Muy recomendable!"
+    },
+    {
+      "image": "src/assets/testimonios/testimonio3.jpg",
+      "name": "Facundo López",
+      "opinion": "El lugar es perfecto para relajarse después del trabajo. Tienen una carta de tragos espectacular y el servicio es súper atento."
+    },
+    {
+      "image": "src/assets/testimonios/testimonio6.jpg",
+      "name": "Carla Díaz",
+      "opinion": "Un lugar muy agradable para disfrutar con amigos. La atención es de primera y los platos son realmente exquisitos. ¡Nos encantó!"
+    } 
+  ]
+}
