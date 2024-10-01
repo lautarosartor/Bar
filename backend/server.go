@@ -26,5 +26,5 @@ func main() {
 	routes.InitRoutes(e)
 
 	// Start server
-	e.Logger.Fatal(e.Start(config.GetString("DB_PORT")))
+	e.Logger.Fatal(e.Start(config.GetString("HTTP_PORT")))
 }
