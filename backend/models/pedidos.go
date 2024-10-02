@@ -7,7 +7,7 @@ type Pedidos struct {
 	Idsesion  	uint 				`json:"idsesion"`
 	Idestado  	uint 				`json:"idestado"`
 	CreatedAt 	time.Time		`json:"created_at"`
-	DeliveredAt	time.Time		`json:"delivered_at"`
+	DeliveredAt	*time.Time	`json:"delivered_at"`
 	Sesion			*Sesiones		`json:"sesion,omitempty" gorm:"ForeignKey:idsesion;AssociationForeignKey:id"`
 	Estado			*Estados		`json:"estado,omitempty" gorm:"ForeignKey:idestado;AssociationForeignKey:id"`
 }
