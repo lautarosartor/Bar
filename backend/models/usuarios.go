@@ -10,7 +10,7 @@ type Usuarios struct {
 	Email     string    `json:"email"`
 	Password  string    `json:"password"`
 	Telefono  *string   `json:"telefono"`
-	Estado    bool      `json:"estado"`
+	Activo    bool      `json:"activo"`
 	CreatedAt time.Time `json:"created_at"`
 	Rol				*Roles		`json:"rol,omitempty" gorm:"ForeignKey:idrol;AssociationForeignKey:id"`
 }
