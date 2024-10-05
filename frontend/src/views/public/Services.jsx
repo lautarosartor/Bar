@@ -14,7 +14,7 @@ function Services() {
   }, []);
 
   return (
-    <div className="relative my-20">
+    <div id="services" className="relative my-20">
       <Slide direction="right" in={true} style={{ position: 'sticky' }}>
         <h3 className="text-[#EFFFC8] tracking-widest text-center text-4xl font-black mb-8">
           Lo que ofrecemos

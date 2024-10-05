@@ -5,6 +5,7 @@ import Footer from "./components/Footer"
 import Services from "./views/public/Services"
 import About from "./views/public/About"
 import Testimonials from "./views/public/Testimonials"
+import NotFound from "./components/NotFound"
 import Menu from "./views/public/Menu"
 import { ChakraProvider } from "@chakra-ui/react"
 import Contact from "./views/public/Contact"
@@ -15,7 +16,7 @@ function App() {
     <ChakraProvider>
       <BrowserRouter>
         <Header />
-        <main className="container mx-auto my-20 space-y-20 md:my-32 md:space-y-32 px-6 md:px-10 xl:px-28">
+        <main className="flex-grow container mx-auto my-20 space-y-20 md:my-32 md:space-y-32 px-6 md:px-10 xl:px-28">
           <Routes>
             <Route exact path="/"
               element={
@@ -29,7 +30,7 @@ function App() {
                 </>
               }
             />
-            <Route path="*" element={<p>Not Found...</p>} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
         <Footer />

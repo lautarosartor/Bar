@@ -58,7 +58,7 @@ function Header() {
         <Collapse in={isOpen} animateOpacity unmountOnExit>
           <ul className="bg-[#3B341Fee] text-[#EFFFC8] absolute left-0 p-6 w-full flex flex-col items-end gap-6 z-10" style={{backdropFilter: 'blur(4px)'}}>
             <li>
-              <a href="/">
+              <a href="#home">
                 Home
               </a>
             </li>

@@ -3,7 +3,7 @@ import banner2 from '../../assets/banner2.jpg'
 
 function About() {
   return (
-    <div className="relative">
+    <div id="about" className="relative">
       <Slide direction="right" in={true} style={{ position: 'sticky' }}>
         <div className="flex flex-wrap-reverse justify-center lg:justify-between lg:flex-nowrap gap-12">
           <img src={banner2} alt="banner" className="rounded-3xl lg:w-1/2 object-cover object-left" />

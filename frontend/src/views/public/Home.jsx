@@ -4,7 +4,7 @@ import banner from '../../assets/banner2.webp'
 
 function Home() {
   return (
-    <div className="relative">
+    <div id="home" className="relative">
       <Slide direction="left" in={true} style={{ position: 'sticky' }}>
         <div className="flex flex-wrap justify-center lg:justify-between lg:flex-nowrap gap-12">
           <div className="lg:w-1/2 self-center jusitfy-self-center">

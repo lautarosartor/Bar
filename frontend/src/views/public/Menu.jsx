@@ -42,7 +42,7 @@ function Menu() {
   }
 
   return (
-    <div className="relative">
+    <div id="menu" className="relative">
       <Slide direction="bottom" in={true} style={{ position: 'sticky' }}>
         <div className="flex justify-center flex-wrap gap-8 mb-8 mx-8 md:justify-evenly">
           <h2 className="text-6xl font-black bg-[#3B341F] text-[#EFFFC8] p-2 inline-block -skew-x-12">
