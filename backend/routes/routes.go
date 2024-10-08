@@ -36,6 +36,7 @@ func InitRoutes(e *echo.Echo) {
 
 	// auth
 	b.POST("/login", authController.Login)
+	b.POST("/register", authController.Register)
 
 	// users
 	a.GET("/usuarios", usuariosController.GetAll)

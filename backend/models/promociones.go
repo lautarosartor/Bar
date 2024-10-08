@@ -7,7 +7,7 @@ type Promociones struct {
 	Descripcion string     `json:"descripcion"`
 	FechaInicio time.Time  `json:"fecha_inicio"`
 	FechaFin    *time.Time `json:"fecha_finalizacion"`
-	Porcentaje  *int       `json:"stock"`
+	Porcentaje  *int       `json:"porcentaje_descuento"`
 }
 
 func (Promociones) TableName() string {
