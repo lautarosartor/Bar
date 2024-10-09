@@ -5,6 +5,9 @@ import (
 	authController "bar/controllers/auth"
 	categoriasController "bar/controllers/categorias"
 	clientesController "bar/controllers/clientes"
+	estadosController "bar/controllers/estados"
+	mesasController "bar/controllers/mesas"
+	promocionesController "bar/controllers/promociones"
 	usuariosController "bar/controllers/usuarios"
 	"bar/routes/middleware"
 
@@ -42,8 +45,18 @@ func InitRoutes(e *echo.Echo) {
 	a.GET("/usuarios", usuariosController.GetAll)
 	a.GET("/usuario/:id", usuariosController.Get)
 
+	// states
+	a.GET("/estados", estadosController.GetAll)
+
 	// categories
 	a.GET("/categorias", categoriasController.GetAll)
+
+	// tables
+	a.GET("/mesas", mesasController.GetAll)
+
+	// promotions
+	a.GET("/promociones", promocionesController.GetAll)
+	a.GET("/promocion/:id", promocionesController.Get)
 
 	// customers
 	a.GET("/clientes", clientesController.GetAll)
