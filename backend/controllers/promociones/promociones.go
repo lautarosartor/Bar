@@ -42,6 +42,12 @@ func Get(c echo.Context) error {
 	promocion := new(models.Promociones)
 
 	db.Where("fecha_finalizacion <= ?", time.Now()).First(&promocion, promocionID)
+	if promocion.ID == 0 {
+		return c.JSON(http.StatusNotFound, ResponseMessage{
+			Status:		"error",
+			Message:	"Promocion no encontrada.",
+		})
+	}
 
 	data := Data{Promocion: promocion}
 	return c.JSON(http.StatusOK, ResponseMessage{
