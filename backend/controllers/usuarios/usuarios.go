@@ -45,7 +45,7 @@ func Get(c echo.Context) error {
 	userID := c.Param("id")
 	usuario := new(models.Usuarios)
 
-	db.Where("activo = ?", 1).Preload("Rol").First(&usuario, userID)
+	db.Where("activo = ?", 1).Omit("password").Preload("Rol").First(&usuario, userID)
 
 	data := Data{Usuario: usuario}
 	return c.JSON(http.StatusOK, ResponseMessage{
