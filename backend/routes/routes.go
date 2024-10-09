@@ -9,6 +9,7 @@ import (
 	mesasController "bar/controllers/mesas"
 	productosController "bar/controllers/productos"
 	promocionesController "bar/controllers/promociones"
+	subcategoriasController "bar/controllers/subcategorias"
 	usuariosController "bar/controllers/usuarios"
 	"bar/routes/middleware"
 
@@ -52,8 +53,15 @@ func InitRoutes(e *echo.Echo) {
 	// categories
 	a.GET("/categorias", categoriasController.GetAll)
 
+	// subcategories
+	a.GET("/subcategorias", subcategoriasController.GetAll)
+	a.GET("/subcategoria/:id", subcategoriasController.Get)
+
 	// tables
 	a.GET("/mesas", mesasController.GetAll)
+	a.GET("/mesa/:id", mesasController.Get)
+	a.POST("/mesa", mesasController.Create)
+	a.PUT("/mesa/:id", mesasController.Update)
 
 	// promotions
 	a.GET("/promociones", promocionesController.GetAll)
