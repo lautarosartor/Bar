@@ -51,6 +51,7 @@ func InitRoutes(e *echo.Echo) {
 	// sesions
 	a.GET("/sesiones", sesionesController.GetAll)
 	a.GET("/sesion/:id", sesionesController.Get)
+	a.POST("/sesion/:qr", sesionesController.Create)
 
 	// states
 	a.GET("/estados", estadosController.GetAll)
