@@ -74,4 +74,6 @@ func InitRoutes(e *echo.Echo) {
 	// products
 	a.GET("/productos", productosController.GetAll)
 	a.GET("/producto/:id", productosController.Get)
+	a.POST("/producto", productosController.Create)
+	a.PUT("/producto/:id", productosController.Update)
 }
