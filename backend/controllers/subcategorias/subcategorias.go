@@ -26,6 +26,14 @@ func GetAll(c echo.Context) error {
 	var totalDataSize int64 = 0
 	var subcategorias []models.Subcategorias
 
+	if c.QueryParam("categoria") == "1" {
+		db = db.Where("idcategoria = ?", 1)
+	} else if c.QueryParam("categoria") == "2" {
+		db = db.Where("idcategoria = ?", 2)
+	} else if c.QueryParam("categoria") == "3" {
+		db = db.Where("idcategoria = ?", 3)
+	}
+	
 	db.Preload("Categoria").Find(&subcategorias).Count(&totalDataSize)
 
 	data := Data{Subcategorias: subcategorias, TotalDataSize: totalDataSize}
