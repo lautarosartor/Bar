@@ -71,13 +71,6 @@ func Create(c echo.Context) error {
 	db := database.GetDb()
 	QR := c.Param("qr")
 
-/* 	if err := c.Bind(&QR); err != nil {
-		return c.JSON(http.StatusBadRequest, ResponseMessage{
-			Status:		"error",
-			Message:	"Invalid request body: " + err.Error(),
-		})
-	} */
-
 	// Validación manual de los campos requeridos
 	if QR == "" {
 		return c.JSON(http.StatusBadRequest, ResponseMessage{
@@ -92,6 +85,15 @@ func Create(c echo.Context) error {
 		return c.JSON(http.StatusNotFound, ResponseMessage{
 			Status: 	"error",
 			Message:	"Mesa no encontrada.",
+		})
+	}
+
+	sesion := new(models.Sesiones)
+	db.Where("idmesa = ? AND activo = ?", mesa.ID, 1).First(&sesion)
+	if sesion.ID != 0 {
+		return c.JSON(http.StatusNotFound, ResponseMessage{
+			Status: 	"error",
+			Message:	"Esta mesa ya tiene una sesión activa. Para unirte accedé al siguiente link: (proximamente)",
 		})
 	}
 
