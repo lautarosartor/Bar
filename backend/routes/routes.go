@@ -7,6 +7,7 @@ import (
 	clientesController "bar/controllers/clientes"
 	estadosController "bar/controllers/estados"
 	mesasController "bar/controllers/mesas"
+	pedidosController "bar/controllers/pedidos"
 	productosController "bar/controllers/productos"
 	promocionesController "bar/controllers/promociones"
 	sesionesController "bar/controllers/sesiones"
@@ -84,4 +85,9 @@ func InitRoutes(e *echo.Echo) {
 	a.GET("/producto/:id", productosController.Get)
 	a.POST("/producto", productosController.Create)
 	a.PUT("/producto/:id", productosController.Update)
+
+	// orders
+	a.GET("/pedidos", pedidosController.GetAll)
+	a.GET("/pedido/:id", pedidosController.Get)
+	b.POST("/pedido", pedidosController.Create)
 }

@@ -10,6 +10,7 @@ type Pedidos struct {
 	DeliveredAt	*time.Time	`json:"delivered_at"`
 	Sesion			*Sesiones		`json:"sesion,omitempty" gorm:"ForeignKey:idsesion;AssociationForeignKey:id"`
 	Estado			*Estados		`json:"estado,omitempty" gorm:"ForeignKey:idestado;AssociationForeignKey:id"`
+	Items				[]Pedido_Items	`json:"items,omitempty" gorm:"ForeignKey:idpedido;AssociationForeignKey:id"`
 }
 
 func (Pedidos) TableName() string {
@@ -21,7 +22,7 @@ type Pedido_Items struct {
 	Idpedido  	uint 				`json:"idpedido"`
 	Idproducto  uint 				`json:"idproducto"`
 	Cantidad 		int					`json:"cantidad"`
-	Precio 			float64			`json:"precio"`
+	Total 			float64			`json:"total"`
 	Pedido			*Pedidos		`json:"pedido,omitempty" gorm:"ForeignKey:idpedido;AssociationForeignKey:id"`
 	Producto		*Productos	`json:"producto,omitempty" gorm:"ForeignKey:idproducto;AssociationForeignKey:id"`
 }
