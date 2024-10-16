@@ -14,7 +14,10 @@ import {
   MenuList,
   MenuItem,
   useDisclosure,
-  Button
+  Button,
+  Tooltip,
+  Box,
+  Image
 } from '@chakra-ui/react'
 import { AddIcon, EditIcon, HamburgerIcon } from '@chakra-ui/icons'
 import useProducto from '../../../hooks/hookProducto';
@@ -63,6 +66,7 @@ function Productos() {
       >
         <Thead>
           <Tr>
+            <Th textAlign="center" width={100} className="border">Imagen</Th>
             <Th>Producto</Th>
             <Th textAlign="center" width={200}>Precio</Th>
             <Th textAlign="center" width={200}>Stock</Th>
@@ -73,6 +77,34 @@ function Productos() {
         <Tbody>
           {productos?.length > 0 ? (productos.map((p) => (
             <Tr key={p.id}>
+              <Td maxWidth={100} py={1}>
+                <Tooltip
+                  placement="right-start"
+                  label={
+                    <Image 
+                      src={p.img_url} 
+                      alt={p.nombre}
+                      boxSize="250px" // Ajusta el tamaño que desees
+                      objectFit="contain" // Mantiene la proporción de la imagen
+                      objectPosition="left"
+                    />
+                  }
+                  backgroundColor="transparent"
+                  boxShadow="none"
+                  display="flex"
+                  justifyContent="center"
+                >
+                  <Box display="flex" justifyContent="center">
+                    <Image 
+                      src={p.img_url} 
+                      alt={p.nombre} 
+                      maxW="60px" 
+                      maxH="60px" 
+                    />
+                  </Box>
+                </Tooltip>
+              </Td>
+
               <Td>{p.nombre}</Td>
 
               <Td textAlign="center">$ {p.precio}</Td>
