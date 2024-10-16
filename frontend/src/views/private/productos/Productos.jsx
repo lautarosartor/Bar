@@ -8,16 +8,54 @@ import {
   TableCaption,
   TableContainer,
   Spinner,
-  IconButton
+  IconButton,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  useDisclosure,
+  Button
 } from '@chakra-ui/react'
-import { HamburgerIcon } from '@chakra-ui/icons'
+import { AddIcon, EditIcon, HamburgerIcon } from '@chakra-ui/icons'
 import useProducto from '../../../hooks/hookProducto';
+import Producto from './Producto';
+import BtnBusqueda from '../../../components/BtnBusqueda';
+import { useEffect, useState } from 'react';
 
 function Productos() {
-  const { productos, loadingProductos } = useProducto();
+  const { getProductos, productos, loadingProductos } = useProducto();
+  const [selectedProductoId, setSelectedProductoId] = useState(0);
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const handleOpenModal = (id) => {
+    setSelectedProductoId(id);
+    onOpen();
+  }
+
+  useEffect(() => {
+    if (!isOpen) {
+      getProductos();
+    }
+  }, [isOpen, getProductos]);
 
   return (
     <TableContainer>
+      <p className="font-bold text-center text-4xl">
+        PRODUCTOS
+      </p>
+
+      <div className="flex gap-5 my-5">
+        <Button onClick={() => handleOpenModal(0)}
+          leftIcon={<AddIcon />}
+          variant='solid'
+          colorScheme='green'
+        >
+        Agregar
+      </Button>
+        <BtnBusqueda />
+      </div>
+
       <Table
         variant="striped"
         colorScheme="gray"
@@ -42,7 +80,20 @@ function Productos() {
               <Td textAlign="center">{p.stock}</Td>
 
               <Td textAlign="center">
-                <IconButton aria-label='options' bg="none" icon={<HamburgerIcon />} />
+                <Menu>
+                  <MenuButton
+                    as={IconButton}
+                    isRound={true}
+                    aria-label='Options'
+                    icon={<HamburgerIcon />}
+                    variant='solid'
+                  />
+                  <MenuList boxShadow='lg'>
+                    <MenuItem onClick={() => handleOpenModal(p.id)} icon={<EditIcon />}>
+                      Ver
+                    </MenuItem>
+                  </MenuList>
+                </Menu>
               </Td>
             </Tr>))
           ) : (
@@ -61,6 +112,13 @@ function Productos() {
           Tabla de Productos
         </TableCaption>
       </Table>
+      
+      {/*Modal*/}
+      <Producto
+        open={isOpen}
+        close={onClose}
+        productoId={selectedProductoId}
+      />
     </TableContainer>
   )
 }
