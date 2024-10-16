@@ -130,17 +130,17 @@ export const api = {
       const data = await response.json();
       return data;
     },
-    async getTable(id) {
+    async getProduct(id) {
       const response = await fetch(apiOrigin + `/producto/${id}`, privateOptions('GET'));
       const data = await response.json();
       return data;
     },
-    async createTable(data) {
+    async createProduct(data) {
       const response = await fetch(apiOrigin + "/producto", privateOptions('POST', data));
       const res = await response.json();
       return res;
     },
-    async updateTable(id, data) {
+    async updateProduct(id, data) {
       const response = await fetch(apiOrigin + `/producto/${id}`, privateOptions('PUT', data));
       const res = await response.json();
       return res;
