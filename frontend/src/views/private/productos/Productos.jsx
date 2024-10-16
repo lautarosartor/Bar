@@ -84,8 +84,9 @@ function Productos() {
                     <Image 
                       src={p.img_url} 
                       alt={p.nombre}
-                      boxSize="250px" // Ajusta el tamaño que desees
+                      maxH="250px" // Ajusta el tamaño que desees
                       objectFit="contain" // Mantiene la proporción de la imagen
+                      borderRadius="5px"
                       objectPosition="left"
                     />
                   }
