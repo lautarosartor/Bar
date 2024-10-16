@@ -1,11 +1,13 @@
 import { useState } from "react"
 import { api } from "../../../services/api";
 import { useNavigate } from "react-router-dom";
-import { useToast } from "@chakra-ui/react";
+import { Button, Input, InputGroup, InputRightElement, useToast } from "@chakra-ui/react";
+import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [show, setShow] = useState(false);
 
   const toast = useToast()
   const navigate = useNavigate();
@@ -42,28 +44,40 @@ function Login() {
   return (
     <main className="flex-grow flex container mx-auto">
       <form
-        className="m-auto grid gap-6 p-6 border border-[#85CB33] rounded-xl shadow-xl shadow-[#85CB33]"
+        className="m-auto grid gap-6 p-6 border border-[#EFFFC8] rounded-xl shadow-xl shadow-[#85CB33]"
         onSubmit={handleLogin}
       >
-        <input
-          className="p-3 rounded-xl"
-          type="Email"
-          placeholder="Email"
-          required
+        <Input
+          type="email"
+          placeholder='Email'
+          isRequired
+          variant='outline'
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          style={{color: '#A5CBC3'}}
         />
-        <input
-          className="p-3 rounded-xl"
-          type="password"
-          placeholder="Contraseña"
-          required
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+
+        <InputGroup>
+          <Input
+            type={show ? 'text' : 'password'}
+            placeholder='Contraseña'
+            isRequired
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            style={{color: '#A5CBC3'}}
+          />
+          <InputRightElement>
+            <Button variant='none' onClick={() => setShow(!show)}>
+              {show
+                ? <ViewIcon  color='white' />
+                : <ViewOffIcon  color='white' />
+              }
+            </Button>
+          </InputRightElement>
+        </InputGroup>
         
         <button
-          className="p-3 grid justify-center rounded-xl bg-[#ffffff42] hover:bg-[#EFFFC8] text-[#85CB33] hover:text-[#100B00] font-bold"
+          className="p-2 rounded-lg bg-[#EFFFC8] hover:bg-[#85CB33] text-[#100B00] font-bold"
           type="submit"
         >
           Iniciar sesión
