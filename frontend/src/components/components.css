@@ -1,6 +1,7 @@
 nav ul li a {
   position: relative;
   padding: .4rem;
+  cursor: pointer;
 }
 
 nav ul li a:hover {
@@ -20,4 +21,19 @@ nav ul li a::after {
 
 nav ul li a:hover::after {
   background-color: #85CB33;
+}
+
+.active-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0; /* Hacer que sobresalga a la izquierda */
+  right: 0; /* Hacer que sobresalga a la derecha */
+  height: 3px;
+  background-color: #85CB33;
+}
+
+.active-link {
+  color: #85CB33;
+  font-weight: bold;
 }

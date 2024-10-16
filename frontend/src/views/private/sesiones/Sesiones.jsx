@@ -15,12 +15,23 @@ import useSesion from '../../../hooks/hookSesion';
 import "moment/locale/es";
 import moment from "moment-timezone";
 import './sesiones.css'
+import BtnAgregar from '../../../components/BtnAgregar';
+import BtnBusqueda from '../../../components/BtnBusqueda';
 
 function Sesiones() {
   const { sesiones, loadingSesiones } = useSesion();
 
   return (
     <TableContainer>
+      <p className="font-bold text-center text-4xl">
+        SESIONES
+      </p>
+
+      <div className="flex gap-5 my-5">
+        <BtnAgregar />
+        <BtnBusqueda />
+      </div>
+
       <Table
         variant="simple"
         colorScheme="gray"
@@ -70,7 +81,7 @@ function Sesiones() {
               </Td>
 
               <Td textAlign="center">
-                <IconButton aria-label='options' bg="none" icon={<HamburgerIcon />} />
+                <IconButton isRound={true} aria-label='options' bg="none" icon={<HamburgerIcon />} />
               </Td>
             </Tr>))
           ) : (

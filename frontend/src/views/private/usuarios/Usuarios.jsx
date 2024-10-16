@@ -9,27 +9,27 @@ import {
   TableContainer,
   Spinner,
   IconButton,
-  useDisclosure,
   Menu,
   MenuButton,
   MenuList,
-  MenuItem
+  MenuItem,
+  useDisclosure
 } from '@chakra-ui/react'
 import { EditIcon, HamburgerIcon } from '@chakra-ui/icons'
-import useMesa from '../../../hooks/hookMesa';
-import Mesa from './Mesa';
+import useUsuario from '../../../hooks/hookUsuario';
+import Usuario from './Usuario';
 import BtnAgregar from '../../../components/BtnAgregar';
 import BtnBusqueda from '../../../components/BtnBusqueda';
 
-function Mesas() {
-  const { mesas, loadingMesas } = useMesa();
+function Usuarios() {
+  const { usuarios, loadingUsuarios} = useUsuario();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <TableContainer>
       <p className="font-bold text-center text-4xl">
-        MESAS
+        USUARIOS
       </p>
 
       <div className="flex gap-5 my-5">
@@ -44,21 +44,27 @@ function Mesas() {
       >
         <Thead>
           <Tr>
-            <Th>Mesa</Th>
-            <Th textAlign="center">Descripción</Th>
-            <Th textAlign="center">Capacidad</Th>
+            <Th textAlign="center" width={50}>#</Th>
+            <Th>Nombre y Apellido</Th>
+            <Th>Email</Th>
+            <Th>Telefono</Th>
+            <Th textAlign="center" width={100}>Rol</Th>
             <Th textAlign="center" width={50}></Th>
           </Tr>
         </Thead>
 
         <Tbody>
-          {mesas?.length > 0 ? (mesas.map((m) => (
-            <Tr key={m.id}>
-              <Td>{m.nombre_mesa}</Td>
+          {usuarios?.length > 0 ? (usuarios.map((u) => (
+            <Tr key={u.id}>
+              <Td textAlign="center">{u.id}</Td>
 
-              <Td textAlign="center">{m.descripcion}</Td>
+              <Td>{u.nombre} {u.apellido}</Td>
 
-              <Td textAlign="center">{m.capacidad}</Td>
+              <Td>{u.email}</Td>
+
+              <Td>{u.telefono}</Td>
+
+              <Td textAlign="center">{u.rol.nombre}</Td>
 
               <Td textAlign="center">
                 <Menu>
@@ -79,10 +85,10 @@ function Mesas() {
             </Tr>))
           ) : (
             <Tr>
-              <Td colSpan={4} textAlign="center">
-                {loadingMesas
+              <Td colSpan={6} textAlign="center">
+                {loadingUsuarios
                   ? <Spinner />
-                  : "Aún no hay mesas."
+                  : "Aún no hay usuarios."
                 }
               </Td>
             </Tr>
@@ -90,14 +96,14 @@ function Mesas() {
         </Tbody>
 
         <TableCaption>
-          Tabla de Mesas
+          Tabla de Usuarios
         </TableCaption>
       </Table>
 
       {/*Modal*/}
-      <Mesa open={isOpen} close={onClose} />
+      <Usuario open={isOpen} close={onClose} />
     </TableContainer>
   )
 }
 
-export default Mesas
+export default Usuarios
