@@ -13,18 +13,31 @@ import {
   Menu,
   MenuButton,
   MenuList,
-  MenuItem
+  MenuItem,
+  Button
 } from '@chakra-ui/react'
-import { EditIcon, HamburgerIcon } from '@chakra-ui/icons'
+import { AddIcon, EditIcon, HamburgerIcon } from '@chakra-ui/icons'
 import useMesa from '../../../hooks/hookMesa';
 import Mesa from './Mesa';
-import BtnAgregar from '../../../components/BtnAgregar';
 import BtnBusqueda from '../../../components/BtnBusqueda';
+import { useEffect, useState } from 'react';
 
 function Mesas() {
-  const { mesas, loadingMesas } = useMesa();
+  const { getMesas, mesas, loadingMesas } = useMesa();
+  const [selectedMesaId, setSelectedMesaId] = useState(0);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const handleOpenModal = (id) => {
+    setSelectedMesaId(id);
+    onOpen();
+  }
+
+  useEffect(() => {
+    if (!isOpen) {
+      getMesas();
+    }
+  }, [isOpen, getMesas]);
 
   return (
     <TableContainer>
@@ -33,7 +46,14 @@ function Mesas() {
       </p>
 
       <div className="flex gap-5 my-5">
-        <BtnAgregar />
+        <Button
+          onClick={() => handleOpenModal(0)}
+          leftIcon={<AddIcon />}
+          variant='solid'
+          colorScheme='green'
+        >
+          Agregar
+        </Button>
         <BtnBusqueda />
       </div>
 
@@ -70,7 +90,7 @@ function Mesas() {
                     variant='solid'
                   />
                   <MenuList boxShadow='lg'>
-                    <MenuItem onClick={onOpen} icon={<EditIcon />}>
+                    <MenuItem onClick={() => handleOpenModal(m.id)} icon={<EditIcon />}>
                       Ver
                     </MenuItem>
                   </MenuList>
@@ -95,7 +115,11 @@ function Mesas() {
       </Table>
 
       {/*Modal*/}
-      <Mesa open={isOpen} close={onClose} />
+      <Mesa
+        open={isOpen}
+        close={onClose}
+        mesaId={selectedMesaId}
+      />
     </TableContainer>
   )
 }

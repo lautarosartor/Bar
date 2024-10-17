@@ -64,7 +64,7 @@ function Producto({open, close, productoId}) {
     if (!modifiedFields.includes(name)) {
       setModifiedFields((prevFields) => [...prevFields, name]);
     }
-  };
+  }
 
   const handleUpdate = async () => {
     // Filtra y construye un objeto con solo los campos modificados
@@ -141,6 +141,7 @@ function Producto({open, close, productoId}) {
       onClose={handleClose}
     >
       <ModalOverlay />
+
       <ModalContent>
         <ModalHeader>
           {modoCrear
@@ -148,6 +149,7 @@ function Producto({open, close, productoId}) {
             : (modoEditar ? `Editar Producto #${data?.id}` : `Detalles Producto #${data?.id}`)
           }
         </ModalHeader>
+
         <ModalCloseButton />
 
         {data || modoCrear ? (
@@ -158,6 +160,7 @@ function Producto({open, close, productoId}) {
                 type="text"
                 name="nombre" // El nombre del campo debe coincidir con el del estado
                 placeholder="Nombre"
+                maxLength={45}
                 isReadOnly={!modoEditar && !modoCrear}
                 value={formState.nombre || ''}
                 onChange={handleOnChange}
@@ -181,40 +184,42 @@ function Producto({open, close, productoId}) {
                 resize="none"
                 name="descripcion" // Nombre coincide con el del estado
                 placeholder="Descripción"
+                maxLength={200}
                 isReadOnly={!modoEditar && !modoCrear}
                 value={formState.descripcion || ''}
                 onChange={handleOnChange}
               />
             </FormControl>
+            <div className="flex gap-6 mt-4">
+              <FormControl mt={4}>
+                <FormLabel>Precio</FormLabel>
+                <InputGroup>
+                  <InputLeftElement color="gray.300" fontSize="1.2em">
+                    $
+                  </InputLeftElement>
+                  <Input
+                    type="number"
+                    name="precio" // Nombre coincide con el del estado
+                    placeholder="Precio"
+                    isReadOnly={!modoEditar && !modoCrear}
+                    value={formState.precio || ''}
+                    onChange={handleOnChange}
+                  />
+                </InputGroup>
+              </FormControl>
 
-            <FormControl mt={4}>
-              <FormLabel>Precio</FormLabel>
-              <InputGroup>
-                <InputLeftElement color="gray.300" fontSize="1.2em">
-                  $
-                </InputLeftElement>
+              <FormControl mt={4}>
+                <FormLabel>Stock</FormLabel>
                 <Input
                   type="number"
-                  name="precio" // Nombre coincide con el del estado
-                  placeholder="Precio"
+                  name="stock" // Nombre coincide con el del estado
+                  placeholder="Stock"
                   isReadOnly={!modoEditar && !modoCrear}
-                  value={formState.precio || 0}
+                  value={formState.stock || ''}
                   onChange={handleOnChange}
                 />
-              </InputGroup>
-            </FormControl>
-
-            <FormControl mt={4}>
-              <FormLabel>Stock</FormLabel>
-              <Input
-                type="number"
-                name="stock" // Nombre coincide con el del estado
-                placeholder="Stock"
-                isReadOnly={!modoEditar && !modoCrear}
-                value={formState.stock || 0}
-                onChange={handleOnChange}
-              />
-            </FormControl>
+              </FormControl>
+            </div>
 
             <FormControl mt={4}>
               <FormLabel>Imagen</FormLabel>
@@ -222,6 +227,7 @@ function Producto({open, close, productoId}) {
                 type="text"
                 name="img_url" // Nombre coincide con el del estado
                 placeholder="URL imagen"
+                maxLength={255}
                 isReadOnly={!modoEditar && !modoCrear}
                 value={formState.img_url || ''}
                 onChange={handleOnChange}
@@ -236,31 +242,23 @@ function Producto({open, close, productoId}) {
           )
         )}
 
-        <ModalFooter gap={5} justifyContent={modoCrear ? "end" : "space-between"}>
-          {!modoCrear &&
-            <Button colorScheme='blackAlpha' isDisabled={true}>
-              QR
+        <ModalFooter gap={5} justifyContent="end">
+          {modoCrear ? (
+            <Button colorScheme='blue' onClick={handleUpdate}>
+              Crear
             </Button>
-          }
-
-          <div className="flex gap-5">
-            {modoCrear ? (
-              <Button colorScheme='blue' onClick={handleUpdate}>
-                Crear
-              </Button>
-            ) : modoEditar ? (
-              <Button colorScheme='blue' onClick={handleUpdate}>
-                Guardar
-              </Button>
-            ) : (
-              <Button colorScheme='blue' onClick={() => setModoEditar(true)}>
-                Editar
-              </Button>
-            )}
-            <Button onClick={handleClose}>
-              Cancelar
+          ) : modoEditar ? (
+            <Button colorScheme='blue' onClick={handleUpdate}>
+              Guardar
             </Button>
-          </div>
+          ) : (
+            <Button colorScheme='blue' onClick={() => setModoEditar(true)}>
+              Editar
+            </Button>
+          )}
+          <Button onClick={handleClose}>
+            Cancelar
+          </Button>
         </ModalFooter>
       </ModalContent>
     </Modal>

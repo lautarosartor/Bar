@@ -49,13 +49,14 @@ function Productos() {
       </p>
 
       <div className="flex gap-5 my-5">
-        <Button onClick={() => handleOpenModal(0)}
+        <Button
+          onClick={() => handleOpenModal(0)}
           leftIcon={<AddIcon />}
           variant='solid'
           colorScheme='green'
         >
-        Agregar
-      </Button>
+          Agregar
+        </Button>
         <BtnBusqueda />
       </div>
 
@@ -131,7 +132,7 @@ function Productos() {
             </Tr>))
           ) : (
             <Tr>
-              <Td colSpan={4} textAlign="center">
+              <Td colSpan={5} textAlign="center">
                 {loadingProductos
                   ? <Spinner />
                   : "Aún no hay productos."

@@ -1,5 +1,5 @@
 import { useToast } from "@chakra-ui/react";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { api } from "../services/api";
 
 const useProducto = () => {
@@ -93,12 +93,12 @@ const useProducto = () => {
     }
   }, [toast])
 
-  useEffect(() => {
+  /* useEffect(() => {
     // Con esto se soluciona la ejecucion de 8932348 veces la consulta
     if (!productos) {
       getProductos();
     }
-  }, [productos, getProductos]);
+  }, [productos, getProductos]); */
 
   return {
     productos,
