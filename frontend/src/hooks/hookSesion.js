@@ -23,7 +23,7 @@ const useSesion = () => {
         }
       } catch (error) {
         toast({
-          title: error.message,
+          title: `${error.message}. Intentalo de nuevo más tarde.`,
           status: 'error',
           duration: 5000,
           isClosable: true,

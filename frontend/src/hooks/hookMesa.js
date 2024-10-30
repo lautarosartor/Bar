@@ -69,11 +69,11 @@ const useMesa = () => {
     }
   }
 
-  const getMesas = useCallback(async () => {
+  const getMesas = useCallback(async (q = "") => {
     setLoading(true);
 
     try {
-      const response = await api.mesas.getAllTables();
+      const response = await api.mesas.getAllTables(q);
 
       if (response.status === "success") {
         setData(response.data.mesas || []);
@@ -83,14 +83,16 @@ const useMesa = () => {
       }
     } catch (error) {
       toast({
-        title: error.message,
+        title: `${error.message}. Intentalo de nuevo más tarde.`,
         status: 'error',
         duration: 5000,
         isClosable: true,
         position: 'bottom',
       })
     } finally {
-      setLoading(false);
+      setTimeout(() => {
+        setLoading(false);
+      }, 500);
     }
   }, [toast])
 

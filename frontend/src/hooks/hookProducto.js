@@ -82,7 +82,7 @@ const useProducto = () => {
       }
     } catch (error) {
       toast({
-        title: error.message,
+        title: `${error.message}. Intentalo de nuevo más tarde.`,
         status: 'error',
         duration: 5000,
         isClosable: true,
@@ -92,13 +92,6 @@ const useProducto = () => {
       setLoading(false);
     }
   }, [toast])
-
-  /* useEffect(() => {
-    // Con esto se soluciona la ejecucion de 8932348 veces la consulta
-    if (!productos) {
-      getProductos();
-    }
-  }, [productos, getProductos]); */
 
   return {
     productos,
