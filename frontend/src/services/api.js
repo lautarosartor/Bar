@@ -54,6 +54,11 @@ export const api = {
       const response = await fetch(apiOrigin + `/usuario/${id}`, privateOptions('GET'));
       const data = await response.json();
       return data;
+    },
+    async updateUser(id, data) {
+      const response = await fetch(apiOrigin + `/usuario/${id}`, privateOptions('PUT', data));
+      const res = await response.json();
+      return res;
     }
   },
 
@@ -102,8 +107,8 @@ export const api = {
   },
 
   mesas: {
-    async getAllTables() {
-      const response = await fetch(apiOrigin + "/mesas", privateOptions('GET'));
+    async getAllTables(q = "") {
+      const response = await fetch(apiOrigin + `/mesas${q ? `?q=${q}` : ""}`, privateOptions('GET'));
       const data = await response.json();
       return data;
     },
