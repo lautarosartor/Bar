@@ -27,9 +27,14 @@ func GetAll(c echo.Context) error {
 	db := database.GetDb()
 
 	var totalDataSize int64 = 0
+	db.Table("mesas").Count(&totalDataSize)
+	
+	if c.QueryParam("q") != "" {
+		db = db.Where("(nombre_mesa LIKE ?)", "%" + c.QueryParam("q") + "%")
+	}
+	
 	var mesas []models.Mesas
-
-	db.Find(&mesas).Count(&totalDataSize)
+	db.Order("nombre_mesa ASC").Find(&mesas)
 
 	data := Data{Mesas: mesas, TotalDataSize: totalDataSize}
 	return c.JSON(http.StatusOK, ResponseMessage{

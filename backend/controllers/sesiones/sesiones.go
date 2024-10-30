@@ -31,7 +31,7 @@ func GetAll(c echo.Context) error {
 		db = db.Where("activo = ?", 1)
 	}
 
-	db.Preload("Mesa").Find(&sesiones).Count(&totalDataSize)
+	db.Preload("Mesa").Order("finished_at ASC").Find(&sesiones).Count(&totalDataSize)
 
 	if len(sesiones) == 0 {
 		return c.JSON(http.StatusOK, ResponseMessage{

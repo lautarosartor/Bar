@@ -48,6 +48,7 @@ func InitRoutes(e *echo.Echo) {
 	// users
 	a.GET("/usuarios", usuariosController.GetAll)
 	a.GET("/usuario/:id", usuariosController.Get)
+	a.PUT("/usuario/:id", usuariosController.Update)
 
 	// sesions
 	a.GET("/sesiones", sesionesController.GetAll)

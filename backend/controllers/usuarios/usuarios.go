@@ -53,3 +53,38 @@ func Get(c echo.Context) error {
 		Data:		data,
 	})
 }
+
+func Update(c echo.Context) error {
+	db := database.GetDb()
+	usuarioID := c.Param("id")
+	request := new(models.Usuarios)
+
+	if err := c.Bind(&request); err != nil {
+		return c.JSON(http.StatusBadRequest, ResponseMessage{
+			Status:		"error",
+			Message:	"Invalid request body: " + err.Error(),
+		})
+	}
+
+	// Buscamos si la mesa existe
+	usuario := new(models.Usuarios)
+	db.First(&usuario, usuarioID)
+	if usuario.ID == 0 {
+		return c.JSON(http.StatusNotFound, ResponseMessage{
+			Status: 	"error",
+			Message:	"Usuario no encontrado.",
+		})
+	}
+
+	if err := db.Where("id = ?", usuario.ID).Updates(&request).Error; err != nil {
+		return c.JSON(http.StatusInternalServerError, ResponseMessage{
+			Status:		"error",
+			Message:	"Error inesperado al actualizar el usuario.",
+		})
+	}
+
+	return c.JSON(http.StatusOK, ResponseMessage{
+		Status:		"success",
+		Message:	"¡Usuario actualizado con éxito!.",
+	})
+}
