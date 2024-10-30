@@ -40,7 +40,7 @@ function App() {
                     </>
                   }
                 />
-                <Route path="*" element={<NotFound />} />
+                <Route path="*" element={<NotFound tipo={1} />} />
               </Routes>
             </main>
             <Footer />
@@ -61,7 +61,7 @@ function App() {
                 <Route path="productos" element={<Productos />} />
                 <Route path="sesiones" element={<Sesiones />} />
                 <Route path="usuarios" element={<Usuarios />} />
-                <Route path="*" element={<NotFound />} />
+                <Route path="*" element={<NotFound tipo={1} />} />
               </Routes>
             </PrivateRoute>
           }

@@ -13,32 +13,44 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
-  useDisclosure
+  useDisclosure,
 } from '@chakra-ui/react'
-import { EditIcon, HamburgerIcon } from '@chakra-ui/icons'
+import { EditIcon, SettingsIcon } from '@chakra-ui/icons'
 import useUsuario from '../../../hooks/hookUsuario';
 import Usuario from './Usuario';
+import InputBusqueda from '../../../components/InputBusqueda';
+import { useEffect, useState } from 'react';
 import BtnAgregar from '../../../components/BtnAgregar';
-import BtnBusqueda from '../../../components/BtnBusqueda';
 
 function Usuarios() {
-  const { usuarios, loadingUsuarios} = useUsuario();
+  const { getUsuarios, usuarios, loadingUsuarios } = useUsuario();
+  const [selectedUsuarioId, setSelectedUsuarioId] = useState(0);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
+  const handleOpenModal = (id) => {
+    setSelectedUsuarioId(id);
+    onOpen();
+  }
+
+  useEffect(() => {
+    if (!isOpen) {
+      getUsuarios();
+    }
+  }, [isOpen, getUsuarios]);
+
   return (
-    <TableContainer>
+    <TableContainer py={5}>
       <p className="font-bold text-center text-4xl">
         USUARIOS
       </p>
 
-      <div className="flex gap-5 my-5">
-        <BtnAgregar />
-        <BtnBusqueda />
+      <div className="flex gap-5 my-10">
+        <BtnAgregar isDisabled onClick={() => handleOpenModal(0)} />
+        <InputBusqueda />
       </div>
 
       <Table
-        variant="striped"
         colorScheme="gray"
         className="border shadow shadow-xl"
       >
@@ -64,7 +76,7 @@ function Usuarios() {
 
               <Td>{u.telefono}</Td>
 
-              <Td textAlign="center">{u.rol.nombre}</Td>
+              <Td textAlign="center">{u.rol?.nombre}</Td>
 
               <Td textAlign="center">
                 <Menu>
@@ -72,11 +84,11 @@ function Usuarios() {
                     as={IconButton}
                     isRound={true}
                     aria-label='Options'
-                    icon={<HamburgerIcon />}
+                    icon={<SettingsIcon />}
                     variant='solid'
                   />
                   <MenuList boxShadow='lg'>
-                    <MenuItem onClick={onOpen} icon={<EditIcon />}>
+                    <MenuItem onClick={() => handleOpenModal(u.id)} icon={<EditIcon />}>
                       Ver
                     </MenuItem>
                   </MenuList>
@@ -101,7 +113,11 @@ function Usuarios() {
       </Table>
 
       {/*Modal*/}
-      <Usuario open={isOpen} close={onClose} />
+      <Usuario
+        open={isOpen}
+        close={onClose}
+        usuarioId={selectedUsuarioId}
+      />
     </TableContainer>
   )
 }

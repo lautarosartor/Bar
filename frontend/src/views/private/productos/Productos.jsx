@@ -14,16 +14,16 @@ import {
   MenuList,
   MenuItem,
   useDisclosure,
-  Button,
   Tooltip,
   Box,
   Image
 } from '@chakra-ui/react'
-import { AddIcon, EditIcon, HamburgerIcon } from '@chakra-ui/icons'
+import { EditIcon, SettingsIcon } from '@chakra-ui/icons'
 import useProducto from '../../../hooks/hookProducto';
 import Producto from './Producto';
-import BtnBusqueda from '../../../components/BtnBusqueda';
+import InputBusqueda from '../../../components/InputBusqueda';
 import { useEffect, useState } from 'react';
+import BtnAgregar from '../../../components/BtnAgregar';
 
 function Productos() {
   const { getProductos, productos, loadingProductos } = useProducto();
@@ -43,31 +43,23 @@ function Productos() {
   }, [isOpen, getProductos]);
 
   return (
-    <TableContainer>
+    <TableContainer py={5}>
       <p className="font-bold text-center text-4xl">
         PRODUCTOS
       </p>
 
-      <div className="flex gap-5 my-5">
-        <Button
-          onClick={() => handleOpenModal(0)}
-          leftIcon={<AddIcon />}
-          variant='solid'
-          colorScheme='green'
-        >
-          Agregar
-        </Button>
-        <BtnBusqueda />
+      <div className="flex gap-5 my-10">
+        <BtnAgregar onClick={() => handleOpenModal(0)} />
+        <InputBusqueda />
       </div>
 
       <Table
-        variant="striped"
         colorScheme="gray"
-        className="border shadow shadow-xl"
+        className="shadow shadow-xl"
       >
         <Thead>
           <Tr>
-            <Th textAlign="center" width={100} className="border">Imagen</Th>
+            <Th textAlign="center" width={100}>Imagen</Th>
             <Th>Producto</Th>
             <Th textAlign="center" width={200}>Precio</Th>
             <Th textAlign="center" width={200}>Stock</Th>
@@ -119,7 +111,7 @@ function Productos() {
                     as={IconButton}
                     isRound={true}
                     aria-label='Options'
-                    icon={<HamburgerIcon />}
+                    icon={<SettingsIcon />}
                     variant='solid'
                   />
                   <MenuList boxShadow='lg'>

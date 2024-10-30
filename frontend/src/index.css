@@ -23,14 +23,23 @@ html {
   background-color: #100B00;
 }
 
-.active {
-  background-color: #85CB33;
-  transition: all 0.2s;
-}
-
+/*Slider de testimonios*/
 .slick-slider .slick-track {
   display: flex;
   gap: 10px;
+}
+
+/*Tablas*/
+th {
+  background-color: #09090930;
+}
+
+tr {
+  background-color: #4B504330;
+
+  &:hover {
+    background-color: #4B504350;
+  }
 }
 
 /* :root {

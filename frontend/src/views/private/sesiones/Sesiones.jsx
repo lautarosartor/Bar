@@ -8,28 +8,32 @@ import {
   TableCaption,
   TableContainer,
   Spinner,
-  IconButton
+  IconButton,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem
 } from '@chakra-ui/react'
-import { HamburgerIcon } from '@chakra-ui/icons'
+import { EditIcon, SettingsIcon, TimeIcon } from '@chakra-ui/icons'
 import useSesion from '../../../hooks/hookSesion';
 import "moment/locale/es";
 import moment from "moment-timezone";
 import './sesiones.css'
 import BtnAgregar from '../../../components/BtnAgregar';
-import BtnBusqueda from '../../../components/BtnBusqueda';
+import InputBusqueda from '../../../components/InputBusqueda';
 
 function Sesiones() {
   const { sesiones, loadingSesiones } = useSesion();
 
   return (
-    <TableContainer>
+    <TableContainer py={5}>
       <p className="font-bold text-center text-4xl">
         SESIONES
       </p>
 
-      <div className="flex gap-5 my-5">
-        <BtnAgregar />
-        <BtnBusqueda />
+      <div className="flex gap-5 my-10">
+        <BtnAgregar isDisabled/>
+        <InputBusqueda />
       </div>
 
       <Table
@@ -49,13 +53,13 @@ function Sesiones() {
 
         <Tbody>
           {sesiones?.length > 0 ? (sesiones.map((s) => (
-            <Tr key={s.id} className={!s.activo ? 'bg-[#A5CBC330]' : 'bg-[#85CB3330]'}>
+            <Tr key={s.id} className={s.activo ? 'bg-[#85CB3390]' : ''} >
               <Td textAlign="center">
                 {s.activo
                   ? (
                     <span className="circulo-estado circulo-animacion"
                       style={{
-                        backgroundColor: '#85CB33',
+                        backgroundColor: 'green',
                         boxShadow: '0 0 5px green'
                       }}
                     />
@@ -81,7 +85,25 @@ function Sesiones() {
               </Td>
 
               <Td textAlign="center">
-                <IconButton isRound={true} aria-label='options' bg="none" icon={<HamburgerIcon />} />
+                <Menu>
+                  <MenuButton
+                    as={IconButton}
+                    isRound={true}
+                    aria-label='Options'
+                    icon={<SettingsIcon />}
+                    variant='solid'
+                  />
+                  <MenuList boxShadow='lg'>
+                    <MenuItem icon={<EditIcon />}>
+                      Ver
+                    </MenuItem>
+                    {!s.finished_at &&
+                      <MenuItem icon={<TimeIcon />}>
+                        Finalizar
+                      </MenuItem>
+                    }
+                  </MenuList>
+                </Menu>
               </Td>
             </Tr>))
           ) : (

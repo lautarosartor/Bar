@@ -130,7 +130,7 @@ function Mesa({open, close, mesaId}) {
   return (
     <Modal
       isOpen={open}
-      onClose={close}
+      onClose={handleClose}
     >
       <ModalOverlay />
       
