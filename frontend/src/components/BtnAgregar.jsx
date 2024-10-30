@@ -1,9 +1,9 @@
 import { AddIcon } from "@chakra-ui/icons"
 import { Button } from "@chakra-ui/react"
 
-function BtnAgregar() {
+function BtnAgregar({...props}) {
   return (
-    <Button leftIcon={<AddIcon />} variant='solid' colorScheme='green'>
+    <Button {...props} leftIcon={<AddIcon />} variant='solid' colorScheme='green'>
       Agregar
     </Button>
   )

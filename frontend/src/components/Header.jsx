@@ -7,7 +7,7 @@ function Header() {
   const { isOpen, onToggle } = useDisclosure()
 
   return (
-    <nav className="bg-[#3B341F] text-[#EFFFC8]">
+    <nav className="nav-landing bg-[#3B341F] text-[#EFFFC8]">
       <div className="md:flex container mx-auto p-6 items-center justify-between hidden">
         <img src={logo} className="w-16" alt="logo" />
         <ul className="flex gap-6">
