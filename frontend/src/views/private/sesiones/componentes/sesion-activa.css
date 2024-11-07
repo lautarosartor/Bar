@@ -1,0 +1,21 @@
+.fondo-carrito-grupal {
+  position: relative; /* Necesario para que el pseudo-elemento se posicione correctamente */
+  background-color: #100B00; /* Color de fondo adicional */
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url("src/assets/fondoWsp.png");
+    background-size: cover;
+    background-position: center;
+    opacity: .2;
+  }
+
+  &>*{
+    z-index: 1;
+  }
+}

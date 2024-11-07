@@ -22,6 +22,7 @@ import InputBusqueda from '../../../components/InputBusqueda';
 import { useEffect, useState } from 'react';
 import moment from 'moment-timezone';
 import 'moment/locale/es';
+import { FaClipboardList } from "react-icons/fa";
 
 function Pedidos() {
   const { getPedidos, pedidos, loadingPedidos } = usePedido();
@@ -99,7 +100,7 @@ function Pedidos() {
                     </ul>
                   }
                 >
-                  <IconButton variant="none" icon={<ViewIcon fontSize={30} />} />
+                  <IconButton variant="none" icon={<FaClipboardList fontSize={30} />} />
                 </Tooltip>
               </Td>
 

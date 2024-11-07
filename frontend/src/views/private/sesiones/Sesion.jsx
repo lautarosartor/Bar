@@ -1,18 +1,17 @@
-import { Button, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, Input, useDisclosure } from "@chakra-ui/react"
-import { useEffect, useRef, useState } from "react"
-import { useNavigate, useParams } from "react-router-dom";
+import { Box } from "@chakra-ui/react"
+import { useEffect, useState } from "react"
+import { useParams } from "react-router-dom";
 import { api } from "../../../services/api";
 import NotFound from "../../../components/NotFound";
-import useSesion from "../../../hooks/hookSesion";
+import ModalIdentificacion from "./componentes/ModalIdentificacion";
+import BtnCerrarSesion from "./componentes/BtnCerrarSesion";
+import DrawerCarrito from "./componentes/DrawerCarrito";
+import './componentes/sesion-activa.css'
 
 function Sesion() {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const btnRef = useRef();
   const param = useParams();
   const [message, setMessage] = useState("");
   const [sesion, setSesion] = useState(false);
-  const { deleteSesion } = useSesion();
-  const navigate = useNavigate();
 
   useEffect(() => {
     const createSesion = async (qr) => {
@@ -51,61 +50,68 @@ function Sesion() {
         console.log(error.message);
         setMessage(error.message);
       }
-      
     }
-
     createSesion(param.qr);
   }, [param.qr]);
 
-  const handleCloseSesion = async () => {
-    const sesionID = localStorage.getItem("sesionID");
-
-    if (sesionID) {
-      await deleteSesion(sesionID)
-      navigate("/");
-    }
-    else {
-      console.log("error");
-    }
-  }
-
   if (sesion) {
     return (
-      <div className="p-4" style={{minHeight: '100vh', backgroundColor: '#9BC4BC'}}>
-        <p className="text-5xl">
-          {message}
-        </p>
-        <Button onClick={() => handleCloseSesion()}>
-          Cerrar la sesión
-        </Button>
-        <Button ref={btnRef} colorScheme='teal' onClick={onOpen}>
-          Open
-        </Button>
-        <p>{message}</p>
-        <Drawer
-          isOpen={isOpen}
-          placement='right'
-          onClose={onClose}
-          finalFocusRef={btnRef}
+      <Box p={4} backgroundColor="#FFFEEE" minH="100vh">
+        {/*Muestra modal en caso de no estar identificado*/}
+        <ModalIdentificacion />
+
+        {/*Boton para cerrar la sesion*/}
+        <div className="flex justify-between mb-10">
+          <p className="text-4xl font-bold">
+            {message}
+          </p>
+
+          <BtnCerrarSesion />
+        </div>
+
+        <Box p={4} backgroundColor="#FFF" rounded="xl" shadow="xl" minH="20vh" maxW="1000px"
+          className="flex flex-col justify-between gap-4 mx-auto"
         >
-          <DrawerOverlay />
-          <DrawerContent>
-            <DrawerCloseButton />
-            <DrawerHeader>Carrito de pedidos</DrawerHeader>
-  
-            <DrawerBody>
-              <Input placeholder='Type here...' />
-            </DrawerBody>
-  
-            <DrawerFooter>
-              <Button variant='outline' mr={3} onClick={onClose}>
-                Cancel
-              </Button>
-              <Button colorScheme='blue'>Save</Button>
-            </DrawerFooter>
-          </DrawerContent>
-        </Drawer>
-      </div>
+          <div className="flex justify-between text-lg font-medium pb-4 border-b-2">
+            <p>Carrito de pedidos en grupo</p>
+            <p>Total $ 1234</p>
+          </div>
+          <small>3 items en el carrito</small>
+
+          <div className="fondo-carrito-grupal flex flex-col justify-center p-2 gap-4 rounded-xl">
+            <div className="self-end flex flex-wrap gap-2 border rounded-xl bg-[#fff] p-2 w-3/4" style={{maxWidth: '500px'}}>
+              <div className="border rounded-xl" style={{height: '80px', width: '80px'}}>
+                <img src="" alt="IMG" />
+              </div>
+
+              <div>
+                <small><i>Lauty</i></small>
+                <p>Italy Pizza</p>
+                <small>Extra cheese and toping</small>
+              </div>
+            </div>
+
+            <div className="self-start flex flex-wrap gap-2 border rounded-xl bg-[#fff] p-2 w-3/4" style={{maxWidth: '500px'}}>
+              <div className="border rounded-xl" style={{height: '80px', width: '80px'}}>
+                <img src="" alt="IMG" />
+              </div>
+
+              <div>
+                <small><i>Messi</i></small>
+                <p>Spanish Rice</p>
+                <small>Extra garllic</small>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex align-center justify-between">
+            <p className="self-center font-medium">Gastos personales $234</p>
+            {/*Boton del drawer del carrito*/}
+            <DrawerCarrito />
+          </div>
+        </Box>
+        
+      </Box>
     )
   }
   else {

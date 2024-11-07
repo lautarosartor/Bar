@@ -13,7 +13,6 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
-  Icon
 } from '@chakra-ui/react'
 import { EditIcon, SettingsIcon, TimeIcon } from '@chakra-ui/icons'
 import useSesion from '../../../hooks/hookSesion';
@@ -23,6 +22,7 @@ import './sesiones.css'
 import BtnAgregar from '../../../components/BtnAgregar';
 import InputBusqueda from '../../../components/InputBusqueda';
 import { useEffect } from 'react';
+import { FaCashRegister } from "react-icons/fa6";
 
 function Sesiones() {
   const { getSesiones, sesiones, loadingSesiones } = useSesion();
@@ -105,7 +105,7 @@ function Sesiones() {
                     </MenuItem>
                     {!s.finished_at &&
                       <>
-                        <MenuItem icon={<Icon />}>
+                        <MenuItem icon={<FaCashRegister />}>
                           Cobrar mesa
                         </MenuItem>
                         <MenuItem isDisabled icon={<TimeIcon />}>
