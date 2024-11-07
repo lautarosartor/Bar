@@ -17,6 +17,7 @@ import { useEffect, useState } from 'react';
 import BtnAgregar from '../../../components/BtnAgregar';
 import QRCode from "react-qr-code";
 import NotFound from '../../../components/NotFound';
+import { URL_BASE } from '../../../services/config';
 
 function Mesas() {
   const { getMesas, mesas, loadingMesas } = useMesa();
@@ -125,7 +126,7 @@ function Mesas() {
 
               <div className="flex justify-center items-center" style={{height: "100px"}}>
                 {m.codigo_qr
-                  ? <QRCode size={100} value={m.codigo_qr} />
+                  ? <QRCode size={100} value={`${URL_BASE}/${m.codigo_qr}`} />
                   :
                   <Tooltip label="Debes generar un QR - Dirigite a los detalles" aria-label='QR help' borderRadius="lg">
                     <InfoIcon fontSize={40} color="#3B341F" />
@@ -134,7 +135,7 @@ function Mesas() {
               </div>
               <div className="flex justify-center">
                 <Badge borderRadius="full" backgroundColor="#D3FFE9" textAlign="center" px={2}>
-                  Para {m.capacidad}
+                  <a href={`/${m.codigo_qr}`}>Para {m.capacidad}</a>
                 </Badge>
               </div>
 
@@ -147,64 +148,6 @@ function Mesas() {
       ) : (
         <NotFound tipo={2} />
       )}
-
-
-      {/* <Table
-        variant="striped"
-        colorScheme="gray"
-        className="border shadow shadow-xl"
-      >
-        <Thead>
-          <Tr>
-            <Th>Mesa</Th>
-            <Th textAlign="center">Descripción</Th>
-            <Th textAlign="center">Capacidad</Th>
-            <Th textAlign="center" width={50}></Th>
-          </Tr>
-        </Thead>
-
-        <Tbody>
-          {mesas?.length > 0 ? (mesas.map((m) => (
-            <Tr key={m.id}>
-              <Td>{m.nombre_mesa}</Td>
-
-              <Td textAlign="center">{m.descripcion}</Td>
-
-              <Td textAlign="center">{m.capacidad}</Td>
-
-              <Td textAlign="center">
-                <Menu>
-                  <MenuButton
-                    as={IconButton}
-                    isRound={true}
-                    aria-label='Options'
-                    icon={<SettingsIcon />}
-                    variant='solid'
-                  />
-                  <MenuList boxShadow='lg'>
-                    <MenuItem onClick={() => handleOpenModal(m.id)} icon={<EditIcon />}>
-                      Ver
-                    </MenuItem>
-                  </MenuList>
-                </Menu>
-              </Td>
-            </Tr>))
-          ) : (
-            <Tr>
-              <Td colSpan={4} textAlign="center">
-                {loadingMesas
-                  ? <Spinner />
-                  : "Aún no hay mesas."
-                }
-              </Td>
-            </Tr>
-          )}
-        </Tbody>
-
-        <TableCaption>
-          Tabla de Mesas
-        </TableCaption>
-      </Table> */}
 
       {/*Modal*/}
       <Mesa

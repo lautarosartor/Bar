@@ -190,7 +190,7 @@ function Producto({open, close, productoId}) {
                 onChange={handleOnChange}
               />
             </FormControl>
-            <div className="flex gap-6 mt-4">
+            <div className="flex gap-6">
               <FormControl mt={4}>
                 <FormLabel>Precio</FormLabel>
                 <InputGroup>
