@@ -28,7 +28,7 @@ func GetAll(c echo.Context) error {
 	var totalDataSize int64 = 0
 	var pedidos []models.Pedidos
 
-	db.Preload("Sesion.Mesa").Preload("Estado").Find(&pedidos).Count(&totalDataSize)
+	db.Preload("Sesion.Mesa").Preload("Estado").Preload("Items.Producto").Find(&pedidos).Count(&totalDataSize)
 
 	if len(pedidos) == 0 {
 		return c.JSON(http.StatusOK, ResponseMessage{
