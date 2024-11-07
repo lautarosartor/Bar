@@ -145,7 +145,7 @@ function Pedidos() {
             </Tr>))
           ) : (
             <Tr>
-              <Td colSpan={5} textAlign="center">
+              <Td colSpan={6} textAlign="center">
                 {loadingPedidos
                   ? <Spinner />
                   : "Aún no hay pedidos."
