@@ -2,17 +2,39 @@ import { Button, Collapse, useDisclosure } from '@chakra-ui/react'
 import logo from '../assets/logo.png'
 import { CloseIcon, HamburgerIcon } from '@chakra-ui/icons'
 import './components.css'
+import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
 function Header() {
-  const { isOpen, onToggle } = useDisclosure()
+  const navigate = useNavigate();
+  const { isOpen, onToggle } = useDisclosure();
+
+  const [isScrolled, setIsScrolled] = useState(false);
+
+    useEffect(() => {
+      const handleScroll = () => {
+        setIsScrolled(window.scrollY > 50); // Ajusta el valor para controlar cuándo se activa la transparencia
+      };
+
+      window.addEventListener('scroll', handleScroll);
+      return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
 
   return (
-    <nav className="nav-landing bg-[#3B341F] text-[#EFFFC8]">
+    <nav className={`nav-landing sticky top-0 z-[100]
+        ${isScrolled ? 'bg-[#3B341F]/70 backdrop-blur-sm' : 'bg-[#3B341F]'}
+        text-[#EFFFC8] transition-all duration-300`
+      }
+    >
       <div className="md:flex container mx-auto p-6 items-center justify-between hidden">
-        <img src={logo} className="w-16" alt="logo" />
+        <img src={logo} className="w-16" alt="logo" onClick={() => navigate("/admin/dashboard")} />
         <ul className="flex gap-6">
           <li>
-            <a href="#home">
+            <a onClick={() => {
+                window.scrollTo({ top: 0});
+                navigate("/")
+              }}
+            >
               Home
             </a>
           </li>
@@ -46,7 +68,7 @@ function Header() {
 
       <div className="md:hidden p-6">
         <div className="flex justify-between">
-          <img src={logo} className="w-16" alt="logo" />
+          <img src={logo} className="w-16" alt="logo" onClick={() => navigate("/admin/dashboard")} />
           <Button onClick={onToggle}>
             {!isOpen
               ? <HamburgerIcon className="text-3xl" />

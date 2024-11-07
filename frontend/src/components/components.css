@@ -1,3 +1,7 @@
+* {
+  scroll-margin-top: 100px;
+}
+
 /*NAVBAR PUBLICO*/
 .nav-landing ul li a {
   position: relative;
@@ -106,4 +110,13 @@
     height: 3px;
     background-color: #8DDBE0;
   }
+}
+
+/*=========================================================================*/
+
+/*NAVBAR CLIENTES*/
+.nav-customer {
+  color: #ffffffca;
+  background-color: #09090950;
+  backdrop-filter: blur(5px);
 }
