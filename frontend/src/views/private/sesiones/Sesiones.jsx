@@ -12,7 +12,8 @@ import {
   Menu,
   MenuButton,
   MenuList,
-  MenuItem
+  MenuItem,
+  Icon
 } from '@chakra-ui/react'
 import { EditIcon, SettingsIcon, TimeIcon } from '@chakra-ui/icons'
 import useSesion from '../../../hooks/hookSesion';
@@ -21,9 +22,14 @@ import moment from "moment-timezone";
 import './sesiones.css'
 import BtnAgregar from '../../../components/BtnAgregar';
 import InputBusqueda from '../../../components/InputBusqueda';
+import { useEffect } from 'react';
 
 function Sesiones() {
-  const { sesiones, loadingSesiones } = useSesion();
+  const { getSesiones, sesiones, loadingSesiones } = useSesion();
+
+  useEffect(() => {
+    getSesiones();
+  }, [getSesiones]);
 
   return (
     <TableContainer py={5}>
@@ -98,9 +104,14 @@ function Sesiones() {
                       Ver
                     </MenuItem>
                     {!s.finished_at &&
-                      <MenuItem icon={<TimeIcon />}>
-                        Finalizar
-                      </MenuItem>
+                      <>
+                        <MenuItem icon={<Icon />}>
+                          Cobrar mesa
+                        </MenuItem>
+                        <MenuItem isDisabled icon={<TimeIcon />}>
+                          Finalizar
+                        </MenuItem>
+                      </>
                     }
                   </MenuList>
                 </Menu>
