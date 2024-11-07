@@ -31,6 +31,7 @@ html {
 
 /*Tablas*/
 th {
+  color: #090909 !important;
   background-color: #09090930;
 }
 

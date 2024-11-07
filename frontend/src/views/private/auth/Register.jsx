@@ -38,7 +38,7 @@ function Register() {
 
       if (response.status === "success") {
         // Guardamos el token en sessionStorage
-        sessionStorage.setItem("token", response.data.token);
+        localStorage.setItem("token", response.data.token);
         
         navigate("/admin/dashboard");
       }

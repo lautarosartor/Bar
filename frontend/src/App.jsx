@@ -16,6 +16,8 @@ import Dashboard from "./views/private/Dashboard"
 import Mesas from "./views/private/mesas/Mesas"
 import Sesiones from "./views/private/sesiones/Sesiones"
 import Usuarios from "./views/private/usuarios/Usuarios"
+import Pedidos from "./views/private/pedidos/Pedidos"
+import Sesion from "./views/private/sesiones/Sesion"
 
 function App() {
 
@@ -57,15 +59,18 @@ function App() {
             <PrivateRoute> {/* Protege las rutas de administración */}
               <Routes>
                 <Route path="dashboard" element={<Dashboard />} />
-                <Route path="mesas" element={<Mesas />} />
+                <Route path="pedidos"   element={<Pedidos />} />
+                <Route path="mesas"     element={<Mesas />} />
                 <Route path="productos" element={<Productos />} />
-                <Route path="sesiones" element={<Sesiones />} />
-                <Route path="usuarios" element={<Usuarios />} />
+                <Route path="sesiones"  element={<Sesiones />} />
+                <Route path="usuarios"  element={<Usuarios />} />
                 <Route path="*" element={<NotFound tipo={1} />} />
               </Routes>
             </PrivateRoute>
           }
         />
+
+        <Route exath path="/:qr" element={<Sesion />} />
       </Routes>
     </BrowserRouter>
   )
