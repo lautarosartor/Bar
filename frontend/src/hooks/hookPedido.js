@@ -2,21 +2,16 @@ import { useToast } from "@chakra-ui/react";
 import { useCallback, useState } from "react";
 import { api } from "../services/api";
 
-const useSesion = () => {
-  const [sesiones, setData] = useState([]);
-  const [loadingSesiones, setLoading] = useState(false);
+const usePedido = () => {
+  const [pedidos, setData] = useState([]);
+  const [loadingPedidos, setLoading] = useState(false);
   const toast = useToast();
 
-  const deleteSesion = async (id) => {
-    setLoading(true);
-
+  const crearPedido = async (data) => {
     try {
-      const response = await api.sesiones.deleteSesion(id);
+      const response = await api.pedidos.createOrder(data);
 
       if (response.status === "success") {
-        localStorage.removeItem("clienteID");
-        localStorage.removeItem("sesionID");
-        
         setTimeout(() => {
           toast({
             title: response.message,
@@ -41,14 +36,14 @@ const useSesion = () => {
     }
   }
 
-  const getSesiones = useCallback(async () => {
+  const getPedidos = useCallback(async () => {
     setLoading(true);
 
     try {
-      const response = await api.sesiones.getAllSesiones();
+      const response = await api.pedidos.getAllOrders();
 
       if (response.status === "success") {
-        setData(response.data.sesiones || []);
+        setData(response.data.pedidos || []);
       }
       else {
         throw new Error(response.message);
@@ -64,14 +59,14 @@ const useSesion = () => {
     } finally {
       setLoading(false);
     }
-  }, [toast]);
+  }, [toast])
 
   return {
-    sesiones,
-    getSesiones,
-    loadingSesiones,
-    deleteSesion,
+    pedidos,
+    getPedidos,
+    loadingPedidos,
+    crearPedido,
   }
 }
 
-export default useSesion;
+export default usePedido;

@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 
 const PrivateRoute = ({ children }) => {
   // Aquí es donde comprobarías si el usuario está autenticado
-  const isAuthenticated = sessionStorage.getItem("token");
+  const isAuthenticated = localStorage.getItem("token");
 
   // Si esta authenticado muestra los componentes, sino lo redirige a logearse
   if (isAuthenticated) {

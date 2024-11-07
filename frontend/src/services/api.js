@@ -21,7 +21,7 @@ const privateOptions = (method, data) => {
     method,
     headers: {
       'Content-Type':   'application/json',
-      'AUTHORIZATION':  `Bearer ${sessionStorage.getItem('token')}`
+      'AUTHORIZATION':  `Bearer ${localStorage.getItem('token')}`
     }
   };
   if (data) {
@@ -181,8 +181,13 @@ export const api = {
       const data = await response.json();
       return data;
     },
-    async createSesion(qr) {
-      const response = await fetch(publicOrigin + `/sesion/${qr}`, publicOptions('POST'));
+    async createSesion(qr, data) {
+      const response = await fetch(publicOrigin + `/sesion/${qr}`, publicOptions('POST', data));
+      const res = await response.json();
+      return res;
+    },
+    async deleteSesion(id) {
+      const response = await fetch(publicOrigin + `/sesion/${id}`, publicOptions('DELETE'));
       const res = await response.json();
       return res;
     }
