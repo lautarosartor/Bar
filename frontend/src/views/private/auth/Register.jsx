@@ -3,7 +3,7 @@ import { api } from "../../../services/api";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function Register() {
+const RegisterPage = () => {
   const [idrol, setIdRol] = useState(0);
   const [nombre, setNombre] = useState("");
   const [apellido, setApellido] = useState("");
@@ -134,4 +134,4 @@ function Register() {
   )
 }
 
-export default Register
+export default RegisterPage

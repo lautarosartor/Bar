@@ -1,23 +1,25 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom"
-import Home from "./views/public/Home"
+import { lazy } from "react";
+import PrivateRoute from "./providers/PrivateRoute"
 import Header from "./components/Header"
 import Footer from "./components/Footer"
+import Home from "./views/public/Home"
 import Services from "./views/public/Services"
 import About from "./views/public/About"
 import Testimonials from "./views/public/Testimonials"
-import NotFound from "./components/NotFound"
 import Menu from "./views/public/Menu"
 import Contact from "./views/public/Contact"
-import PrivateRoute from "./providers/PrivateRoute"
-import Productos from "./views/private/productos/Productos"
-import Login from "./views/private/auth/Login"
-import Register from "./views/private/auth/Register"
-import Dashboard from "./views/private/Dashboard"
-import Mesas from "./views/private/mesas/Mesas"
-import Sesiones from "./views/private/sesiones/Sesiones"
-import Usuarios from "./views/private/usuarios/Usuarios"
-import Pedidos from "./views/private/pedidos/Pedidos"
+import NotFound from "./components/NotFound"
 import Sesion from "./views/private/sesiones/Sesion"
+
+const LoginPage = lazy(() => import("./views/private/auth/login"));
+const RegisterPage = lazy(() => import("./views/private/auth/register"));
+const DashboardPage = lazy(() => import("./views/private/dashboard"));
+const PedidosPage = lazy(() => import("./views/private/pedidos"));
+const MesasPage = lazy(() => import("./views/private/mesas"));
+const ProductosPage = lazy(() => import("./views/private/productos"));
+const SesionesPage = lazy(() => import("./views/private/sesiones"));
+const UsuariosPage = lazy(() => import("./views/private/usuarios"));
 
 function App() {
 
@@ -50,20 +52,20 @@ function App() {
         } />
 
         {/* Autenticacion */}
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
 
         {/* Rutas privadas */}
         <Route path="/admin/*"
           element={
             <PrivateRoute> {/* Protege las rutas de administración */}
               <Routes>
-                <Route path="dashboard" element={<Dashboard />} />
-                <Route path="pedidos"   element={<Pedidos />} />
-                <Route path="mesas"     element={<Mesas />} />
-                <Route path="productos" element={<Productos />} />
-                <Route path="sesiones"  element={<Sesiones />} />
-                <Route path="usuarios"  element={<Usuarios />} />
+                <Route path="dashboard" element={<DashboardPage />} />
+                <Route path="pedidos"   element={<PedidosPage />} />
+                <Route path="mesas"     element={<MesasPage />} />
+                <Route path="productos" element={<ProductosPage />} />
+                <Route path="sesiones"  element={<SesionesPage />} />
+                <Route path="usuarios"  element={<UsuariosPage />} />
                 <Route path="*" element={<NotFound tipo={1} />} />
               </Routes>
             </PrivateRoute>

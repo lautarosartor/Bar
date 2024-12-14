@@ -16,7 +16,7 @@ import {
   useDisclosure,
   Tooltip,
 } from '@chakra-ui/react'
-import { CheckIcon, CloseIcon, EditIcon, SettingsIcon, ViewIcon } from '@chakra-ui/icons'
+import { CheckIcon, CloseIcon, EditIcon, SettingsIcon } from '@chakra-ui/icons'
 import usePedido from '../../../hooks/hookPedido';
 import InputBusqueda from '../../../components/InputBusqueda';
 import { useEffect, useState } from 'react';
@@ -24,7 +24,7 @@ import moment from 'moment-timezone';
 import 'moment/locale/es';
 import { FaClipboardList } from "react-icons/fa";
 
-function Pedidos() {
+const PedidosPage = () => {
   const { getPedidos, pedidos, loadingPedidos } = usePedido();
   const [selectedPedidoId, setSelectedPedidoId] = useState(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -171,4 +171,4 @@ function Pedidos() {
   )
 }
 
-export default Pedidos
+export default PedidosPage

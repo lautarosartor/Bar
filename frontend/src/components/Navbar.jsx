@@ -8,6 +8,11 @@ function Navbar({ children }) {
   const navigate = useNavigate();
   const [showAdministrar, setShowAdministrar] = useState(false);
 
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/login");
+  }
+
   return (
     <Grid
       minH="100vh"
@@ -99,7 +104,10 @@ function Navbar({ children }) {
             }
           </ul>
 
-          <div className="text-center mt-auto">
+          <div
+            className="text-center mt-auto"
+            onClick={() => handleLogout()}
+          >
             Cerrar Sesión
           </div>
         </Flex>

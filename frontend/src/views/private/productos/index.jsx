@@ -25,7 +25,7 @@ import InputBusqueda from '../../../components/InputBusqueda';
 import { useEffect, useState } from 'react';
 import BtnAgregar from '../../../components/BtnAgregar';
 
-function Productos() {
+const ProductosPage = () => {
   const { getProductos, productos, loadingProductos } = useProducto();
   const [selectedProductoId, setSelectedProductoId] = useState(0);
 
@@ -149,4 +149,4 @@ function Productos() {
   )
 }
 
-export default Productos
+export default ProductosPage

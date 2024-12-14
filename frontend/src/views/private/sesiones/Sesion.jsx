@@ -79,22 +79,18 @@ function Sesion() {
           <small>3 items en el carrito</small>
 
           <div className="fondo-carrito-grupal flex flex-col justify-center p-2 gap-4 rounded-xl">
-            <div className="self-end flex flex-wrap gap-2 border rounded-xl bg-[#fff] p-2 w-3/4" style={{maxWidth: '500px'}}>
-              <div className="border rounded-xl" style={{height: '80px', width: '80px'}}>
-                <img src="" alt="IMG" />
-              </div>
+            <div className="self-end flex flex-wrap gap-2 rounded-xl bg-[#5d8926] text-[#fff] p-2 w-3/4" style={{maxWidth: '500px'}}>
+              <img src="src/assets/menu/comidas/pizza.jpg" alt="IMG" className="rounded-xl" style={{height: '80px', width: '80px'}} />
 
               <div>
                 <small><i>Lauty</i></small>
-                <p>Italy Pizza</p>
+                <p className="font-medium">Italy Pizza</p>
                 <small>Extra cheese and toping</small>
               </div>
             </div>
 
-            <div className="self-start flex flex-wrap gap-2 border rounded-xl bg-[#fff] p-2 w-3/4" style={{maxWidth: '500px'}}>
-              <div className="border rounded-xl" style={{height: '80px', width: '80px'}}>
-                <img src="" alt="IMG" />
-              </div>
+            <div className="self-start flex flex-wrap gap-2 rounded-xl bg-[#5d8926] text-[#fff] p-2 w-3/4" style={{maxWidth: '500px'}}>
+              <img src="src/assets/menu/comidas/pizza.jpg" alt="IMG" className="rounded-xl" style={{height: '80px', width: '80px'}} />
 
               <div>
                 <small><i>Messi</i></small>

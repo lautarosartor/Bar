@@ -19,7 +19,7 @@ import QRCode from "react-qr-code";
 import NotFound from '../../../components/NotFound';
 import { URL_BASE } from '../../../services/config';
 
-function Mesas() {
+ const MesasPage = () => {
   const { getMesas, mesas, loadingMesas } = useMesa();
   const [filteredMesas, setFilteredMesas] = useState([]);
   const [selectedMesaId, setSelectedMesaId] = useState(0);
@@ -159,4 +159,4 @@ function Mesas() {
   )
 }
 
-export default Mesas
+export default MesasPage

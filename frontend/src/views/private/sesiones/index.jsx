@@ -24,7 +24,7 @@ import InputBusqueda from '../../../components/InputBusqueda';
 import { useEffect } from 'react';
 import { FaCashRegister } from "react-icons/fa6";
 
-function Sesiones() {
+const SesionesPage = () => {
   const { getSesiones, sesiones, loadingSesiones } = useSesion();
 
   useEffect(() => {
@@ -137,4 +137,4 @@ function Sesiones() {
   )
 }
 
-export default Sesiones
+export default SesionesPage

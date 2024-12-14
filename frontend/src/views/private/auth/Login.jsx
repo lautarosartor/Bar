@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Button, Input, InputGroup, InputRightElement, useToast } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 
-function Login() {
+const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [show, setShow] = useState(false);
@@ -87,4 +87,4 @@ function Login() {
   )
 }
 
-export default Login
+export default LoginPage

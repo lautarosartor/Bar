@@ -22,7 +22,7 @@ import InputBusqueda from '../../../components/InputBusqueda';
 import { useEffect, useState } from 'react';
 import BtnAgregar from '../../../components/BtnAgregar';
 
-function Usuarios() {
+const UsuariosPage = () => {
   const { getUsuarios, usuarios, loadingUsuarios } = useUsuario();
   const [selectedUsuarioId, setSelectedUsuarioId] = useState(0);
 
@@ -122,4 +122,4 @@ function Usuarios() {
   )
 }
 
-export default Usuarios
+export default UsuariosPage
