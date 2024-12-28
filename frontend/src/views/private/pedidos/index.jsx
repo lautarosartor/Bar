@@ -13,32 +13,28 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
-  useDisclosure,
   Tooltip,
+  UnorderedList,
+  ListItem,
 } from '@chakra-ui/react'
-import { CheckIcon, CloseIcon, EditIcon, SettingsIcon } from '@chakra-ui/icons'
-import usePedido from '../../../hooks/hookPedido';
+import React, { useState } from 'react';
 import InputBusqueda from '../../../components/InputBusqueda';
-import { useEffect, useState } from 'react';
+import usePedidos from './usePedidos';
 import moment from 'moment-timezone';
 import 'moment/locale/es';
+import { CheckIcon, CloseIcon, EditIcon, SettingsIcon } from '@chakra-ui/icons'
 import { FaClipboardList } from "react-icons/fa";
+import VerPedido from './components/VerPedido';
 
 const PedidosPage = () => {
-  const { getPedidos, pedidos, loadingPedidos } = usePedido();
-  const [selectedPedidoId, setSelectedPedidoId] = useState(null);
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { pedidos, loading, fetchPedidos } = usePedidos();
+  const [selectedPedido, setSelectedPedido] = useState(null);
+  const [verPedido, setVerPedido] = useState(false);
 
-  const handleOpenModal = (id) => {
-    setSelectedPedidoId(id);
-    onOpen();
+  const handleVerPedido = (pedido) => {
+    setSelectedPedido(pedido);
+    setVerPedido(true);
   }
-
-  useEffect(() => {
-    if (!isOpen) {
-      getPedidos();
-    }
-  }, [isOpen, getPedidos]);
 
   return (
     <TableContainer py={5}>
@@ -67,40 +63,44 @@ const PedidosPage = () => {
 
         <Tbody>
           {pedidos?.length > 0 ? (pedidos.map((p) => (
-            <Tr key={p.id}>
+            <Tr key={p.id} onDoubleClick={p?.items ? () => handleVerPedido(p) : undefined}>
               <Td textAlign="center">
                 <Tooltip
+                  minWidth={250}
                   placement="right-start"
                   hasArrow
                   borderRadius={5}
                   fontSize={15}
                   color="#D3FFE9"
-                  label={
-                    <ul>
-                      {p.items?.length > 0 ?
-                        (p.items.map((i) => (
-                          <>
-                            <li key={i.id} className="flex justify-between gap-4 py-2">
-                              <p>&#9679; {i.producto.nombre}</p> <span>x{i.cantidad}</span>
-                            </li>
+                  label={ p?.items &&
+                    <UnorderedList>
+                      {p?.items?.map((item, index) => (
+                          <React.Fragment key={item.id}>
+                            <ListItem>
+                              <div className="flex justify-between gap-4 py-2">
+                                <p>{item.producto.nombre}</p> <span>x{item.cantidad}</span>
+                              </div>
+                            </ListItem>
                             <hr />
-                          </>
-                        ))
-                      ) : (
-                        "No hay items"
-                      )}
-                      {p.items?.length > 0 && (
-                        <li className="flex justify-between font-bold py-2">
-                          <span>Total:</span>
-                          <span>
-                            $ {p.items?.reduce((total, item) => total + item.total, 0)}
-                          </span>
-                        </li>
-                      )}
-                    </ul>
+                            {index === p.items.length - 1 && (
+                              <ListItem className="flex justify-between font-bold py-2">
+                                <span>Total:</span>
+                                <span>
+                                  $ {p.items.reduce((total, item) => total + item.total, 0)}
+                                </span>
+                              </ListItem>
+                            )}
+                          </React.Fragment>
+                        ))}
+                    </UnorderedList>
                   }
                 >
-                  <IconButton variant="none" icon={<FaClipboardList fontSize={30} />} />
+                  <IconButton
+                    isDisabled={!p?.items}
+                    variant="none"
+                    icon={<FaClipboardList fontSize={30} />}
+                    onClick={() => handleVerPedido(p)}
+                  />
                 </Tooltip>
               </Td>
 
@@ -124,6 +124,7 @@ const PedidosPage = () => {
               <Td textAlign="center">
                 <Menu>
                   <MenuButton
+                    isDisabled={!p?.items}
                     as={IconButton}
                     isRound={true}
                     aria-label='Options'
@@ -131,7 +132,10 @@ const PedidosPage = () => {
                     variant='solid'
                   />
                   <MenuList boxShadow='lg'>
-                    <MenuItem onClick={() => handleOpenModal(p.id)} icon={<EditIcon />}>
+                    <MenuItem
+                      onClick={() => handleVerPedido(p)}
+                      icon={<EditIcon />}
+                    >
                       Ver
                     </MenuItem>
                     <MenuItem icon={<CheckIcon />}>
@@ -147,7 +151,7 @@ const PedidosPage = () => {
           ) : (
             <Tr>
               <Td colSpan={6} textAlign="center">
-                {loadingPedidos
+                {loading
                   ? <Spinner />
                   : "Aún no hay pedidos."
                 }
@@ -161,14 +165,17 @@ const PedidosPage = () => {
         </TableCaption>
       </Table>
       
-      {/*Modal*/}
-      {/* <Pedido
-        open={isOpen}
-        close={onClose}
-        productoId={selectedPedidoId}
-      /> */}
+      {verPedido &&
+        <VerPedido
+          pedido={selectedPedido}
+          closeModal={() => {
+            setVerPedido(false);
+            fetchPedidos();
+          }}
+        />
+      }
     </TableContainer>
   )
 }
 
-export default PedidosPage
+export default PedidosPage;

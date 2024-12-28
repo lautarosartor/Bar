@@ -28,8 +28,11 @@ const useQuery = ({
           duration: 3000,
           isClosable: true,
           position: 'top',
-        })
-        navigate("/login");
+          onCloseComplete: () => {
+            localStorage.removeItem("token");
+            navigate("/login");
+          }
+        });
         return;
       }
 
@@ -55,7 +58,7 @@ const useQuery = ({
     if (!autoFetch) return;
     
     refetch(...args);
-  }, [args]);
+  }, [...args]);
 
   return {
     data,

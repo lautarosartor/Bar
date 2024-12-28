@@ -1,7 +1,7 @@
 import { useToast } from "@chakra-ui/react";
-import { api } from "../../../services/api";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { api } from "../../../../services/api";
 
 const RegisterPage = () => {
   const [idrol, setIdRol] = useState(0);
@@ -21,9 +21,9 @@ const RegisterPage = () => {
       toast({
         title: "Las contraseñas no coinciden.",
         status: 'error',
-        duration: 4000,
+        duration: 3000,
         isClosable: true,
-        position: 'bottom',
+        position: 'top',
       })
     }
     
@@ -51,7 +51,7 @@ const RegisterPage = () => {
         status: 'error',
         duration: 5000,
         isClosable: true,
-        position: 'bottom',
+        position: 'top',
       })
     }
   }

@@ -1,0 +1,45 @@
+import PropTypes from "prop-types";
+import CustomModal from "../../../../components/Modal";
+import { Divider, ListItem, Text, UnorderedList } from "@chakra-ui/react";
+import React from "react";
+
+const VerPedido = ({ pedido, closeModal }) => {
+
+  return (
+    <CustomModal
+      isOpen={true}
+      onClose={closeModal}
+      title="Ver pedido"
+    >
+      <UnorderedList>
+        {pedido?.items?.map((item, index) => (
+            <React.Fragment key={item.id}>
+              <ListItem>
+                <div className="flex justify-between gap-4">
+                  <Text>{item.producto.nombre}</Text>
+                  <Text>x{item.cantidad}</Text>
+                </div>
+              </ListItem>
+              <Divider margin="1rem 0"/>
+              {index === pedido.items.length - 1 && (
+                <ListItem fontSize="xl" className="flex justify-between font-bold">
+                  <Text>Total:</Text>
+                  <Text>
+                    $ {pedido.items.reduce((total, item) => total + item.total, 0)}
+                  </Text>
+                </ListItem>
+              )}
+            </React.Fragment>
+          ))}
+      </UnorderedList>
+    </CustomModal>
+  )
+}
+
+// Validacion de props
+VerPedido.propTypes = {
+  pedido: PropTypes.object,
+  closeModal: PropTypes.func,
+};
+
+export default VerPedido;

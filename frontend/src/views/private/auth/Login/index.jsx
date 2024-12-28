@@ -1,22 +1,21 @@
-import { useState } from "react"
-import { api } from "../../../services/api";
+import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom";
 import { Button, Input, InputGroup, InputRightElement, useToast } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
+import { login } from "./api";
 
 const LoginPage = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [show, setShow] = useState(false);
-
   const toast = useToast()
-  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
     
     try {
-      const response = await api.auth.login({
+      const response = await login({
         email,
         password
       });
@@ -34,12 +33,18 @@ const LoginPage = () => {
       toast({
         title: error.message,
         status: 'error',
-        duration: 5000,
+        duration: 3000,
         isClosable: true,
-        position: 'bottom',
+        position: 'top',
       })
     }
   }
+
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      navigate("/admin/dashboard");
+    }
+  }, []);
 
   return (
     <main className="flex-grow flex container mx-auto">

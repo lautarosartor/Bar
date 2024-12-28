@@ -1,9 +1,9 @@
 import { Button, Collapse, useDisclosure } from '@chakra-ui/react'
-import logo from '../assets/logo.png'
 import { CloseIcon, HamburgerIcon } from '@chakra-ui/icons'
-import './components.css'
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import logo from '../../assets/logo.png'
+import '../components.css'
 
 function Header() {
   const navigate = useNavigate();

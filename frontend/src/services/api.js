@@ -1,34 +1,8 @@
 import { config } from "./config";
+import { publicOptions, privateOptions } from "../utils";
 
-const apiOrigin = config.URL_API;
 const publicOrigin = config.URL_PUBLIC;
-
-const publicOptions = (method, data) => {
-  let opt = {
-    method,
-    headers: {
-      'Content-Type': 'application/json',
-    }
-  };
-  if (data) {
-    opt.body = JSON.stringify(data);
-  }
-  return opt;
-}
-
-const privateOptions = (method, data) => {
-  let opt = {
-    method,
-    headers: {
-      'Content-Type':   'application/json',
-      'AUTHORIZATION':  `Bearer ${localStorage.getItem('token')}`
-    }
-  };
-  if (data) {
-    opt.body = JSON.stringify(data);
-  }
-  return opt;
-}
+const apiOrigin = config.URL_API;
 
 export const api = {
   auth: {
@@ -147,24 +121,6 @@ export const api = {
     },
     async updateProduct(id, data) {
       const response = await fetch(apiOrigin + `/producto/${id}`, privateOptions('PUT', data));
-      const res = await response.json();
-      return res;
-    }
-  },
-
-  pedidos: {
-    async getAllOrders() {
-      const response = await fetch(apiOrigin + "/pedidos", privateOptions('GET'));
-      const data = await response.json();
-      return data;
-    },
-    async getOrder(id) {
-      const response = await fetch(apiOrigin + `/pedido/${id}`, privateOptions('GET'));
-      const data = await response.json();
-      return data;
-    },
-    async createOrder(data) {
-      const response = await fetch(publicOrigin + "/pedido", publicOptions('POST', data));
       const res = await response.json();
       return res;
     }
