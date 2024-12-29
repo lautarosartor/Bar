@@ -1,20 +1,23 @@
 import { config } from "../../../services/config";
 import { privateOptions, publicOptions } from "../../../utils";
 
-export const getAllOrders = async () => {
-  const response = await fetch(config.URL_API + "/pedidos", privateOptions('GET'));
+export const getAllOrders = async (q = '') => {
+  const url = `${config.URL_API}/pedidos?q=${q}"`;
+  const response = await fetch(url, privateOptions('GET'));
   const data = await response.json();
   return data;
 }
 
 export const getOrder = async (id) => {
-  const response = await fetch(config.URL_API + `/pedido/${id}`, privateOptions('GET'));
+  const url = `${config.URL_API}/pedido/${id}`;
+  const response = await fetch(url, privateOptions('GET'));
   const data = await response.json();
   return data;
 }
 
 export const createOrder = async (data) => {
-  const response = await fetch(config.publicOrigin + "/pedido", publicOptions('POST', data));
+  const url = `${config.publicOrigin}/pedido`;
+  const response = await fetch(url, publicOptions('POST', data));
   const res = await response.json();
   return res;
 }

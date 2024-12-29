@@ -1,4 +1,3 @@
-
 import useQuery from "../../../hooks/useQuery";
 import { getAllOrders } from "./api";
 import { showErrorToastify } from "../../../utils";

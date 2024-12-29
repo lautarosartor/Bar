@@ -17,7 +17,7 @@ const VerPedido = ({ pedido, closeModal }) => {
               <ListItem>
                 <div className="flex justify-between gap-4">
                   <Text>{item.producto.nombre}</Text>
-                  <Text>x{item.cantidad}</Text>
+                  <Text>${item.producto.precio} x{item.cantidad}</Text>
                 </div>
               </ListItem>
               <Divider margin="1rem 0"/>
