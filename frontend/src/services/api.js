@@ -80,29 +80,6 @@ export const api = {
     }
   },
 
-  sesiones: {
-    async getAllSesiones(activas = false) {
-      const response = await fetch(apiOrigin + `/sesiones?activas=${activas}`, privateOptions('GET'));
-      const data = await response.json();
-      return data;
-    },
-    async getSesion(id) {
-      const response = await fetch(apiOrigin + `/sesion/${id}`, privateOptions('GET'));
-      const data = await response.json();
-      return data;
-    },
-    async createSesion(qr, data) {
-      const response = await fetch(publicOrigin + `/sesion/${qr}`, publicOptions('POST', data));
-      const res = await response.json();
-      return res;
-    },
-    async deleteSesion(id) {
-      const response = await fetch(publicOrigin + `/sesion/${id}`, publicOptions('DELETE'));
-      const res = await response.json();
-      return res;
-    }
-  },
-
   clientes: {
     async getAllCustomers() {
       const response = await fetch(apiOrigin + "/clientes", privateOptions('GET'));

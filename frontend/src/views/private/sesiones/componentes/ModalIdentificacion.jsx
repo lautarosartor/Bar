@@ -41,11 +41,10 @@ function ModalIdentificacion() {
       <ModalContent>
         <ModalHeader>Identificate</ModalHeader>
         <ModalBody pb={6}>
-          <FormControl>
+          <FormControl isRequired>
             <FormLabel>Nombre</FormLabel>
             <Input
               ref={initialRef}
-              isRequired
               type="text"
               name="nombre"
               placeholder="Nombre"
@@ -54,10 +53,9 @@ function ModalIdentificacion() {
             />
           </FormControl>
 
-          <FormControl mt={4}>
+          <FormControl isRequired mt={4}>
             <FormLabel>Apellido</FormLabel>
             <Input
-              isRequired
               type="text"
               name="apellido"
               placeholder="Apellido"

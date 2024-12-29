@@ -26,14 +26,15 @@ type Data struct {
 func GetAll(c echo.Context) error {
 	db := database.GetDb()
 
-	var totalDataSize int64 = 0
-	var sesiones []models.Sesiones
-
-	if c.QueryParam("activas") == "true" {
+	if c.QueryParam("activas") == "SI" {
 		db = db.Where("activo = ?", 1)
 	}
 
-	db.Preload("Mesa").Order("finished_at ASC").Find(&sesiones).Count(&totalDataSize)
+	var totalDataSize int64 = 0
+	db.Table("sesiones").Count(&totalDataSize)
+
+	var sesiones []models.Sesiones
+	db.Preload("Mesa").Order("finished_at ASC").Find(&sesiones)
 
 	if len(sesiones) == 0 {
 		return c.JSON(http.StatusOK, ResponseMessage{

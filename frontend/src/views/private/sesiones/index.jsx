@@ -13,23 +13,26 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
+  Button,
 } from '@chakra-ui/react'
 import { EditIcon, SettingsIcon, TimeIcon } from '@chakra-ui/icons'
-import useSesion from '../../../hooks/hookSesion';
 import "moment/locale/es";
 import moment from "moment-timezone";
 import './sesiones.css'
-import BtnAgregar from '../../../components/BtnAgregar';
-import InputBusqueda from '../../../components/InputBusqueda';
-import { useEffect } from 'react';
+import InputBusqueda from 'components/InputBusqueda';
 import { FaCashRegister } from "react-icons/fa6";
+import useSesiones from './useSesiones';
+import { useState } from 'react';
 
 const SesionesPage = () => {
-  const { getSesiones, sesiones, loadingSesiones } = useSesion();
+  const [toggleActivas, setToggleActivas] = useState("SI");
+  const { sesiones, loading, fetchSesiones } = useSesiones(toggleActivas);
 
-  useEffect(() => {
-    getSesiones();
-  }, [getSesiones]);
+  const handleToggleActivas = () => {
+    const newState = toggleActivas === "NO" ? "SI" : "NO";
+    setToggleActivas(newState);
+    fetchSesiones(newState);
+  };
 
   return (
     <TableContainer py={5}>
@@ -38,8 +41,10 @@ const SesionesPage = () => {
       </p>
 
       <div className="flex gap-5 my-10">
-        <BtnAgregar isDisabled/>
         <InputBusqueda />
+        <Button onClick={handleToggleActivas}>
+          {toggleActivas === "NO" ? "Mostrar activas" : "Mostrar todo"}
+        </Button>
       </div>
 
       <Table
@@ -120,7 +125,7 @@ const SesionesPage = () => {
           ) : (
             <Tr>
               <Td colSpan={5} textAlign="center">
-                {loadingSesiones
+                {loading
                   ? <Spinner />
                   : "Aún no hay sesiones."
                 }

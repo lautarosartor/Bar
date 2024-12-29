@@ -17,7 +17,10 @@ const CustomModal = ({
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} size={size} closeOnOverlayClick={closeOnOverlayClick}>
-      <ModalOverlay />
+      {title === "Identificate"
+        ? <ModalOverlay bg='blackAlpha.300' backdropFilter='blur(10px)' />
+        : <ModalOverlay />
+      }
       <ModalContent
         initial={{ opacity: 0, y: 0 }}
         animate={{ opacity: 1, y: 100 }}

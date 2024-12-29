@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import useQuery from "hooks/useQuery";
 import queryString from "query-string";
-import { getAllProducts } from "./api";
+import { getAllSesiones } from "./api";
 import { showErrorToastify } from "utils";
 import { useToast } from "@chakra-ui/react";
 
-const useProductos = () => {
+const useSesiones = (activas) => {
   const [pagination, setPagination] = useState({
     current: 1,
     pageSize: 10,
@@ -19,16 +19,17 @@ const useProductos = () => {
 
   const { data, loading, refetch } = useQuery({
     autoFetch: false,
-    queryFn: getAllProducts,
+    queryFn: getAllSesiones,
     onError: (err) => showErrorToastify({ toast, err }),
   });
 
-  const fetch = () => {
+  const fetch = (activas) => {
     const query = queryString.stringify({
       limit: pagination.pageSize,
       page: pagination.current,
       sortField: sorting.field,
       sortOrder: sorting.order === "ascend" ? "ASC" : "DESC",
+      activas,
     });
 
     refetch(query);
@@ -40,16 +41,16 @@ const useProductos = () => {
   };
 
   useEffect(() => {
-    fetch();
+    fetch(activas);
   }, [pagination, sorting]);
 
   return {
-    productos: data?.data?.productos,
+    sesiones: data?.data?.sesiones,
     total: data?.data?.totalDataSize,
     loading,
-    fetchProductos: fetch,
+    fetchSesiones: fetch,
     onTableChange,
   }
 }
 
-export default useProductos;
+export default useSesiones;

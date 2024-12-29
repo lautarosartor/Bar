@@ -1,8 +1,8 @@
 import { config } from "services/config";
 import { privateOptions } from "utils";
 
-export const getAllProducts = async () => {
-  const url = `${config.URL_API}/productos`;
+export const getAllProducts = async (q = '') => {
+  const url = `${config.URL_API}/productos?${q}`;
   const response = await fetch(url, privateOptions('GET'));
   const data = await response.json();
   return data;

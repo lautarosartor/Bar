@@ -2,7 +2,7 @@ import { config } from "services/config";
 import { privateOptions, publicOptions } from "utils";
 
 export const getAllOrders = async (q = '') => {
-  const url = `${config.URL_API}/pedidos?q=${q}"`;
+  const url = `${config.URL_API}/pedidos?${q}"`;
   const response = await fetch(url, privateOptions('GET'));
   const data = await response.json();
   return data;

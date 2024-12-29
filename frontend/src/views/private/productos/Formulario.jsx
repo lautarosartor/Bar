@@ -35,7 +35,7 @@ const Formulario = ({ formData, setFormData, closeModal, onSubmit, title, okText
         />
       </FormControl>
 
-      <FormControl isRequired mt={4}>
+      <FormControl mt={4}>
         <FormLabel>Subcategoría</FormLabel>
         <Input
           type="number"
@@ -74,7 +74,7 @@ const Formulario = ({ formData, setFormData, closeModal, onSubmit, title, okText
           </InputGroup>
         </FormControl>
 
-        <FormControl mt={4}>
+        <FormControl isRequired mt={4}>
           <FormLabel>Stock</FormLabel>
           <Input
             type="number"

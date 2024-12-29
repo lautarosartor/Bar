@@ -11,6 +11,7 @@ const useMesas = () => {
 
   return {
     mesas: data?.data?.mesas,
+    total: data?.data?.totalDataSize,
     loading,
     fetchMesas: refetch,
   }
