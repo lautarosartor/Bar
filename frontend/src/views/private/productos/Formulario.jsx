@@ -1,16 +1,18 @@
 import PropTypes from "prop-types";
-import { FormControl, FormLabel, Input, InputGroup, InputLeftElement, Textarea } from "@chakra-ui/react";
+import { FormControl, FormLabel, Input, InputGroup, InputLeftElement, Select, Textarea } from "@chakra-ui/react";
 import CustomModal from "components/Modal";
+import useGetSubcategorias from "hooks/useGetSubcategorias";
 
 const Formulario = ({ formData, setFormData, closeModal, onSubmit, title, okText, confirmLoading }) => {
-  
+  const { subcategoriasOptions } = useGetSubcategorias();
+
   const handleOnChange = (e) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
       [name]: value,
     });
-  }  
+  }
 
   return (
     <CustomModal
@@ -35,14 +37,21 @@ const Formulario = ({ formData, setFormData, closeModal, onSubmit, title, okText
         />
       </FormControl>
 
-      <FormControl mt={4}>
+      <FormControl isRequired mt={4}>
         <FormLabel>Subcategoría</FormLabel>
-        <Input
-          type="number"
-          placeholder="Subcategoría"
-          value={formData.idsubcategoria || 0} // No editable
+        <Select
+          variant='outline'
+          placeholder='Seleccioná una subcategoría'
+          name="idsubcategoria"
+          value={formData.idsubcategoria || 0}
           onChange={handleOnChange}
-        />
+        >
+          {subcategoriasOptions?.map((item) => (
+            <option key={item.value} value={item.value}>
+              {item.label}
+            </option>
+          ))}
+        </Select>
       </FormControl>
 
       <FormControl mt={4}>

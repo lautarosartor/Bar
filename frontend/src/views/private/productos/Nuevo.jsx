@@ -4,7 +4,7 @@ import { useToast } from "@chakra-ui/react";
 import useMutation from "hooks/useMutation";
 import { createProduct } from "./api";
 import { showErrorToastify, showSuccessToastify } from "utils";
-import Formulario from './Formulario'
+import Formulario from './Formulario';
 
 const Nuevo = ({ closeModal }) => {
   const initForm = useState({
@@ -42,7 +42,7 @@ const Nuevo = ({ closeModal }) => {
 
   return (
     <Formulario 
-      title="Crear nueva mesa"
+      title="Crear nuevo producto"
       okText="Crear"
       formData={formData}
       setFormData={setFormData}

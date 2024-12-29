@@ -45,11 +45,6 @@ export const api = {
   },
 
   subcategorias: {
-    async getAllSubcategories(idCategoria = "") {
-      const response = await fetch(apiOrigin + `/subcategorias?categoria=${idCategoria}`, privateOptions('GET'));
-      const data = await response.json();
-      return data;
-    },
     async getSubcategorie(id) {
       const response = await fetch(apiOrigin + `/subcategoria/${id}`, privateOptions('GET'));
       const data = await response.json();
@@ -92,4 +87,11 @@ export const api = {
       return data;
     }
   }
+}
+
+export const getAllSubcategories = async (q = '') => {
+  const url = `${apiOrigin}/subcategorias?${q}`;
+  const response = await fetch(url, privateOptions('GET'));
+  const data = await response.json();
+  return data;
 }
