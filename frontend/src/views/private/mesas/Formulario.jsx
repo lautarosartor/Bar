@@ -3,7 +3,7 @@ import { FormControl, FormLabel, Input, Textarea } from "@chakra-ui/react";
 import { MdPeopleOutline } from "react-icons/md";
 import CustomModal from "components/Modal";
 
-const Formulario = ({ formData, setFormData, closeModal, onSubmit, title, confirmLoading }) => {
+const Formulario = ({ formData, setFormData, closeModal, onSubmit, title, okText, confirmLoading }) => {
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
@@ -18,7 +18,7 @@ const Formulario = ({ formData, setFormData, closeModal, onSubmit, title, confir
       isOpen={true}
       onClose={closeModal}
       title={title}
-      okText="Crear"
+      okText={okText || "Guardar"}
       onOk={() => onSubmit()}
       closeText="Cancelar"
       confirmLoading={confirmLoading}
@@ -72,6 +72,7 @@ Formulario.propTypes = {
   closeModal: PropTypes.func,
   onSubmit: PropTypes.func,
   title: PropTypes.string,
+  okText: PropTypes.string,
   confirmLoading: PropTypes.bool,
 };
 

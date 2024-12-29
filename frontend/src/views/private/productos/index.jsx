@@ -13,34 +13,28 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
-  useDisclosure,
   Tooltip,
   Box,
   Image
 } from '@chakra-ui/react'
 import { EditIcon, SettingsIcon } from '@chakra-ui/icons'
-import useProducto from '../../../hooks/hookProducto';
-import Producto from './Producto';
-import InputBusqueda from '../../../components/InputBusqueda';
-import { useEffect, useState } from 'react';
-import BtnAgregar from '../../../components/BtnAgregar';
+import InputBusqueda from 'components/InputBusqueda';
+import { useState } from 'react';
+import BtnAgregar from 'components/BtnAgregar';
+import useProductos from './useProductos';
+import Nuevo from './Nuevo';
+import Editar from './Editar';
 
 const ProductosPage = () => {
-  const { getProductos, productos, loadingProductos } = useProducto();
-  const [selectedProductoId, setSelectedProductoId] = useState(0);
+  const { productos, loading, fetchProductos } = useProductos();
+  const [selectedProducto, setSelectedProducto] = useState(null);
+  const [openNuevo, setOpenNuevo] = useState(false);
+  const [openEditar, setOpenEditar] = useState(false);
 
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
-  const handleOpenModal = (id) => {
-    setSelectedProductoId(id);
-    onOpen();
+  const handleOpenEditar = (producto) => {
+    setSelectedProducto(producto);
+    setOpenEditar(true);
   }
-
-  useEffect(() => {
-    if (!isOpen) {
-      getProductos();
-    }
-  }, [isOpen, getProductos]);
 
   return (
     <TableContainer py={5}>
@@ -49,7 +43,7 @@ const ProductosPage = () => {
       </p>
 
       <div className="flex gap-5 my-10">
-        <BtnAgregar onClick={() => handleOpenModal(0)} />
+        <BtnAgregar onClick={() => setOpenNuevo(true)} />
         <InputBusqueda />
       </div>
 
@@ -69,7 +63,7 @@ const ProductosPage = () => {
 
         <Tbody>
           {productos?.length > 0 ? (productos.map((p) => (
-            <Tr key={p.id}>
+            <Tr key={p.id} onDoubleClick={() => handleOpenEditar(p)}>
               <Td maxWidth={100} py={1}>
                 <Tooltip
                   placement="right-start"
@@ -115,7 +109,7 @@ const ProductosPage = () => {
                     variant='solid'
                   />
                   <MenuList boxShadow='lg'>
-                    <MenuItem onClick={() => handleOpenModal(p.id)} icon={<EditIcon />}>
+                    <MenuItem onClick={() => handleOpenEditar(p)} icon={<EditIcon />}>
                       Ver
                     </MenuItem>
                   </MenuList>
@@ -125,7 +119,7 @@ const ProductosPage = () => {
           ) : (
             <Tr>
               <Td colSpan={5} textAlign="center">
-                {loadingProductos
+                {loading
                   ? <Spinner />
                   : "Aún no hay productos."
                 }
@@ -139,12 +133,24 @@ const ProductosPage = () => {
         </TableCaption>
       </Table>
       
-      {/*Modal*/}
-      <Producto
-        open={isOpen}
-        close={onClose}
-        productoId={selectedProductoId}
-      />
+      {openNuevo &&
+        <Nuevo
+          closeModal={() => {
+            setOpenNuevo(false);
+            fetchProductos();
+          }}
+        />
+      }
+
+      {openEditar &&
+        <Editar
+          producto={selectedProducto}
+          closeModal={() => {
+            setOpenEditar(false);
+            fetchProductos();
+          }}
+        />
+      }
     </TableContainer>
   )
 }

@@ -2,22 +2,24 @@ import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useToast } from "@chakra-ui/react";
 import useMutation from "hooks/useMutation";
-import { updateTable } from "./api";
+import { updateProduct } from "./api";
 import { showErrorToastify, showSuccessToastify } from "utils";
 import Formulario from "./Formulario";
 
-const Editar = ({ mesa, closeModal }) => {
+const Editar = ({ producto, closeModal }) => {
   const initForm = useState({
-    nombre_mesa: '',
-    capacidad: 0,
-    codigo_qr: '',
+    idsubcategoria: 0,
+    nombre: '',
     descripcion: '',
+    precio: 0,
+    stock: 0,
+    img_url: '',
   });
   const [formData, setFormData] = useState(initForm);
   const toast = useToast();
 
   const update = useMutation({
-    mutationFn: updateTable,
+    mutationFn: updateProduct,
     onSuccess: (res) => {
       showSuccessToastify({ toast, res });
       closeModal();
@@ -26,36 +28,34 @@ const Editar = ({ mesa, closeModal }) => {
   });
 
   const onSubmit = () => {
-    if (formData.capacidad < 1) {
-      showErrorToastify({ toast, err: "La capacidad mínima es de 1." });
-      return;
-    }
-    else if (formData.capacidad > 20) {
-      showErrorToastify({ toast, err: "La capacidad máxima es 20." });
+    if (formData.precio < 0) {
+      showErrorToastify({ toast, err: "El precio no puede ser menor a 0." });
       return;
     }
 
     const payload = {
       ...formData,
-      capacidad: parseInt(formData.capacidad),
     }
     
-    update.mutate(mesa.id, payload);
+    update.mutate(producto.id, payload);
   }
 
   useEffect(() => {
-    if (mesa) {
+    if (producto) {
       setFormData({
-        nombre_mesa: mesa.nombre_mesa || '',
-        capacidad: mesa.capacidad || 0,
-        descripcion: mesa.descripcion || '',
+        idsubcategoria: producto.idsubcategoria || 0,
+        nombre: producto.nombre || '',
+        descripcion: producto.descripcion || '',
+        precio: producto.precio || 0,
+        stock: producto.stock || 0,
+        img_url: producto.img_url || ''
       });
     }
-  }, [mesa]);
+  }, [producto]);
 
   return (
     <Formulario 
-      title={`Editar mesa ${mesa.id}`}
+      title={`Editar producto ${producto.id}`}
       okText="Guardar"
       formData={formData}
       setFormData={setFormData}
@@ -68,7 +68,7 @@ const Editar = ({ mesa, closeModal }) => {
 
 // Validacion de props
 Editar.propTypes = {
-  mesa: PropTypes.object,
+  producto: PropTypes.object,
   closeModal: PropTypes.func,
 };
 

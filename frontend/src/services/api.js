@@ -80,29 +80,6 @@ export const api = {
     }
   },
 
-  productos: {
-    async getAllProducts() {
-      const response = await fetch(apiOrigin + "/productos", privateOptions('GET'));
-      const data = await response.json();
-      return data;
-    },
-    async getProduct(id) {
-      const response = await fetch(apiOrigin + `/producto/${id}`, privateOptions('GET'));
-      const data = await response.json();
-      return data;
-    },
-    async createProduct(data) {
-      const response = await fetch(apiOrigin + "/producto", privateOptions('POST', data));
-      const res = await response.json();
-      return res;
-    },
-    async updateProduct(id, data) {
-      const response = await fetch(apiOrigin + `/producto/${id}`, privateOptions('PUT', data));
-      const res = await response.json();
-      return res;
-    }
-  },
-
   sesiones: {
     async getAllSesiones(activas = false) {
       const response = await fetch(apiOrigin + `/sesiones?activas=${activas}`, privateOptions('GET'));

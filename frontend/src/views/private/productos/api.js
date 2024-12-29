@@ -1,29 +1,29 @@
 import { config } from "services/config";
 import { privateOptions } from "utils";
 
-export const getAllTables = async () => {
-  const url = `${config.URL_API}/mesas`;
+export const getAllProducts = async () => {
+  const url = `${config.URL_API}/productos`;
   const response = await fetch(url, privateOptions('GET'));
   const data = await response.json();
   return data;
 }
 
-export const getTable = async (id) => {
-  const url = `${config.URL_API}/mesa/${id}`;
+export const getProduct = async (id) => {
+  const url = `${config.URL_API}/producto/${id}`;
   const response = await fetch(url, privateOptions('GET'));
   const data = await response.json();
   return data;
 }
 
-export const createTable = async (data) => {
-  const url = `${config.URL_API}/mesa`;
+export const createProduct = async (data) => {
+  const url = `${config.URL_API}/producto`;
   const response = await fetch(url, privateOptions('POST', data));
   const res = await response.json();
   return res;
 }
 
-export const updateTable = async (id, data) => {
-  const url = `${config.URL_API}/mesa/${id}`;
+export const updateProduct = async (id, data) => {
+  const url = `${config.URL_API}/producto/${id}`;
   const response = await fetch(url, privateOptions('PUT', data));
   const res = await response.json();
   return res;
