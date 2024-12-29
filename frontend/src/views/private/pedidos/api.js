@@ -1,5 +1,5 @@
-import { config } from "../../../services/config";
-import { privateOptions, publicOptions } from "../../../utils";
+import { config } from "services/config";
+import { privateOptions, publicOptions } from "utils";
 
 export const getAllOrders = async (q = '') => {
   const url = `${config.URL_API}/pedidos?q=${q}"`;

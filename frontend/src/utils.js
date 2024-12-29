@@ -1,5 +1,3 @@
-import { useToast } from "@chakra-ui/react";
-
 export const publicOptions = (method, body) => ({
   method,
   headers: {
@@ -17,8 +15,10 @@ export const privateOptions = (method, body) => ({
   body: JSON.stringify(body)
 });
 
-export const showSuccessToastify = ({ res }) => {
-  useToast.toast.success((res || "Acción exitosa"), {
+export const showSuccessToastify = ({ toast, title, res }) => {
+  toast({
+    title: `${title || "Acción exitosa"}`,
+    description: (res && typeof err === "string") ? res : res?.message || JSON.stringify(res),
     status: 'success',
     duration: 4000,
     isClosable: true,
@@ -26,8 +26,10 @@ export const showSuccessToastify = ({ res }) => {
   });
 };
 
-export const showErrorToastify = ({ err }) => {
-  useToast.toast.error((err || "Error"), {
+export const showErrorToastify = ({ toast, title, err }) => {
+  toast({
+    title: `${title || "Error"}`,
+    description: (err && typeof err === "string") ? err : err?.message || JSON.stringify(err),
     status: 'error',
     duration: 4000,
     isClosable: true,

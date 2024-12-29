@@ -1,28 +1,28 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom"
 import { lazy, Suspense } from "react";
-import PrivateRoute from "./providers/PrivateRoute"
-import Header from "./components/Header"
-import Footer from "./components/Footer"
-import Home from "./views/public/Home"
-import Services from "./views/public/Services"
-import About from "./views/public/About"
-import Testimonials from "./views/public/Testimonials"
-import Menu from "./views/public/Menu"
-import Contact from "./views/public/Contact"
-import NotFound from "./components/NotFound"
-import Sesion from "./views/private/sesiones/Sesion"
-import LoginPage from "./views/private/auth/Login";
-import RegisterPage from "./views/private/auth/Register";
-import Loading from "./components/Loading";
+import PrivateRoute from "providers/PrivateRoute"
+import Header from "components/Header"
+import Footer from "components/Footer"
+import Home from "views/public/Home"
+import Services from "views/public/Services"
+import About from "views/public/About"
+import Testimonials from "views/public/Testimonials"
+import Menu from "views/public/Menu"
+import Contact from "views/public/Contact"
+import NotFound from "components/NotFound"
+import Sesion from "views/private/sesiones/Sesion"
+import LoginPage from "views/private/auth/Login";
+import RegisterPage from "views/private/auth/Register";
+import Loading from "components/Loading";
 
 /* const LoginPage = lazy(() => import("./views/private/auth/login"));
 const RegisterPage = lazy(() => import("./views/private/auth/register")); */
-const DashboardPage = lazy(() => import("./views/private/dashboard"));
-const PedidosPage = lazy(() => import("./views/private/pedidos"));
-const MesasPage = lazy(() => import("./views/private/mesas"));
-const ProductosPage = lazy(() => import("./views/private/productos"));
-const SesionesPage = lazy(() => import("./views/private/sesiones"));
-const UsuariosPage = lazy(() => import("./views/private/usuarios"));
+const DashboardPage = lazy(() => import("views/private/dashboard"));
+const PedidosPage = lazy(() => import("views/private/pedidos"));
+const MesasPage = lazy(() => import("views/private/mesas"));
+const ProductosPage = lazy(() => import("views/private/productos"));
+const SesionesPage = lazy(() => import("views/private/sesiones"));
+const UsuariosPage = lazy(() => import("views/private/usuarios"));
 
 const App = () => {
 

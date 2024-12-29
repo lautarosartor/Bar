@@ -18,12 +18,12 @@ import {
   ListItem,
 } from '@chakra-ui/react'
 import React, { useState } from 'react';
-import InputBusqueda from '../../../components/InputBusqueda';
-import usePedidos from './usePedidos';
 import moment from 'moment-timezone';
 import 'moment/locale/es';
 import { CheckIcon, CloseIcon, EditIcon, SettingsIcon } from '@chakra-ui/icons'
 import { FaClipboardList } from "react-icons/fa";
+import usePedidos from './usePedidos';
+import InputBusqueda from 'components/InputBusqueda';
 import VerPedido from './components/VerPedido';
 
 const PedidosPage = () => {

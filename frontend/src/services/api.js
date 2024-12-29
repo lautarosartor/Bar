@@ -1,5 +1,5 @@
 import { config } from "./config";
-import { publicOptions, privateOptions } from "../utils";
+import { publicOptions, privateOptions } from "utils";
 
 const publicOrigin = config.URL_PUBLIC;
 const apiOrigin = config.URL_API;
@@ -75,29 +75,6 @@ export const api = {
     },
     async updatePromotion(id, data) {
       const response = await fetch(apiOrigin + `/promocion/${id}`, privateOptions('PUT', data));
-      const res = await response.json();
-      return res;
-    }
-  },
-
-  mesas: {
-    async getAllTables(q = "") {
-      const response = await fetch(apiOrigin + `/mesas${q ? `?q=${q}` : ""}`, privateOptions('GET'));
-      const data = await response.json();
-      return data;
-    },
-    async getTable(id) {
-      const response = await fetch(apiOrigin + `/mesa/${id}`, privateOptions('GET'));
-      const data = await response.json();
-      return data;
-    },
-    async createTable(data) {
-      const response = await fetch(apiOrigin + "/mesa", privateOptions('POST', data));
-      const res = await response.json();
-      return res;
-    },
-    async updateTable(id, data) {
-      const response = await fetch(apiOrigin + `/mesa/${id}`, privateOptions('PUT', data));
       const res = await response.json();
       return res;
     }

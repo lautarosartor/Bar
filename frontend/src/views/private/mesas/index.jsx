@@ -1,7 +1,6 @@
 import {
   TableContainer,
   IconButton,
-  useDisclosure,
   Skeleton,
   Badge,
   Tooltip,
@@ -9,35 +8,31 @@ import {
   Input,
   InputRightElement,
   Button,
+  Text,
 } from '@chakra-ui/react'
 import { CloseIcon, EditIcon, InfoIcon, SearchIcon } from '@chakra-ui/icons'
-import useMesa from '../../../hooks/hookMesa';
-import Mesa from './Mesa';
 import { useEffect, useState } from 'react';
-import BtnAgregar from '../../../components/BtnAgregar';
+import { URL_BASE } from 'services/config';
+import BtnAgregar from 'components/BtnAgregar';
 import QRCode from "react-qr-code";
-import NotFound from '../../../components/NotFound';
-import { URL_BASE } from '../../../services/config';
+import NotFound from 'components/NotFound';
+import useMesas from './useMesas';
+import Editar from './Editar';
+import Nuevo from './Nuevo';
 
  const MesasPage = () => {
-  const { getMesas, mesas, loadingMesas } = useMesa();
+  const { mesas, loading, fetchMesas } = useMesas();
   const [filteredMesas, setFilteredMesas] = useState([]);
-  const [selectedMesaId, setSelectedMesaId] = useState(0);
+  const [selectedMesa, setSelectedMesa] = useState(null);
   const [query, setQuery] = useState("");
   const [show, setShow] = useState(false);
+  const [openNuevo, setOpenNuevo] = useState(false);
+  const [openEditar, setOpenEditar] = useState(false);
 
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
-  const handleOpenModal = (id) => {
-    setSelectedMesaId(id);
-    onOpen();
+  const handleOpenEditar = (mesa) => {
+    setSelectedMesa(mesa);
+    setOpenEditar(true);
   }
-
-  useEffect(() => {
-    if (!isOpen) {
-      getMesas();
-    }
-  }, [isOpen, getMesas]);
 
   useEffect(() => {
     if (query) {
@@ -52,7 +47,7 @@ import { URL_BASE } from '../../../services/config';
       setFilteredMesas(mesas);
     }
     
-  }, [mesas, query, getMesas]);
+  }, [mesas, query]);
 
   const handleSearch = (e) => {
     setQuery(e.target.value);
@@ -66,12 +61,12 @@ import { URL_BASE } from '../../../services/config';
 
   return (
     <TableContainer py={5}>
-      <p className="font-bold text-center text-4xl">
+      <Text className="font-bold text-center text-4xl">
         MESAS
-      </p>
+      </Text>
 
       <div className="flex gap-5 my-10">
-        <BtnAgregar onClick={() => handleOpenModal(0)} />
+        <BtnAgregar onClick={() => setOpenNuevo(true)} />
         <InputGroup width={250}>
           <Input
             pr='3rem'
@@ -97,7 +92,7 @@ import { URL_BASE } from '../../../services/config';
           {filteredMesas.map((m) => (
             <Skeleton
               key={m.id}
-              isLoaded={!loadingMesas}
+              isLoaded={!loading}
               className="relative flex flex-col p-4 gap-4 rounded-lg shadow-md w-full"
               style={{
                 maxWidth: '250px', // Máximo ancho uniforme para todas las tarjetas
@@ -116,13 +111,13 @@ import { URL_BASE } from '../../../services/config';
                   size="xs"
                   position="absolute"
                   top={0} right={0} m={1}
-                  onClick={() => handleOpenModal(m.id)}
+                  onClick={() => handleOpenEditar(m)}
                 />
               </Tooltip>
 
-              <p className="text-2xl font-bold text-center">
+              <Text className="text-2xl font-bold text-center">
                 Mesa: {m.nombre_mesa}
-              </p>
+              </Text>
 
               <div className="flex justify-center items-center" style={{height: "100px"}}>
                 {m.codigo_qr
@@ -139,9 +134,9 @@ import { URL_BASE } from '../../../services/config';
                 </Badge>
               </div>
 
-              <p className="text-sm text-center">
+              <Text className="text-sm text-center">
                 {m.descripcion}
-              </p>
+              </Text>
             </Skeleton>
           ))}
         </div>
@@ -149,14 +144,26 @@ import { URL_BASE } from '../../../services/config';
         <NotFound tipo={2} />
       )}
 
-      {/*Modal*/}
-      <Mesa
-        open={isOpen}
-        close={onClose}
-        mesaId={selectedMesaId}
-      />
+      {openNuevo &&
+        <Nuevo
+          closeModal={() => {
+            setOpenNuevo(false);
+            fetchMesas();
+          }}
+        />
+      }
+
+      {openEditar &&
+        <Editar
+          mesa={selectedMesa}
+          closeModal={() => {
+            setOpenEditar(false);
+            fetchMesas();
+          }}
+        />
+      }
     </TableContainer>
   )
 }
 
-export default MesasPage
+export default MesasPage;

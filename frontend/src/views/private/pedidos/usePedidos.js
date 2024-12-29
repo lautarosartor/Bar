@@ -1,8 +1,9 @@
-import useQuery from "../../../hooks/useQuery";
-import { getAllOrders } from "./api";
-import { showErrorToastify } from "../../../utils";
-import queryString from 'query-string'
 import { useEffect, useState } from "react";
+import queryString from 'query-string'
+import useQuery from "hooks/useQuery";
+import { getAllOrders } from "./api";
+import { showErrorToastify } from "utils";
+import { useToast } from "@chakra-ui/react";
 
 const usePedidos = () => {
   const [pagination, setPagination] = useState({
@@ -14,11 +15,12 @@ const usePedidos = () => {
     field: "",
     order: ""
   });
+  const toast = useToast();
 
   const { data, loading, refetch } = useQuery({
     autoFetch: false,
     queryFn: getAllOrders,
-    onError: (err) => showErrorToastify({ err }),
+    onError: (err) => showErrorToastify({ toast, err }),
   });
 
   const fetch = () => {

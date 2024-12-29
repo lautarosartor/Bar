@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text } from "@chakra-ui/react";
+import { Button, Heading, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay } from "@chakra-ui/react";
 
 const CustomModal = ({
   isOpen,
@@ -11,27 +11,41 @@ const CustomModal = ({
   okText = "Guardar",
   closeText = "Cerrar",
   confirmLoading = false,
+  as,
+  closeOnOverlayClick = false,
 }) => {
+
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size={size}>
+    <Modal isOpen={isOpen} onClose={onClose} size={size} closeOnOverlayClick={closeOnOverlayClick}>
       <ModalOverlay />
-      <ModalContent>
+      <ModalContent
+        initial={{ opacity: 0, y: 0 }}
+        animate={{ opacity: 1, y: 100 }}
+        exit={{ opacity: 0, y: 20 }}
+        transition={{ duration: 0.3 }}
+      >
         {title &&
           <ModalHeader>
-            <Text fontSize="2xl">
+            <Heading size="lg">
               {title}
-            </Text>
+            </Heading>
           </ModalHeader>
         }
         <ModalCloseButton />
-        <ModalBody fontSize="md">
+        <ModalBody fontSize="md" as={as && as}>
           {children}
         </ModalBody>
 
-        <ModalFooter>
+        <ModalFooter gap={4}>
+          <Button
+            onClick={onClose}
+          >
+            {closeText}
+          </Button>
+
           {onOk &&
             <Button
-              colorScheme='blue'
+              colorScheme="blue"
               onClick={() => {
                 onOk();
               }}
@@ -40,11 +54,6 @@ const CustomModal = ({
               {okText}
             </Button>
           }
-          <Button
-            onClick={onClose}
-          >
-            {closeText}
-          </Button>
         </ModalFooter>
       </ModalContent>
     </Modal>
@@ -62,6 +71,8 @@ CustomModal.propTypes = {
   okText: PropTypes.string,
   closeText: PropTypes.string,
   confirmLoading: PropTypes.bool,
+  as: PropTypes.string,
+  closeOnOverlayClick: PropTypes.bool,
 };
 
 export default CustomModal;
