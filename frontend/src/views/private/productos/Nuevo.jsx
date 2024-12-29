@@ -35,6 +35,9 @@ const Nuevo = ({ closeModal }) => {
 
     const payload = {
       ...formData,
+      idsubcategoria: parseInt(formData.idsubcategoria),
+      precio: parseFloat(formData.precio),
+      stock: parseInt(formData.stock),
     }
     
     create.mutate(payload);

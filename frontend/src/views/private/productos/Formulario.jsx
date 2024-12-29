@@ -41,29 +41,20 @@ const Formulario = ({ formData, setFormData, closeModal, onSubmit, title, okText
         <FormLabel>Subcategoría</FormLabel>
         <Select
           variant='outline'
-          placeholder='Seleccioná una subcategoría'
           name="idsubcategoria"
           value={formData.idsubcategoria || 0}
           onChange={handleOnChange}
         >
+          <option value={0} disabled hidden>
+            Seleccioná una subcategoría
+          </option>
+
           {subcategoriasOptions?.map((item) => (
             <option key={item.value} value={item.value}>
               {item.label}
             </option>
           ))}
         </Select>
-      </FormControl>
-
-      <FormControl mt={4}>
-        <FormLabel>Descripción</FormLabel>
-        <Textarea
-          resize="none"
-          name="descripcion" // Nombre coincide con el del estado
-          placeholder="Descripción"
-          maxLength={200}
-          value={formData.descripcion || ''}
-          onChange={handleOnChange}
-        />
       </FormControl>
 
       <div className="flex gap-6">
@@ -103,6 +94,18 @@ const Formulario = ({ formData, setFormData, closeModal, onSubmit, title, okText
           placeholder="URL imagen"
           maxLength={255}
           value={formData.img_url || ''}
+          onChange={handleOnChange}
+        />
+      </FormControl>
+
+      <FormControl mt={4}>
+        <FormLabel>Descripción</FormLabel>
+        <Textarea
+          resize="none"
+          name="descripcion" // Nombre coincide con el del estado
+          placeholder="Descripción"
+          maxLength={200}
+          value={formData.descripcion || ''}
           onChange={handleOnChange}
         />
       </FormControl>

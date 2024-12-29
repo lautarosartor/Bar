@@ -35,6 +35,9 @@ const Editar = ({ producto, closeModal }) => {
 
     const payload = {
       ...formData,
+      idsubcategoria: parseInt(formData.idsubcategoria),
+      precio: parseFloat(formData.precio),
+      stock: parseInt(formData.stock),
     }
     
     update.mutate(producto.id, payload);
