@@ -42,11 +42,8 @@ const Formulario = ({ formData, setFormData, closeModal, onSubmit, title, confir
             Capacidad <MdPeopleOutline className="ml-2" />
           </FormLabel>
           <Input
-            type="number"
             name="capacidad"
             placeholder="Capacidad"
-            min={1}
-            max={20}
             value={formData.capacidad || ''}
             onChange={handleOnChange}
           />

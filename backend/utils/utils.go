@@ -4,9 +4,9 @@ import (
 	"bar/database"
 	"bar/models"
 	"crypto/rand"
-	"encoding/base64"
 	"fmt"
 	"log"
+	"math/big"
 	"strings"
 
 	extract "github.com/golang-jwt/jwt"
@@ -82,10 +82,20 @@ func GetUserRole(c echo.Context, id bool) interface{} {
 }
 
 func GenerateRandomCode(length int) string {
-	randomBytes := make([]byte, length)
-	_, err := rand.Read(randomBytes)
-	if err != nil {
-		panic(err)
+	// Definir el conjunto de caracteres permitidos (letras y números)
+	var allowedRunes = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
+	allowedRunesLen := big.NewInt(int64(len(allowedRunes)))
+
+	// Crear un slice para almacenar el resultado
+	b := make([]rune, length)
+
+	// Generar un código aleatorio de longitud n
+	for i := range b {
+		randomIndex, err := rand.Int(rand.Reader, allowedRunesLen)
+		if err != nil {
+			panic(err)
+		}
+		b[i] = allowedRunes[randomIndex.Int64()]
 	}
-	return base64.StdEncoding.EncodeToString(randomBytes)[:length]
+	return string(b)
 }

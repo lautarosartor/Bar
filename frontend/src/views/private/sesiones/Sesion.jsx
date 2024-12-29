@@ -106,17 +106,14 @@ function Sesion() {
             <DrawerCarrito />
           </div>
         </Box>
-        
       </Box>
     )
   }
   else {
     return (
-      <div className="flex flex-col justify-center align-center gap-10" style={{height: '100vh'}}>
-        <NotFound tipo={1} />
-        <p className="text-[#fff] text-center">{message}</p>
-        <a href="/" className="text-center self-center py-2 px-4 rounded-xl bg-[#85CB33]">Volver</a>
-      </div>
+      <NotFound
+        message={message}
+      />
     );
   }
 }

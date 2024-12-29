@@ -121,7 +121,7 @@ import Nuevo from './Nuevo';
 
               <div className="flex justify-center items-center" style={{height: "100px"}}>
                 {m.codigo_qr
-                  ? <QRCode size={100} value={`${URL_BASE}/${m.codigo_qr}`} />
+                  ? <QRCode size={100} value={`${URL_BASE}/sesion/${m.codigo_qr}`} />
                   :
                   <Tooltip label="Debes generar un QR - Dirigite a los detalles" aria-label='QR help' borderRadius="lg">
                     <InfoIcon fontSize={40} color="#3B341F" />
@@ -130,7 +130,7 @@ import Nuevo from './Nuevo';
               </div>
               <div className="flex justify-center">
                 <Badge borderRadius="full" backgroundColor="#D3FFE9" textAlign="center" px={2}>
-                  <a href={`/${m.codigo_qr}`}>Para {m.capacidad}</a>
+                  <a href={`/sesion/${m.codigo_qr}`}>Para {m.capacidad}</a>
                 </Badge>
               </div>
 
@@ -141,7 +141,11 @@ import Nuevo from './Nuevo';
           ))}
         </div>
       ) : (
-        <NotFound tipo={2} />
+        <NotFound
+          tipo={2}
+          message={`No se encontro mesa con el nombre ${query}`}
+          height="100%"
+        />
       )}
 
       {openNuevo &&

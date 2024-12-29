@@ -6,7 +6,7 @@ const Loading = ({ height, fullscreen }) => {
     <div
       style={{
         height: height ? height : fullscreen ? "100vh" : "100%",
-        width: fullscreen ? "100vw" : "100%",
+        width: fullscreen && "100%",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",

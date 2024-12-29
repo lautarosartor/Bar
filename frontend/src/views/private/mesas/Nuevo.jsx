@@ -26,8 +26,12 @@ const Nuevo = ({ closeModal }) => {
   });
 
   const onSubmit = () => {
-    if (formData.capacidad > 20) {
-      showErrorToastify({ toast, err: "La capacidad máxima es 20" });
+    if (formData.capacidad < 1) {
+      showErrorToastify({ toast, err: "La capacidad mínima es de 1." });
+      return;
+    }
+    else if (formData.capacidad > 20) {
+      showErrorToastify({ toast, err: "La capacidad máxima es 20." });
       return;
     }
 

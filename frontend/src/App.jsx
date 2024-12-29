@@ -9,14 +9,12 @@ import About from "views/public/About"
 import Testimonials from "views/public/Testimonials"
 import Menu from "views/public/Menu"
 import Contact from "views/public/Contact"
-import NotFound from "components/NotFound"
 import Sesion from "views/private/sesiones/Sesion"
-import LoginPage from "views/private/auth/Login";
-import RegisterPage from "views/private/auth/Register";
+import NotFound from "components/NotFound"
 import Loading from "components/Loading";
 
-/* const LoginPage = lazy(() => import("./views/private/auth/login"));
-const RegisterPage = lazy(() => import("./views/private/auth/register")); */
+const LoginPage = lazy(() => import("./views/private/auth/login"));
+const RegisterPage = lazy(() => import("./views/private/auth/register"));
 const DashboardPage = lazy(() => import("views/private/dashboard"));
 const PedidosPage = lazy(() => import("views/private/pedidos"));
 const MesasPage = lazy(() => import("views/private/mesas"));
@@ -48,7 +46,7 @@ const App = () => {
                       </>
                     }
                   />
-                  <Route path="*" element={<NotFound tipo={1} />} />
+                  <Route path="*" element={<NotFound />} />
                 </Routes>
               </main>
               <Footer />
@@ -57,29 +55,47 @@ const App = () => {
         />
 
         {/* Autenticacion */}
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/login"
+          element={
+            <Suspense fallback={<Loading fullscreen />}>
+              <LoginPage />
+            </Suspense>
+          }
+        />
+        <Route path="/register"
+          element={
+            <Suspense fallback={<Loading fullscreen />}>
+              <RegisterPage />
+            </Suspense>
+          }
+        />
 
-          {/* Rutas privadas */}
-          <Route path="/admin/*"
-            element={
-              <PrivateRoute> {/* Protege las rutas de administración */}
-                <Suspense fallback={<Loading fullscreen />}>
-                  <Routes>
-                    <Route path="dashboard" element={<DashboardPage />} />
-                    <Route path="pedidos"   element={<PedidosPage />} />
-                    <Route path="mesas"     element={<MesasPage />} />
-                    <Route path="productos" element={<ProductosPage />} />
-                    <Route path="sesiones"  element={<SesionesPage />} />
-                    <Route path="usuarios"  element={<UsuariosPage />} />
-                    <Route path="*" element={<NotFound tipo={1} />} />
-                  </Routes>
-                </Suspense>
-              </PrivateRoute>
-            }
-          />
+        {/* Rutas privadas */}
+        <Route path="/admin/*"
+          element={
+            <PrivateRoute> {/* Protege las rutas de administración */}
+              <Suspense fallback={<Loading fullscreen />}>
+                <Routes>
+                  <Route path="dashboard" element={<DashboardPage />} />
+                  <Route path="pedidos"   element={<PedidosPage />} />
+                  <Route path="mesas"     element={<MesasPage />} />
+                  <Route path="productos" element={<ProductosPage />} />
+                  <Route path="sesiones"  element={<SesionesPage />} />
+                  <Route path="usuarios"  element={<UsuariosPage />} />
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </Suspense>
+            </PrivateRoute>
+          }
+        />
 
-        <Route exath path="/:qr" element={<Sesion />} />
+        <Route exath path="/sesion/:qr"
+          element={
+            <Suspense fallback={<Loading fullscreen />}>
+              <Sesion />
+            </Suspense>
+          }
+        />
       </Routes>
     </BrowserRouter>
   )
