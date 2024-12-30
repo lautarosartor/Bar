@@ -1,12 +1,12 @@
 import { Box } from "@chakra-ui/react"
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom";
-import { api } from "../../../services/api";
-import NotFound from "../../../components/NotFound";
-import ModalIdentificacion from "./componentes/ModalIdentificacion";
-import BtnCerrarSesion from "./componentes/BtnCerrarSesion";
-import DrawerCarrito from "./componentes/DrawerCarrito";
-import './componentes/sesion-activa.css'
+import { api } from "services/api";
+import NotFound from "components/NotFound";
+import ModalIdentificacion from "./components/ModalIdentificacion";
+import BtnCerrarSesion from "./components/BtnCerrarSesion";
+import DrawerCarrito from "./components/DrawerCarrito";
+import './components/sesion-activa.css'
 
 function Sesion() {
   const param = useParams();
