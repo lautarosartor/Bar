@@ -16,12 +16,12 @@ import { URL_BASE } from 'services/config';
 import BtnAgregar from 'components/BtnAgregar';
 import QRCode from "react-qr-code";
 import NotFound from 'components/NotFound';
-import useMesas from './useMesas';
+import useGetMesas from 'hooks/useGetMesas';
 import Editar from './Editar';
 import Nuevo from './Nuevo';
 
  const MesasPage = () => {
-  const { mesas, loading, fetchMesas } = useMesas();
+  const { mesas, loading, fetchMesas } = useGetMesas();
   const [filteredMesas, setFilteredMesas] = useState([]);
   const [selectedMesa, setSelectedMesa] = useState(null);
   const [query, setQuery] = useState("");
@@ -98,11 +98,12 @@ import Nuevo from './Nuevo';
                 maxWidth: '250px', // Máximo ancho uniforme para todas las tarjetas
                 minWidth: '150px', // Mínimo ancho uniforme
                 boxSizing: 'border-box',
-                backgroundColor: '#9BC4BCee',
+                backgroundColor: `${m.ocupada ? '#f0000050' : '#9BC4BCee'}`,
               }}
             >
               <Tooltip label="Detalles" aria-label='Detalles' borderRadius="lg">
                 <IconButton
+                  disabled={m.ocupada}
                   isRound={true}
                   aria-label="Options"
                   icon={<EditIcon fontSize="1.3rem" />}
@@ -143,7 +144,7 @@ import Nuevo from './Nuevo';
       ) : (
         <NotFound
           tipo={2}
-          message={`No se encontro mesa con el nombre ${query}`}
+          message="No se encontro la mesa que buscabas."
           height="100%"
         />
       )}

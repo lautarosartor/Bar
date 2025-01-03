@@ -13,14 +13,19 @@ const CustomModal = ({
   confirmLoading = false,
   as,
   closeOnOverlayClick = false,
+  ...rest
 }) => {
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size={size} closeOnOverlayClick={closeOnOverlayClick}>
-      {title === "Identificate"
-        ? <ModalOverlay bg='blackAlpha.300' backdropFilter='blur(10px)' />
-        : <ModalOverlay />
-      }
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      size={size}
+      closeOnOverlayClick={closeOnOverlayClick}
+      {...rest}
+    >
+      <ModalOverlay />
+      
       <ModalContent
         initial={{ opacity: 0, y: 0 }}
         animate={{ opacity: 1, y: 100 }}

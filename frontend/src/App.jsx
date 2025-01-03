@@ -9,7 +9,6 @@ import About from "views/public/About"
 import Testimonials from "views/public/Testimonials"
 import Menu from "views/public/Menu"
 import Contact from "views/public/Contact"
-import Sesion from "views/private/sesiones/Sesion"
 import NotFound from "components/NotFound"
 import Loading from "components/Loading";
 
@@ -21,6 +20,7 @@ const MesasPage = lazy(() => import("views/private/mesas"));
 const ProductosPage = lazy(() => import("views/private/productos"));
 const SesionesPage = lazy(() => import("views/private/sesiones"));
 const UsuariosPage = lazy(() => import("views/private/usuarios"));
+const PrevSesion = lazy(() => import("views/private/sesiones/prevsesion"));
 
 const App = () => {
 
@@ -92,7 +92,7 @@ const App = () => {
         <Route exath path="/sesion/:qr"
           element={
             <Suspense fallback={<Loading fullscreen />}>
-              <Sesion />
+              <PrevSesion />
             </Suspense>
           }
         />

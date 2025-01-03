@@ -18,13 +18,23 @@ type ResponseMessage struct {
 }
 
 type Data struct {
-	Mesas         []models.Mesas `json:"mesas,omitempty"`
+	Mesas         []Mesas `json:"mesas,omitempty"`
 	Mesa          *models.Mesas  `json:"mesa,omitempty"`
 	TotalDataSize int64          `json:"totalDataSize,omitempty"`
 }
 
+type Mesas struct {
+	models.Mesas
+	Ocupada bool `json:"ocupada"`
+}
+
 func GetAll(c echo.Context) error {
 	db := database.GetDb()
+	mesaQR := c.QueryParam("mesa")
+
+	if mesaQR != "" {
+		db = db.Where("codigo_qr = ?", c.QueryParam("mesa"))
+	}
 
 	var totalDataSize int64 = 0
 	db.Table("mesas").Count(&totalDataSize)
@@ -33,8 +43,10 @@ func GetAll(c echo.Context) error {
 		db = db.Where("(nombre_mesa LIKE ?)", "%" + c.QueryParam("q") + "%")
 	}
 	
-	var mesas []models.Mesas
-	db.Order("nombre_mesa ASC").Find(&mesas)
+	var mesas []Mesas
+	db.Select("mesas.*, COALESCE(sesiones.activo, FALSE) AS 'ocupada'").
+		Joins("LEFT JOIN sesiones ON sesiones.idmesa = mesas.id AND sesiones.activo = true").
+		Order("nombre_mesa ASC").Find(&mesas)
 
 	data := Data{Mesas: mesas, TotalDataSize: totalDataSize}
 	return c.JSON(http.StatusOK, ResponseMessage{

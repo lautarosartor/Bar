@@ -25,7 +25,7 @@ const useQuery = ({
         toast({
           title: "La sesión ha expirado",
           status: 'error',
-          duration: 3000,
+          duration: 1500,
           isClosable: true,
           position: 'top',
           onCloseComplete: () => {

@@ -8,8 +8,8 @@ export const getAllSesiones = async (q = '') => {
   return data;
 }
 
-export const getSesion = async (id) => {
-  const url = `${config.URL_API}/sesion/${id}`;
+export const getSesion = async (q = '') => {
+  const url = `${config.URL_API}/sesion?${q}`;
   const response = await fetch(url, privateOptions('GET'));
   const data = await response.json();
   return data;

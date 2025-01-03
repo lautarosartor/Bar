@@ -52,6 +52,55 @@ func GetAll(c echo.Context) error {
 
 func Get(c echo.Context) error {
 	db := database.GetDb()
+	mesaQR := c.QueryParam("mesa")
+	clienteID := c.QueryParam("cliente")
+	
+	sesion := new(models.Sesiones)
+	
+	var qr string
+	db.Raw("SELECT codigo_qr FROM mesas WHERE codigo_qr = ?", mesaQR).Scan(&qr)
+	if qr == "" {
+		return c.JSON(http.StatusNotFound, ResponseMessage{
+			Status: 	"error",
+			Message:	"No se pudo encontrar la mesa, volvé a escanear el código QR.",
+		})
+	}
+	
+	db.Where("idmesa = (SELECT id FROM mesas WHERE codigo_qr = ?)", qr).
+		Preload("Mesa").
+		Order("id DESC").
+		First(&sesion)
+
+	if sesion.ID == 0 {
+		return c.JSON(http.StatusOK, ResponseMessage{
+			Status: 	"success",
+			Message:	"Creá una sesión e invitá a tus amigos",
+		})
+	}
+
+	if sesion.Activo {
+		var tieneAcceso bool
+		db.Raw(`
+			SELECT EXISTS (SELECT 1 FROM clientes WHERE id = ? AND idsesion = ?)
+		`, clienteID, sesion.ID).Scan(&tieneAcceso)
+
+		if !tieneAcceso {
+			return c.JSON(http.StatusBadRequest, ResponseMessage{
+				Status: 	"error",
+				Message:	"Esta mesa ya tiene una sesión activa, solicitá acceso al siguiente link (proximamente).",
+			})
+		}
+	}
+	
+	data := Data{Sesion: sesion}
+	return c.JSON(http.StatusOK, ResponseMessage{
+		Status:	"success",
+		Data:		data,
+	})
+}
+
+func GetOLD(c echo.Context) error {
+	db := database.GetDb()
 	sesionID := c.Param("id")
 	sesion := new(models.Sesiones)
 	
