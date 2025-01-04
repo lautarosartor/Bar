@@ -21,3 +21,10 @@ export const deleteSesion = async (id) => {
   const res = await response.json();
   return res;
 }
+
+export const createClient = async (data) => {
+  const url = `${config.URL_PUBLIC}/cliente`
+  const response = await fetch(url, publicOptions('POST', data));
+  const res = await response.json();
+  return res;
+}

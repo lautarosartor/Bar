@@ -21,16 +21,16 @@ import (
 )
 
 func InitRoutes(e *echo.Echo) {
-	a := e.Group("/api")		// privado con JWT
-	b := e.Group("/public")	// publico
+	a := e.Group("/api")    // privado con JWT
+	b := e.Group("/public") // publico
 
 	// Configurar el middleware de JWT
 	config.LoadEnvProps(".env")
 	cfg := echojwt.Config{
 		NewClaimsFunc: func(c echo.Context) jwt.Claims {
-			return new(middleware.JwtCustomClaims)	// claims personalizados
+			return new(middleware.JwtCustomClaims) // claims personalizados
 		},
-		SigningKey: []byte(config.GetString("JWT_KEY")),	// clave secreta para firmar y validar los token JWT
+		SigningKey: []byte(config.GetString("JWT_KEY")), // clave secreta para firmar y validar los token JWT
 	}
 
 	// Aplicamos el middleware a las rutas privadas
@@ -53,7 +53,7 @@ func InitRoutes(e *echo.Echo) {
 	// sesions
 	a.GET("/sesiones", sesionesController.GetAll)
 	b.GET("/sesion", sesionesController.Get)
-	b.POST("/sesion/:qr", sesionesController.Create)
+	b.POST("/sesion", sesionesController.Create)
 	b.DELETE("/sesion/:id", sesionesController.Delete)
 
 	// states
@@ -81,6 +81,7 @@ func InitRoutes(e *echo.Echo) {
 	// customers
 	a.GET("/clientes", clientesController.GetAll)
 	a.GET("/cliente/:id", clientesController.Get)
+	b.POST("/cliente", clientesController.Create)
 
 	// products
 	a.GET("/productos", productosController.GetAll)

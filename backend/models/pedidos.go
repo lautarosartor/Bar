@@ -10,14 +10,14 @@ type Pedidos struct {
 	DeliveredAt	*time.Time	`json:"delivered_at"`
 	Sesion			*Sesiones		`json:"sesion,omitempty" gorm:"ForeignKey:idsesion;AssociationForeignKey:id"`
 	Estado			*Estados		`json:"estado,omitempty" gorm:"ForeignKey:idestado;AssociationForeignKey:id"`
-	Items				[]Pedido_Items	`json:"items,omitempty" gorm:"ForeignKey:idpedido;AssociationForeignKey:id"`
+	Items				[]PedidoItems	`json:"items,omitempty" gorm:"ForeignKey:idpedido;AssociationForeignKey:id"`
 }
 
 func (Pedidos) TableName() string {
 	return "pedidos"
 }
 
-type Pedido_Items struct {
+type PedidoItems struct {
 	ID        	uint 				`json:"id" gorm:"primary_key"`
 	Idpedido  	uint 				`json:"idpedido"`
 	Idproducto  uint 				`json:"idproducto"`
@@ -27,6 +27,6 @@ type Pedido_Items struct {
 	Producto		*Productos	`json:"producto,omitempty" gorm:"ForeignKey:idproducto;AssociationForeignKey:id"`
 }
 
-func (Pedido_Items) TableName() string {
+func (PedidoItems) TableName() string {
 	return "pedido_items"
 }

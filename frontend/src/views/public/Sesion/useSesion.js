@@ -1,5 +1,5 @@
 import useQuery from "hooks/useQuery";
-import { getSesion } from "../api";
+import { getSesion } from "./api";
 import queryString from "query-string";
 import { useEffect } from "react";
 

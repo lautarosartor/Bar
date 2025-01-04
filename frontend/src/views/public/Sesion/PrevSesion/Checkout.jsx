@@ -1,9 +1,9 @@
 import CustomModal from "components/Modal";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
-import useSesion from "./useSesion";
 import { Spinner, Text } from "@chakra-ui/react";
 import { useEffect } from "react";
+import useSesion from "../useSesion";
 
 const Checkout = ({ closeModal, mesaQR, clienteID }) => {
   const navigate = useNavigate();

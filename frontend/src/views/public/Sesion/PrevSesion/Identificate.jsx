@@ -1,9 +1,11 @@
 import { FormControl, FormLabel, Input, Text, useToast } from "@chakra-ui/react";
 import CustomModal from "components/Modal";
+import useMutation from "hooks/useMutation";
 import PropTypes from "prop-types";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { showErrorToastify, showSuccessToastify } from "utils";
+import { createClient } from "../api";
 
 const Identificate = ({ closeModal }) => {
   const navigate = useNavigate();
@@ -12,22 +14,31 @@ const Identificate = ({ closeModal }) => {
   const [dni, setDni] = useState("");
   const toast = useToast();
 
-  const handleSave = () => {
-    if (nombre.trim() === "" || apellido.trim() === "") {
-      showErrorToastify({ toast, err: "Completá el formulario con tus Datos." });
-      return;
-    }
-    else {
-      // Guardamos los datos en localStorage
-      localStorage.setItem("nombre", nombre);
-      localStorage.setItem("apellido", apellido);
+  const create = useMutation({
+    mutationFn: createClient,
+    onSuccess: (res) => {
       localStorage.setItem("dni", dni);
-
-      showSuccessToastify({ toast, res: "¡Datos guardados correctamente!" });
+      showSuccessToastify({ toast, res: nombre + ", " + res.message });
       setTimeout(() => {
         closeModal();
       }, 700);
+    },
+    onError: (err) => showErrorToastify({ toast, err }),
+  });
+
+  const handleSave = () => {
+    if (nombre.trim() === "" || apellido.trim() === "" || dni.trim() === "") {
+      showErrorToastify({ toast, err: "Completá el formulario con tus Datos." });
+      return;
     }
+
+    const payload = {
+      nombre,
+      apellido,
+      dni,
+    }
+    
+    create.mutate(payload);
   }
 
   return (
@@ -64,8 +75,8 @@ const Identificate = ({ closeModal }) => {
         />
       </FormControl>
 
-      <FormControl mt={4}>
-        <FormLabel color="#aaa">Documento</FormLabel>
+      <FormControl isRequired mt={4}>
+        <FormLabel>Documento</FormLabel>
         <Input
           type="text"
           name="dni"
