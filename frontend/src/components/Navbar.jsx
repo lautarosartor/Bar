@@ -1,4 +1,4 @@
-import { Flex, Grid, GridItem } from "@chakra-ui/react"
+import { Box, Flex, Grid, GridItem, ListItem, UnorderedList } from "@chakra-ui/react"
 import PropTypes from "prop-types";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -31,85 +31,92 @@ function Navbar({ children }) {
         className="nav-admin hidden xl:block"
       >
         <Flex direction="column" h="full">
-          <a className="flex justify-center font-black text-2xl mb-10 text-[#8DDBE0]" href="/">
+          <a href="/" className="flex justify-center font-black text-2xl mb-10 text-[#8DDBE0]">
             Rest In Beer
           </a>
 
-          <ul className="flex flex-col gap-4">
-            <li>
+          <UnorderedList display="flex" flexDirection="column" gap="4" listStyleType="none">
+            <ListItem>
               <a
                 className={location.pathname === "/admin/dashboard" ? "active-link" : ""}
                 onClick={() => navigate("/admin/dashboard")}
               >
                 Dashboard
               </a>
-            </li>
-            <li>
+            </ListItem>
+
+            <ListItem>
               <a
                 className={location.pathname === "/admin/pedidos" ? "active-link" : ""}
                 onClick={() => navigate("/admin/pedidos")}
               >
                 Pedidos
               </a>
-            </li>
-            <li>
+            </ListItem>
+
+            <ListItem>
               <a onClick={() => setShowAdministrar(!showAdministrar)}>
                 Administrar
                 {showAdministrar ? <ChevronUpIcon fontSize={25} /> : <ChevronDownIcon fontSize={25} />}
               </a>
-            </li>
+            </ListItem>
+
             {showAdministrar &&
-              <div className="ps-4 flex flex-col gap-2">
-                <li>
+              <Box display="flex" flexDirection="column" gap="2" paddingLeft="4">
+                <ListItem>
                   <a
                     className={location.pathname === "/admin/mesas" ? "active-link" : ""}
                     onClick={() => navigate("/admin/mesas")}
                   >
                     Mesas
                   </a>
-                </li>
-                <li>
+                </ListItem>
+
+                <ListItem>
                   <a
                     className={location.pathname === "/admin/productos" ? "active-link" : ""}
                     onClick={() => navigate("/admin/productos")}
                   >
                     Productos
                   </a>
-                </li>
-                <li>
+                </ListItem>
+
+                <ListItem>
                   <a
                     className={location.pathname === "/admin/sesiones" ? "active-link" : ""}
                     onClick={() => navigate("/admin/sesiones")}
                   >
                     Sesiones
                   </a>
-                </li>
-                <li>
+                </ListItem>
+
+                <ListItem>
                   <a
                     className={location.pathname === "/admin/promociones" ? "active-link" : ""}
                     onClick={() => navigate("/admin/promociones")}
                   >
                     Promociones
                   </a>
-                </li>
-                <li>
+                </ListItem>
+
+                <ListItem>
                   <a
                     className={location.pathname === "/admin/usuarios" ? "active-link" : ""}
                     onClick={() => navigate("/admin/usuarios")}
                   >
                     Usuarios
                   </a>
-                </li>
-              </div>
+                </ListItem>
+              </Box>
             }
-          </ul>
+          </UnorderedList>
 
-          <div
-            className="text-center mt-auto"
+          <a
+            className="text-center mt-auto cursor-pointer hover:bg-[#85CB3350]"
             onClick={() => handleLogout()}
           >
             Cerrar Sesión
-          </div>
+          </a>
         </Flex>
       </GridItem>
       

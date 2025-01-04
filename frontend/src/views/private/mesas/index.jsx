@@ -116,7 +116,7 @@ import Nuevo from './Nuevo';
               </Tooltip>
 
               <Text className="text-2xl font-bold text-center">
-                Mesa: {m.nombre_mesa}
+                {m.nombre_mesa}
               </Text>
 
               <div className="flex justify-center items-center" style={{height: "100px"}}>
@@ -134,7 +134,7 @@ import Nuevo from './Nuevo';
                 </Badge>
               </div>
 
-              <Text className="text-sm text-center">
+              <Text className="text-sm text-center text-wrap">
                 {m.descripcion}
               </Text>
             </Skeleton>

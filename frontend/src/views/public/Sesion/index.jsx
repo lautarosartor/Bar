@@ -1,8 +1,8 @@
 import { Box, Heading, Text } from "@chakra-ui/react";
 import BtnCerrarSesion from "../../components/BtnCerrarSesion";
 import PropTypes from "prop-types";
-import useSesion from "../useSesion";
-import '../../components/sesion-activa.css'
+import useSesion from "./PrevSesion/useSesion";
+import './components/styles.css'
 
 const Sesion = ({ mesaQR, clienteID }) => {
   const { sesion } = useSesion(mesaQR, clienteID);

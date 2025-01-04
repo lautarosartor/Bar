@@ -20,7 +20,7 @@ const MesasPage = lazy(() => import("views/private/mesas"));
 const ProductosPage = lazy(() => import("views/private/productos"));
 const SesionesPage = lazy(() => import("views/private/sesiones"));
 const UsuariosPage = lazy(() => import("views/private/usuarios"));
-const PrevSesion = lazy(() => import("views/private/sesiones/prevsesion"));
+const PrevSesion = lazy(() => import("views/public/sesion/prevsesion"));
 
 const App = () => {
 

@@ -18,11 +18,11 @@ import {
 import { EditIcon, SettingsIcon, TimeIcon } from '@chakra-ui/icons'
 import "moment/locale/es";
 import moment from "moment-timezone";
-import './sesiones.css'
 import InputBusqueda from 'components/InputBusqueda';
 import { FaCashRegister } from "react-icons/fa6";
 import useSesiones from './useSesiones';
 import { useState } from 'react';
+import './styles.css'
 
 const SesionesPage = () => {
   const [toggleActivas, setToggleActivas] = useState("SI");
