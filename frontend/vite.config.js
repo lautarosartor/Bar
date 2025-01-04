@@ -18,5 +18,9 @@ export default defineConfig({
       views: path.resolve(__dirname, 'src/views'),
       utils: path.resolve(__dirname, 'src/utils'),
     }
-  }
+  },
+  /* server: {
+    host: true,
+    port: 5173,
+  }, */
 })

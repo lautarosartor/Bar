@@ -38,9 +38,9 @@ th {
 tr {
   background-color: #4B504330;
 
-  &:hover {
+  /* &:hover {
     background-color: #4B504350;
-  }
+  } */
 }
 
 /* :root {

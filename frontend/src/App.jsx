@@ -3,12 +3,12 @@ import { lazy, Suspense } from "react";
 import PrivateRoute from "providers/PrivateRoute"
 import Header from "components/Header"
 import Footer from "components/Footer"
-import Home from "views/public/Home"
-import Services from "views/public/Services"
-import About from "views/public/About"
-import Testimonials from "views/public/Testimonials"
-import Menu from "views/public/Menu"
-import Contact from "views/public/Contact"
+import Home from "views/landing/Home"
+import Services from "views/landing/Services"
+import About from "views/landing/About"
+import Testimonials from "views/landing/Testimonials"
+import Menu from "views/landing/Menu"
+import Contact from "views/landing/Contact"
 import NotFound from "components/NotFound"
 import Loading from "components/Loading";
 
@@ -36,14 +36,14 @@ const App = () => {
                 <Routes>
                   <Route exact path="/"
                     element={
-                      <>
+                      <Suspense fallback={<Loading fullscreen />}>
                         <Home />
                         <About />
                         <Menu />
                         <Services />
                         <Testimonials />
                         <Contact />
-                      </>
+                      </Suspense>
                     }
                   />
                   <Route path="*" element={<NotFound />} />

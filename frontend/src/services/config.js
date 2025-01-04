@@ -4,8 +4,8 @@ export const config = {
 }
 
 /* export const config = {
-  URL_API:    "https://motors-jeff-refers-bt.trycloudflare.com/api",
-  URL_PUBLIC: "https://motors-jeff-refers-bt.trycloudflare.com/public",
+  URL_API:    "https://prairie-nearest-facial-causes.trycloudflare.com/api",
+  URL_PUBLIC: "https://prairie-nearest-facial-causes.trycloudflare.com/public",
 } */
 
-export const URL_BASE = "https://deadline-ten-mens-seeing.trycloudflare.com";
+export const URL_BASE = "https://innocent-trade-stopped-achieved.trycloudflare.com";

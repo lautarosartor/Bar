@@ -23,7 +23,6 @@ const useGetMesas = (mesaQR) => {
   }, []);
 
   return {
-    mesa: data?.data?.mesas[0],
     mesas: data?.data?.mesas,
     total: data?.data?.totalDataSize,
     loading,

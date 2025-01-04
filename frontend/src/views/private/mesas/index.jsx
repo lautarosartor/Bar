@@ -36,7 +36,6 @@ import Nuevo from './Nuevo';
 
   useEffect(() => {
     if (query) {
-      // Sino que se filtra la query en el cliente
       const filtered = mesas?.filter(m =>
         m.nombre_mesa.toLowerCase().includes(query.toLowerCase())
       );

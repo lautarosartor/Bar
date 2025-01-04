@@ -9,7 +9,7 @@ export const getAllSesiones = async (q = '') => {
 }
 
 export const getSesion = async (q = '') => {
-  const url = `${config.URL_API}/sesion?${q}`;
+  const url = `${config.URL_PUBLIC}/sesion?${q}`;
   const response = await fetch(url, privateOptions('GET'));
   const data = await response.json();
   return data;

@@ -52,7 +52,7 @@ func InitRoutes(e *echo.Echo) {
 
 	// sesions
 	a.GET("/sesiones", sesionesController.GetAll)
-	a.GET("/sesion", sesionesController.Get)
+	b.GET("/sesion", sesionesController.Get)
 	b.POST("/sesion/:qr", sesionesController.Create)
 	b.DELETE("/sesion/:id", sesionesController.Delete)
 

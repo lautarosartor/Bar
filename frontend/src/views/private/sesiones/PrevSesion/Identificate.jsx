@@ -9,17 +9,19 @@ const Identificate = ({ closeModal }) => {
   const navigate = useNavigate();
   const [nombre, setNombre] = useState("");
   const [apellido, setApellido] = useState("");
+  const [dni, setDni] = useState("");
   const toast = useToast();
 
   const handleSave = () => {
     if (nombre.trim() === "" || apellido.trim() === "") {
-      showErrorToastify({ toast, err: "Completá el formulario con tu Nombre y Apellido" });
+      showErrorToastify({ toast, err: "Completá el formulario con tus Datos." });
       return;
     }
     else {
       // Guardamos los datos en localStorage
       localStorage.setItem("nombre", nombre);
       localStorage.setItem("apellido", apellido);
+      localStorage.setItem("dni", dni);
 
       showSuccessToastify({ toast, res: "¡Datos guardados correctamente!" });
       setTimeout(() => {
@@ -65,12 +67,11 @@ const Identificate = ({ closeModal }) => {
       <FormControl mt={4}>
         <FormLabel color="#aaa">Documento</FormLabel>
         <Input
-          isDisabled
           type="text"
           name="dni"
           placeholder="DNI"
-          // value={dni || ''}
-          // onChange={(e) => setDni(e.target.value)}
+          value={dni || ''}
+          onChange={(e) => setDni(e.target.value)}
           autoComplete="off"
         />
       </FormControl>
