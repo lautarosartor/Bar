@@ -5,10 +5,10 @@ import { Spinner, Text } from "@chakra-ui/react";
 import { useEffect } from "react";
 import useSesion from "../useSesion";
 
-const Checkout = ({ closeModal, mesaQR, clienteID }) => {
+const Checkout = ({ closeModal, mesaQR, clienteDni }) => {
   const navigate = useNavigate();
   const sesionID = localStorage.getItem("sesionID");
-  const { sesion, message200, message400, loading } = useSesion(mesaQR, clienteID);
+  const { sesion, message200, message400, loading } = useSesion(mesaQR, clienteDni);
 
   useEffect(() => {
     if (!sesion?.id) return;
@@ -60,7 +60,7 @@ const Checkout = ({ closeModal, mesaQR, clienteID }) => {
 Checkout.propTypes = {
   closeModal: PropTypes.func,
   mesaQR: PropTypes.string,
-  clienteID: PropTypes.any,
+  clienteDni: PropTypes.string,
 };
 
 export default Checkout;

@@ -2,26 +2,31 @@ import useQuery from "hooks/useQuery";
 import { getSesion } from "./api";
 import queryString from "query-string";
 import { useEffect } from "react";
+import { showErrorToastify } from "utils";
+import { useToast } from "@chakra-ui/react";
 
-const useSesion = (mesaQR, clienteID) => {
+const useSesion = (mesaQR, clienteDni) => {
+  const toast = useToast();
   const { data, refetch, loading, error } = useQuery({
     autoFetch: false,
     queryFn: getSesion,
-    // onError: (err) => showErrorToastify({ toast, err }),
+    onError: (err) => showErrorToastify({ toast, err }),
   });
 
-  const fetch = (mesaQR, clienteID) => {
+  const fetch = (mesaQR, clienteDni) => {
     const query = queryString.stringify({
       mesa: mesaQR,
-      cliente: clienteID,
+      dni: clienteDni,
     });
 
     refetch(query);
   }
 
   useEffect(() => {
-    fetch(mesaQR, clienteID);
-  }, [mesaQR, clienteID]);
+    if (!mesaQR || !clienteDni) return;
+
+    fetch(mesaQR, clienteDni);
+  }, [mesaQR, clienteDni]);
 
   return {
     sesion: data?.data?.sesion,

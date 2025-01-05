@@ -58,9 +58,7 @@ func GetAll(c echo.Context) error {
 func Get(c echo.Context) error {
 	db := database.GetDb()
 	mesaQR := c.QueryParam("mesa")
-	clienteID := c.QueryParam("cliente")
-
-	sesion := new(models.Sesiones)
+	dni := c.QueryParam("dni")
 
 	var qr string
 	db.Raw("SELECT codigo_qr FROM mesas WHERE codigo_qr = ?", mesaQR).Scan(&qr)
@@ -71,6 +69,16 @@ func Get(c echo.Context) error {
 		})
 	}
 
+	cliente := new(models.Clientes)
+	db.Where("dni = ?", dni).First(&cliente)
+	if cliente.ID == 0 {
+		return c.JSON(http.StatusOK, ResponseMessage{
+			Status:  "success",
+			Message: "Cliente no encontrado.",
+		})
+	}
+
+	sesion := new(models.Sesiones)
 	db.Where("idmesa = (SELECT id FROM mesas WHERE codigo_qr = ?)", qr).
 		Preload("Mesa").
 		Order("id DESC").
@@ -86,8 +94,8 @@ func Get(c echo.Context) error {
 	if sesion.Activo {
 		var tieneAcceso bool
 		db.Raw(`
-			SELECT EXISTS (SELECT 1 FROM clientes WHERE id = ? AND idsesion = ?)
-		`, clienteID, sesion.ID).Scan(&tieneAcceso)
+			SELECT EXISTS (SELECT 1 FROM sesiones_clientes WHERE idsesion = ? AND idcliente = ?)
+		`, sesion.ID, cliente.ID).Scan(&tieneAcceso)
 
 		if !tieneAcceso {
 			return c.JSON(http.StatusBadRequest, ResponseMessage{
@@ -95,26 +103,6 @@ func Get(c echo.Context) error {
 				Message: "Esta mesa ya tiene una sesión activa, solicitá acceso al siguiente link (proximamente).",
 			})
 		}
-	}
-
-	data := Data{Sesion: sesion}
-	return c.JSON(http.StatusOK, ResponseMessage{
-		Status: "success",
-		Data:   data,
-	})
-}
-
-func GetOLD(c echo.Context) error {
-	db := database.GetDb()
-	sesionID := c.Param("id")
-	sesion := new(models.Sesiones)
-
-	db.Preload("Mesa").First(&sesion, sesionID)
-	if sesion.ID == 0 {
-		return c.JSON(http.StatusNotFound, ResponseMessage{
-			Status:  "error",
-			Message: "Sesión no encontrada.",
-		})
 	}
 
 	data := Data{Sesion: sesion}

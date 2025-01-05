@@ -4,14 +4,14 @@ import useSesion from "./useSesion";
 import BtnCerrarSesion from "./components/BtnCerrarSesion";
 import './components/styles.css'
 
-const Sesion = ({ mesaQR, clienteID }) => {
-  const { sesion } = useSesion(mesaQR, clienteID);
+const Sesion = ({ mesaQR, clienteDni }) => {
+  const { sesion } = useSesion(mesaQR, clienteDni);
   
   return (
     <Box p={4}>
       {/*Boton para cerrar la sesion*/}
       <div className="flex justify-between mb-10">
-        <Heading>Bienvenido a la mesa: {sesion?.mesa?.nombre_mesa}</Heading>
+        <Heading>Bienvenido a la {sesion?.mesa?.nombre_mesa}</Heading>
 
         <BtnCerrarSesion />
       </div>
@@ -65,7 +65,7 @@ const Sesion = ({ mesaQR, clienteID }) => {
 Sesion.propTypes = {
   sesion: PropTypes.any,
   mesaQR: PropTypes.string,
-  clienteID: PropTypes.any,
+  clienteDni: PropTypes.string,
 };
 
 export default Sesion;

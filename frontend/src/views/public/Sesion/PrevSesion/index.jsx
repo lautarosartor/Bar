@@ -8,7 +8,6 @@ import Sesion from "../";
 const PrevSesion = () => {
   const param = useParams();
   const storedDNI = localStorage.getItem("dni");
-  const clienteID = localStorage.getItem("clienteID");
   const [openIdentificarse, setOpenIdentificarse] = useState(!storedDNI);
   const [openCheckout, setOpenCheckout] = useState(!openIdentificarse);
 
@@ -31,7 +30,7 @@ const PrevSesion = () => {
       {openCheckout &&
         <Checkout
           mesaQR={param?.qr}
-          clienteID={clienteID}
+          clienteDni={storedDNI}
           closeModal={() => setOpenCheckout(false)}
         />
       }
@@ -39,7 +38,7 @@ const PrevSesion = () => {
       {!openIdentificarse && !openCheckout &&
         <Sesion
           mesaQR={param?.qr}
-          clienteID={clienteID}
+          clienteDni={storedDNI}
         />
       }
     </Box>
