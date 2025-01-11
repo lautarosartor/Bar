@@ -1,11 +1,10 @@
 import { Box, Heading, Text } from "@chakra-ui/react";
 import PropTypes from "prop-types";
-import useSesion from "./useSesion";
 import BtnCerrarSesion from "./components/BtnCerrarSesion";
 import './components/styles.css'
 
-const Sesion = ({ mesaQR, clienteDni }) => {
-  const { sesion } = useSesion(mesaQR, clienteDni);
+const Sesion = ({ sesion }) => {
+  // const { grupo } = useGrupo();
   
   return (
     <Box p={4}>
@@ -64,8 +63,6 @@ const Sesion = ({ mesaQR, clienteDni }) => {
 // Validacion de props
 Sesion.propTypes = {
   sesion: PropTypes.any,
-  mesaQR: PropTypes.string,
-  clienteDni: PropTypes.string,
 };
 
 export default Sesion;

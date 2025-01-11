@@ -4,12 +4,20 @@ import { useEffect, useState } from "react";
 import Identificate from "./Identificate";
 import Checkout from "./Checkout";
 import Sesion from "../";
+import useSesion from "../useSesion";
 
 const PrevSesion = () => {
   const param = useParams();
   const storedDNI = localStorage.getItem("dni");
   const [openIdentificarse, setOpenIdentificarse] = useState(!storedDNI);
   const [openCheckout, setOpenCheckout] = useState(!openIdentificarse);
+  const { sesion, message200, message400, loading } = useSesion(param?.qr, storedDNI);
+
+  useEffect(() => {
+    if (message400 === "Cliente no encontrado.") {
+      setOpenIdentificarse(true);
+    }
+  }, [message400]);
 
   useEffect(() => {
     if (!openIdentificarse) {
@@ -29,16 +37,17 @@ const PrevSesion = () => {
 
       {openCheckout &&
         <Checkout
-          mesaQR={param?.qr}
-          clienteDni={storedDNI}
+          sesion={sesion}
+          message200={message200}
+          message400={message400}
+          loading={loading}
           closeModal={() => setOpenCheckout(false)}
         />
       }
 
       {!openIdentificarse && !openCheckout &&
         <Sesion
-          mesaQR={param?.qr}
-          clienteDni={storedDNI}
+          sesion={sesion}
         />
       }
     </Box>

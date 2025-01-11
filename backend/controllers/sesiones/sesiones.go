@@ -72,8 +72,8 @@ func Get(c echo.Context) error {
 	cliente := new(models.Clientes)
 	db.Where("dni = ?", dni).First(&cliente)
 	if cliente.ID == 0 {
-		return c.JSON(http.StatusOK, ResponseMessage{
-			Status:  "success",
+		return c.JSON(http.StatusNotFound, ResponseMessage{
+			Status:  "error",
 			Message: "Cliente no encontrado.",
 		})
 	}

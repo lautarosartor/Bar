@@ -3,12 +3,10 @@ import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import { Spinner, Text } from "@chakra-ui/react";
 import { useEffect } from "react";
-import useSesion from "../useSesion";
 
-const Checkout = ({ closeModal, mesaQR, clienteDni }) => {
+const Checkout = ({ closeModal, sesion, message200, message400, loading }) => {
   const navigate = useNavigate();
   const sesionID = localStorage.getItem("sesionID");
-  const { sesion, message200, message400, loading } = useSesion(mesaQR, clienteDni);
 
   useEffect(() => {
     if (!sesion?.id) return;
@@ -58,9 +56,11 @@ const Checkout = ({ closeModal, mesaQR, clienteDni }) => {
 
 // Validacion de props
 Checkout.propTypes = {
+  sesion: PropTypes.any,
+  message200: PropTypes.string,
+  message400: PropTypes.string,
+  loading: PropTypes.bool,
   closeModal: PropTypes.func,
-  mesaQR: PropTypes.string,
-  clienteDni: PropTypes.string,
 };
 
 export default Checkout;
