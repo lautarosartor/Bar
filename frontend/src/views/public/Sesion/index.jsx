@@ -5,6 +5,7 @@ import './components/styles.css'
 import useCarrito from "./useCarrito";
 import React from "react";
 import moment from "moment-timezone";
+import DrawerCarrito from "../Carrito/DrawerCarrito";
 
 const Sesion = ({ sesion }) => {
   const storedDNI = localStorage.getItem("dni");
@@ -31,7 +32,7 @@ const Sesion = ({ sesion }) => {
   }, 0);
   
   return (
-    <Box p={4} zIndex={100}>
+    <Box>
       <div className="flex justify-between mb-10">
         <Heading color="#fff">
           Bienvenido a la {sesion?.mesa?.nombre_mesa}
@@ -42,102 +43,96 @@ const Sesion = ({ sesion }) => {
 
       <Box gap={4} p={4} rounded="xl" shadow="xl" minH="30vh" maxW="1000px"
         display="flex" flexDirection="column" justifyContent="space-between"
-        backgroundColor="#FFFFFFAA" backdropFilter="blur(1px)"
+        backgroundColor="#FFFFFFAA"
         className="mx-auto"
       >
-        <div className="flex justify-between text-lg font-medium pb-4 border-b-2">
-          <Text>Carrito de pedidos en grupo</Text>
-          <Text fontWeight="bold">
+        <div className="flex justify-between flex-wrap text-lg font-black pb-4 gap-4 border-b-2">
+          <Text textColor="#009C63">Carrito de pedidos en grupo</Text>
+          <Text>
             Total ${new Intl.NumberFormat('es-ES').format(totalGrupal)}
           </Text>
         </div>
+
+        <Text>
+          Mis gastos: <strong>${new Intl.NumberFormat('es-ES').format(totalPropio)}</strong>
+        </Text>
 
         <Text as="small">
           {totalItems} items en el carrito
         </Text>
 
-        <Box
-          gap={4} p={4}
-          rounded="xl" minH="30vh"
-          display="flex"
-          flexDirection="column"
-          justifyContent="center" 
-          className="fondo-carrito-grupal"
-        >
-          {carrito?.map((pedido) => (
-            <React.Fragment key={pedido.id}>
-              {pedido?.items?.map((item) => (
-                <Box
-                  key={item.id}
-                  p={2} rounded="xl"
-                  position="relative"
-                  display="flex"
-                  flexWrap="wrap"
-                  flexDirection="column"
-                  className="text-[#fff] relative"
-                  alignSelf={storedDNI === pedido.cliente?.dni ? "end" : "start"}
-                  backgroundColor={storedDNI === pedido.cliente?.dni ? "#005C4B" : "#1f3442"}
-                  style={{ maxWidth: '500px' }}
-                  sx={{
-                    _after: {
-                      content: '""',
-                      position: 'absolute',
-                      top: '0px',
-                      [storedDNI === pedido.cliente?.dni ? "right" : "left"]: "-10px",
-                      clipPath: `polygon(${storedDNI === pedido.cliente?.dni ? "0 0, 100% 0, 0 100%" : "0 0, 100% 0, 100% 100%"})`,
-                      backgroundColor: `${storedDNI === pedido.cliente?.dni ? "#005C4B" : "#1f3442"}`,
-                      width: '20px',
-                      height: '20px',
-                      zIndex: -1,
-                    },
-                  }}
-                >
-                  <Box display="flex">
-                    <Image 
-                      src={item.producto?.img_url} 
-                      alt={item.producto?.nombre}
-                      h="80px"
-                      w="80px"
-                      objectFit="cover"
-                      objectPosition="left"
-                      className="rounded-xl"
-                    />
+        <Box rounded="xl" height="60vh" overflowY="auto" className="fondo-carrito-grupal">
+          <Box h="100%" p={4} overflowY="auto">
+            {carrito?.map((pedido) => (
+              <React.Fragment key={pedido.id}>
+                {pedido?.items?.map((item) => (
+                  <Box
+                    key={item.id}
+                    p={2} m={2} rounded="xl"
+                    position="relative"
+                    textColor="#FFF"
+                    display="flex"
+                    flexDirection="column"
+                    justifySelf={storedDNI === pedido.cliente?.dni ? "end" : "start"}
+                    backgroundColor={storedDNI === pedido.cliente?.dni ? "#005C4B" : "#1f3442"}
+                    sx={{
+                      maxW: '500px',
+                      _after: {
+                        content: '""',
+                        position: 'absolute',
+                        top: '0px',
+                        [storedDNI === pedido.cliente?.dni ? "right" : "left"]: "-10px",
+                        clipPath: `polygon(${storedDNI === pedido.cliente?.dni ? "0 0, 100% 0, 0 100%" : "0 0, 100% 0, 100% 100%"})`,
+                        backgroundColor: `${storedDNI === pedido.cliente?.dni ? "#005C4B" : "#1f3442"}`,
+                        width: '20px',
+                        height: '20px',
+                        zIndex: 1
+                      },
+                    }}
+                  >
+                    <Box display="flex" flexWrap="wrap">
+                      <Image 
+                        src={item.producto?.img_url} 
+                        alt={item.producto?.nombre}
+                        h="80px"
+                        w="80px"
+                        m="auto"
+                        objectFit="cover"
+                        objectPosition="left"
+                        className="rounded-xl"
+                      />
 
-                    <Box className="sm:px-4 px-2">
-                      <Text as="small">
-                        <i>{pedido.cliente?.nombre} {pedido.cliente?.apellido}</i>
-                      </Text>
-                      <Text>{item.producto?.nombre}</Text>
-                      <Text as="small">{item.producto?.descripcion}</Text>
+                      <Box px={2} minW={200}>
+                        <Text as="small">
+                          <i>{pedido.cliente?.nombre} {pedido.cliente?.apellido}</i>
+                        </Text>
+                        <Text fontWeight="medium">{item.producto?.nombre}</Text>
+                        <Text as="small" fontSize={11}>{item.producto?.descripcion}</Text>
+                      </Box>
                     </Box>
-
-                    <Text as="small" fontSize={11} position="absolute" top={0} right={0} paddingEnd={2}>
-                      {moment(pedido.created_at).clone().local().format("HH:mm")}
-                    </Text>
-                  </Box>
-                  
-                  <Box position="relative" p={4}>
-                    <Divider />
-                    <AbsoluteCenter display="flex" alignItems="center" rounded="xl" bg="#ffffff40" px={4}>
-                      <Text as="small">
-                        {pedido?.estado.descripcion}
-                        {pedido.delivered_at && ` - ${moment(pedido.delivered_at).clone().local().format("HH:mm")}`}
+                    
+                    <Box position="relative" p={4}>
+                      <Divider border="1px solid #009C63" />
+                      <AbsoluteCenter display="flex" alignItems="center" rounded="xl" bg="#009C63" px={4}>
+                        <Text as="small" whiteSpace="nowrap">
+                          {pedido?.estado.descripcion}
+                          {pedido.delivered_at && ` - ${moment(pedido.delivered_at).clone().local().format("HH:mm")}`}
+                        </Text>
+                      </AbsoluteCenter>
+                      <Text as="small" fontSize={11} position="absolute" bottom={-1} right={0}>
+                        {moment(pedido.created_at).clone().local().format("HH:mm")}
                       </Text>
-                    </AbsoluteCenter>
+                    </Box>
                   </Box>
-                </Box>
-              ))}
-            </React.Fragment>
-          ))}
+                ))}
+              </React.Fragment>
+            ))}
+          </Box>
         </Box>
 
-        <div className="flex align-center justify-between">
-          <p className="self-center font-medium">
-            Gastos personales <strong>${new Intl.NumberFormat('es-ES').format(totalPropio)}</strong>
-          </p>
-          {/*Boton del drawer del carrito*/}
-          {/* <DrawerCarrito /> */}
-        </div>
+        <Box display="flex" justifyContent="center">
+          <DrawerCarrito />
+        </Box>
       </Box>
     </Box>
   );

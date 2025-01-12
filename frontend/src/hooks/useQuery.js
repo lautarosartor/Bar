@@ -25,14 +25,12 @@ const useQuery = ({
         toast({
           title: "La sesión ha expirado",
           status: 'error',
-          duration: 1500,
+          duration: 3000,
           isClosable: true,
           position: 'top',
-          onCloseComplete: () => {
-            localStorage.removeItem("token");
-            navigate("/login");
-          }
         });
+        localStorage.removeItem("token");
+        navigate("/login");
         return;
       }
 

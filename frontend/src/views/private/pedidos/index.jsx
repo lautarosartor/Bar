@@ -52,14 +52,14 @@ const PedidosPage = () => {
       >
         <Thead>
           <Tr>
-            <Th textAlign="center" width={50}>#</Th>
-            <Th textAlign="center" width={50}>Lista</Th>
-            <Th>Mesa</Th>
-            <Th textAlign="center" width={200}>Pedido</Th>
-            <Th textAlign="center" width={200}>Entregado</Th>
-            <Th textAlign="center" width={150}>Estado</Th>
-            <Th textAlign="center" width={150}>Total</Th>
-            <Th textAlign="center" width={50}></Th>
+            <Th textAlign="center" maxW={50}>#</Th>
+            <Th textAlign="center" maxW={50}>Lista</Th>
+            <Th minW={300}>Mesa</Th>
+            <Th textAlign="center" maxW={200}>Pedido</Th>
+            <Th textAlign="center" maxW={200}>Entregado</Th>
+            <Th textAlign="center" maxW={150}>Estado</Th>
+            <Th textAlign="center" maxW={150}>Total</Th>
+            <Th textAlign="center" maxW={50}></Th>
           </Tr>
         </Thead>
 
@@ -108,7 +108,7 @@ const PedidosPage = () => {
                 </Tooltip>
               </Td>
 
-              <Td>
+              <Td whiteSpace="pre-line">
                 {p.sesion?.mesa?.nombre_mesa} - {p.sesion?.mesa?.descripcion}
               </Td>
 

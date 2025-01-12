@@ -1,23 +1,12 @@
 .fondo-carrito-grupal {
-  position: relative;
   background-color: #0B141A;
+  background-image: 
+    linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+    url("/src/assets/fondoWsp.png");
+  background-size: cover;
 
-  &::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: url("/src/assets/fondoWsp.png");
-    background-size: cover;
-    background-position: center;
-    opacity: .1;
-  }
-
-  &>*{
-    z-index: 1;
-  }
+  scrollbar-width: thin;
+  scrollbar-color: #5e5e5eaa transparent;
 }
 
 .fondo-sesion {

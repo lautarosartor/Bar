@@ -1,15 +1,15 @@
-import { Button, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, IconButton, Input, useDisclosure } from "@chakra-ui/react"
+import { Button, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, IconButton, Input, useDisclosure, useMediaQuery } from "@chakra-ui/react"
 import { FaCartShopping } from "react-icons/fa6";
 
 function DrawerCarrito() {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [isMobile] = useMediaQuery('(max-width: 500px)')
 
   return (
     <>
       <IconButton
         isRound={true}
         h={16} w={16}
-        colorScheme="teal"
         aria-label="Carrito"
         icon={<FaCartShopping fontSize={25} />}
         onClick={onOpen}
@@ -27,8 +27,9 @@ function DrawerCarrito() {
 
       <Drawer
         isOpen={isOpen}
-        placement='right'
         onClose={onClose}
+        placement={isMobile ? "bottom" : "right"}
+        size={isMobile ? "full" : "sm"}
       >
         <DrawerOverlay />
         <DrawerContent>
@@ -43,9 +44,11 @@ function DrawerCarrito() {
 
           <DrawerFooter>
             <Button variant='outline' mr={3} onClick={onClose}>
-              Cancel
+              Cerrar
             </Button>
-            <Button colorScheme='blue'>Save</Button>
+            <Button colorScheme='blue'>
+              Pedir
+            </Button>
           </DrawerFooter>
         </DrawerContent>
       </Drawer>
