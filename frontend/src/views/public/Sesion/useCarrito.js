@@ -7,7 +7,7 @@ const useCarrito = (sesionId) => {
   const toast = useToast();
 
   const { data, refetch, loading } = useQuery({
-    autoFetch: true,
+    autoFetch: false,
     queryFn: getCarrito,
     onError: (err) => showErrorToastify({ toast, err }),
     args: [sesionId],

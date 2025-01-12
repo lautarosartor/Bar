@@ -15,6 +15,7 @@ const Loading = ({ height, fullscreen }) => {
       <Spinner
         size='xl'
         speed='1s'
+        color="#009C63"
       />
     </div>
   );

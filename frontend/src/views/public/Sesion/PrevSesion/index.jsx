@@ -11,7 +11,7 @@ const PrevSesion = () => {
   const storedDNI = localStorage.getItem("dni");
   const [openIdentificarse, setOpenIdentificarse] = useState(!storedDNI);
   const [openCheckout, setOpenCheckout] = useState(!openIdentificarse);
-  const { sesion, message200, message400, loading } = useSesion(param?.qr, storedDNI);
+  const { sesion, message200, message400, loading, fetchSesion } = useSesion();
 
   useEffect(() => {
     if (message400 === "Cliente no encontrado.") {
@@ -21,9 +21,10 @@ const PrevSesion = () => {
 
   useEffect(() => {
     if (!openIdentificarse) {
+      fetchSesion(param?.qr, storedDNI);
       setOpenCheckout(true);
     }
-  }, [openIdentificarse]);
+  }, [openIdentificarse, param?.qr, storedDNI]);
   
   return (
     <Box p={4} minH="100vh" className="fondo-sesion">

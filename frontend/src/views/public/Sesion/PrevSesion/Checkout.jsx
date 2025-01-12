@@ -11,25 +11,22 @@ const Checkout = ({ closeModal, sesion, message200, message400, loading }) => {
   useEffect(() => {
     if (!sesion?.id) return;
 
-    if (!sesionID || (sesionID != sesion?.id)) {
+    if (sesionID != sesion?.id) {
       localStorage.setItem("sesionID", sesion?.id);
       closeModal();
     }
     else {
       closeModal();
     }
-  }, [sesion, sesionID]);
-
-  if (sesion && !message400 && !loading) {
-    setTimeout(() => {
-      closeModal();
-    }, 1000);
-  }
+  }, [sesion?.id, sesionID, closeModal]);
   
   return (
     <CustomModal
       isOpen={true}
-      onClose={() => navigate(-1)}
+      onClose={() => {
+        closeModal();
+        navigate(-1);
+      }}
       title="A un paso de entrar"
       onOk={!sesion && !message400 ? () => closeModal() : undefined}
       okText="Crear sesión"

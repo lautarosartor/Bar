@@ -44,7 +44,10 @@ const Identificate = ({ closeModal }) => {
   return (
     <CustomModal
       isOpen={true}
-      onClose={() => navigate(-1)}
+      onClose={() => {
+        closeModal();
+        navigate(-1);
+      }}
       title="Identificate"
       onOk={() => handleSave()}
       closeText="Volver"

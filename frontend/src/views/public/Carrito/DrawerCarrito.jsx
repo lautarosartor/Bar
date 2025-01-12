@@ -13,14 +13,7 @@ function DrawerCarrito() {
         aria-label="Carrito"
         icon={<FaCartShopping fontSize={25} />}
         onClick={onOpen}
-        sx={{
-          backgroundColor: '#100B00',
-          color: '#EFFFC8',
-          "&:hover": {
-            backgroundColor: '#85CB33',
-            color: '#FFF'
-          }
-        }}
+        colorScheme="teal"
       >
         Open
       </IconButton>

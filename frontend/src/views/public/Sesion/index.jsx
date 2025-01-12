@@ -1,35 +1,39 @@
 import { AbsoluteCenter, Box, Divider, Heading, Image, Text } from "@chakra-ui/react";
 import PropTypes from "prop-types";
-import BtnCerrarSesion from "./components/BtnCerrarSesion";
 import './components/styles.css'
 import useCarrito from "./useCarrito";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import moment from "moment-timezone";
 import DrawerCarrito from "../Carrito/DrawerCarrito";
 
 const Sesion = ({ sesion }) => {
   const storedDNI = localStorage.getItem("dni");
-  const { carrito } = useCarrito(sesion?.id);
+  const { carrito, fetchCarrito } = useCarrito();
+  const bottomRef = useRef(null);
   
   const totalPropio = carrito?.reduce((acc, pedido) => {
-    if (storedDNI === pedido.cliente?.dni) {
-      pedido.items?.forEach(item => {
-        acc += item.subtotal;
-      });
+    if (storedDNI === pedido?.cliente?.dni) {
+      acc += pedido?.items?.reduce((itemAcc, item) => itemAcc + item.subtotal, 0);
     }
     return acc;
   }, 0);
-
-  const totalGrupal = carrito?.reduce((acc, pedido) => {
-    return acc + pedido.total;
-  }, 0);
-
+  
+  const totalGrupal = carrito?.reduce((acc, pedido) => acc + (pedido?.total || 0), 0);
+  
   const totalItems = carrito?.reduce((acc, pedido) => {
-    pedido.items?.forEach(item => {
-      acc += item.cantidad;
-    });
+    acc += pedido?.items?.reduce((itemAcc, item) => itemAcc + (item?.cantidad || 0), 0);
     return acc;
   }, 0);
+
+  useEffect(() => {
+    if (!sesion?.id) return;
+
+    fetchCarrito(sesion.id);
+  }, [sesion?.id]);
+  
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [carrito]);
   
   return (
     <Box>
@@ -38,7 +42,7 @@ const Sesion = ({ sesion }) => {
           Bienvenido a la {sesion?.mesa?.nombre_mesa}
         </Heading>
 
-        <BtnCerrarSesion />
+        {/* <BtnCerrarSesion /> */}
       </div>
 
       <Box gap={4} p={4} rounded="xl" shadow="xl" minH="30vh" maxW="1000px"
@@ -61,7 +65,7 @@ const Sesion = ({ sesion }) => {
           {totalItems} items en el carrito
         </Text>
 
-        <Box rounded="xl" height="60vh" overflowY="auto" className="fondo-carrito-grupal">
+        <Box rounded="xl" height="60vh" className="fondo-carrito-grupal">
           <Box h="100%" p={4} overflowY="auto">
             {carrito?.map((pedido) => (
               <React.Fragment key={pedido.id}>
@@ -119,6 +123,9 @@ const Sesion = ({ sesion }) => {
                           {pedido.delivered_at && ` - ${moment(pedido.delivered_at).clone().local().format("HH:mm")}`}
                         </Text>
                       </AbsoluteCenter>
+                      <Text as="small" fontSize={11} position="absolute" bottom={-1} left={0}>
+                        x{item.cantidad}
+                      </Text>
                       <Text as="small" fontSize={11} position="absolute" bottom={-1} right={0}>
                         {moment(pedido.created_at).clone().local().format("HH:mm")}
                       </Text>
@@ -127,6 +134,7 @@ const Sesion = ({ sesion }) => {
                 ))}
               </React.Fragment>
             ))}
+            <div ref={bottomRef} />
           </Box>
         </Box>
 
