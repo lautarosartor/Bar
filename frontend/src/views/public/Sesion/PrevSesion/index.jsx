@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Identificate from "./Identificate";
 import Checkout from "./Checkout";
 import Sesion from "../";
-import useSesion from "../useSesion";
+import useSesion from "./useSesion";
 
 const PrevSesion = () => {
   const param = useParams();
@@ -26,7 +26,7 @@ const PrevSesion = () => {
   }, [openIdentificarse]);
   
   return (
-    <Box p={4} backgroundColor="#FFFEEE" minH="100vh">
+    <Box p={4} minH="100vh" className="fondo-sesion">
       {openIdentificarse &&
         <Identificate
           closeModal={() => {

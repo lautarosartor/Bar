@@ -3,6 +3,7 @@ package routes
 import (
 	"bar/config"
 	authController "bar/controllers/auth"
+	carritoController "bar/controllers/carrito"
 	categoriasController "bar/controllers/categorias"
 	clientesController "bar/controllers/clientes"
 	estadosController "bar/controllers/estados"
@@ -93,4 +94,7 @@ func InitRoutes(e *echo.Echo) {
 	a.GET("/pedidos", pedidosController.GetAll)
 	a.GET("/pedido/:id", pedidosController.Get)
 	b.POST("/pedido", pedidosController.Create)
+
+	// carrito colaborativo
+	b.GET("/carrito/:id", carritoController.GetAll)
 }

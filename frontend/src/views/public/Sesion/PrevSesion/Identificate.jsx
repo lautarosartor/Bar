@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { showErrorToastify, showSuccessToastify } from "utils";
-import { createClient } from "../api";
+import { createClient } from "./api";
 
 const Identificate = ({ closeModal }) => {
   const navigate = useNavigate();

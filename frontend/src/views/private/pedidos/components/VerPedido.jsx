@@ -10,6 +10,7 @@ const VerPedido = ({ pedido, closeModal }) => {
       isOpen={true}
       onClose={closeModal}
       title="Ver pedido"
+      closeOnOverlayClick={true}
     >
       <UnorderedList>
         {pedido?.items?.map((item, index) => (
@@ -25,7 +26,7 @@ const VerPedido = ({ pedido, closeModal }) => {
               <ListItem fontSize="xl" className="flex justify-between font-bold">
                 <Text>Total:</Text>
                 <Text>
-                  $ {pedido.items.reduce((total, item) => total + item.total, 0)}
+                  $ {pedido.items.reduce((acc, item) => acc + item.subtotal, 0)}
                 </Text>
               </ListItem>
             )}

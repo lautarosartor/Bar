@@ -52,11 +52,13 @@ const PedidosPage = () => {
       >
         <Thead>
           <Tr>
+            <Th textAlign="center" width={50}>#</Th>
             <Th textAlign="center" width={50}>Lista</Th>
             <Th>Mesa</Th>
             <Th textAlign="center" width={200}>Pedido</Th>
             <Th textAlign="center" width={200}>Entregado</Th>
-            <Th textAlign="center" width={100}>Estado</Th>
+            <Th textAlign="center" width={150}>Estado</Th>
+            <Th textAlign="center" width={150}>Total</Th>
             <Th textAlign="center" width={50}></Th>
           </Tr>
         </Thead>
@@ -64,6 +66,8 @@ const PedidosPage = () => {
         <Tbody>
           {pedidos?.length > 0 ? (pedidos.map((p) => (
             <Tr key={p.id} onDoubleClick={p?.items ? () => handleVerPedido(p) : undefined}>
+              <Td fontWeight="bold">{p.id}</Td>
+
               <Td textAlign="center">
                 <Tooltip
                   minWidth={250}
@@ -86,7 +90,7 @@ const PedidosPage = () => {
                               <ListItem className="flex justify-between font-bold py-2">
                                 <span>Total:</span>
                                 <span>
-                                  $ {p.items.reduce((total, item) => total + item.total, 0)}
+                                  $ {p.items.reduce((acc, item) => acc + item.subtotal, 0)}
                                 </span>
                               </ListItem>
                             )}
@@ -120,6 +124,8 @@ const PedidosPage = () => {
               </Td>
 
               <Td textAlign="center">{p.estado?.descripcion}</Td>
+
+              <Td textAlign="center" fontWeight="bold">$ {p.total}</Td>
 
               <Td textAlign="center">
                 <Menu>

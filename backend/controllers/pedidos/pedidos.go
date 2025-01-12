@@ -115,7 +115,7 @@ func Create(c echo.Context) error {
 			Idpedido:   newPedido.ID,
 			Idproducto: producto.ID,
 			Cantidad:   item.Cantidad,
-			Total:      producto.Precio * float64(item.Cantidad),
+			Subtotal:   producto.Precio * float64(item.Cantidad),
 		}
 
 		if err := db.Create(&newItem).Error; err != nil {

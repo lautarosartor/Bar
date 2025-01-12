@@ -1,6 +1,6 @@
 import { Button } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
-import useSesion from "../useSesion";
+import useSesion from "../PrevSesion/useSesion";
 
 function BtnCerrarSesion() {
   const { deleteSesion } = useSesion();

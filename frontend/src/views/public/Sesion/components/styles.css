@@ -1,6 +1,6 @@
 .fondo-carrito-grupal {
-  position: relative; /* Necesario para que el pseudo-elemento se posicione correctamente */
-  background-color: #100B00; /* Color de fondo adicional */
+  position: relative;
+  background-color: #0B141A;
 
   &::before {
     content: "";
@@ -12,10 +12,18 @@
     background-image: url("/src/assets/fondoWsp.png");
     background-size: cover;
     background-position: center;
-    opacity: .2;
+    opacity: .1;
   }
 
   &>*{
     z-index: 1;
   }
+}
+
+.fondo-sesion {
+  background-image: 
+    linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+    url("/src/assets/fondoSesion.png");
+  background-size: cover;
+  background-position: center;
 }
