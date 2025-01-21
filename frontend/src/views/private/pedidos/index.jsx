@@ -113,13 +113,14 @@ const PedidosPage = () => {
               </Td>
 
               <Td textAlign="center">
-                {moment(p.created_at).fromNow()}
+                {/* {moment(p.created_at).fromNow()} */}
+                {moment(p.created_at).clone().local().format("HH:mm [h]")}
               </Td>
 
               <Td textAlign="center">
                 {p.delivered_at
                   ? moment(p.delivered_at).clone().local().format("HH:mm [h]")
-                  : 'No'
+                  : 'No aún'
                 }
               </Td>
 
@@ -156,7 +157,7 @@ const PedidosPage = () => {
             </Tr>))
           ) : (
             <Tr>
-              <Td colSpan={6} textAlign="center">
+              <Td colSpan={8} textAlign="center">
                 {loading
                   ? <Spinner />
                   : "Aún no hay pedidos."

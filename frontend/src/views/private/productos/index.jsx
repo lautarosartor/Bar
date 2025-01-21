@@ -15,7 +15,9 @@ import {
   MenuItem,
   Tooltip,
   Box,
-  Image
+  Image,
+  Flex,
+  Text
 } from '@chakra-ui/react'
 import { EditIcon, SettingsIcon } from '@chakra-ui/icons'
 import InputBusqueda from 'components/InputBusqueda';
@@ -93,7 +95,12 @@ const ProductosPage = () => {
                 </Tooltip>
               </Td>
 
-              <Td>{p.nombre}</Td>
+              <Td>
+                <Flex justifyContent="space-between" flexWrap="wrap" gap={4}>
+                  <Text>{p.nombre}</Text>
+                  <Text>{p.descripcion}</Text>
+                </Flex>
+              </Td>
 
               <Td textAlign="center">$ {p.precio}</Td>
 

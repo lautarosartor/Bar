@@ -16,10 +16,15 @@ type ResponseMessage struct {
 }
 
 type Data struct {
-	Pedido        *models.Pedidos      `json:"pedido,omitempty"`
-	Pedidos       []models.Pedidos     `json:"pedidos,omitempty"`
-	PedidoItems   []models.PedidoItems `json:"items,omitempty"`
-	TotalDataSize int64                `json:"totalDataSize,omitempty"`
+	Pedido        *models.Pedidos       `json:"pedido,omitempty"`
+	Pedidos       []models.Pedidos      `json:"pedidos,omitempty"`
+	PedidoItems   []models.PedidosItems `json:"items,omitempty"`
+	TotalDataSize int64                 `json:"totalDataSize,omitempty"`
+}
+
+type PedidoRequest struct {
+	models.Pedidos
+	Dni string `json:"dni"`
 }
 
 func GetAll(c echo.Context) error {
@@ -66,13 +71,22 @@ func Get(c echo.Context) error {
 
 func Create(c echo.Context) error {
 	db := database.GetDb()
-	payload := new(models.Pedidos)
+	payload := new(PedidoRequest)
 
-	// Bindeamos el payload (solo recibimos el idsesion, y los items[])
+	// Bindeamos el payload (recibimos el dni, idsesion, y los items[])
 	if err := c.Bind(&payload); err != nil {
 		return c.JSON(http.StatusBadRequest, ResponseMessage{
 			Status:  "error",
 			Message: "Invalid request body: " + err.Error(),
+		})
+	}
+
+	var clienteID uint
+	db.Select("id").Where("dni = ?", payload.Dni).Table("clientes").Scan(&clienteID)
+	if clienteID == 0 {
+		return c.JSON(http.StatusNotFound, ResponseMessage{
+			Status:  "error",
+			Message: "Cliente no encontrado.",
 		})
 	}
 
@@ -86,45 +100,78 @@ func Create(c echo.Context) error {
 		})
 	}
 
-	newPedido := &models.Pedidos{
-		Idsesion: payload.Idsesion,
-		Idestado: 1, // En preparación
+	// Chequeamos que el cliente este vinculado a la sesion
+	var puedePedir bool
+	db.Raw("SELECT EXISTS (SELECT 1 FROM sesiones_clientes WHERE idsesion = ? AND idcliente = ?)",
+		payload.Idsesion, clienteID).Scan(&puedePedir)
+
+	if !puedePedir {
+		return c.JSON(http.StatusNotFound, ResponseMessage{
+			Status:  "error",
+			Message: "Cliente no autorizado en la mesa.",
+		})
 	}
 
+	newPedido := &models.Pedidos{
+		Idsesion:  payload.Idsesion,
+		Idcliente: clienteID,
+		Idestado:  1, // En preparación
+	}
+
+	tx := db.Begin()
+
 	// Creamos el pedido
-	if err := db.Create(&newPedido).Error; err != nil {
+	if err := tx.Create(&newPedido).Error; err != nil {
+		tx.Rollback()
 		return c.JSON(http.StatusInternalServerError, ResponseMessage{
 			Status:  "error",
-			Message: "Error inesperado al realizar el pedido.",
+			Message: "Error al realizar el pedido.",
 		})
 	}
 
 	// Procesamos los items
+	var totalPedido float64
+	var newItems []models.PedidosItems
+
 	for _, item := range payload.Items {
-		producto := new(models.Productos) // Verificar si existe cada producto
-		db.First(&producto, item.Idproducto)
-		if producto.ID == 0 {
+		producto := new(models.Productos)
+		if err := tx.First(&producto, item.Idproducto).Error; err != nil {
+			tx.Rollback()
 			return c.JSON(http.StatusNotFound, ResponseMessage{
 				Status:  "error",
-				Message: fmt.Sprintf("No se encontro un producto con ID %v.", item.Idproducto),
+				Message: fmt.Sprintf("No se encontro el producto con ID %v.", item.Idproducto),
 			})
 		}
 
 		// Creamos un nuevo item en el pedido
-		newItem := &models.PedidoItems{
+		newItem := &models.PedidosItems{
 			Idpedido:   newPedido.ID,
 			Idproducto: producto.ID,
 			Cantidad:   item.Cantidad,
 			Subtotal:   producto.Precio * float64(item.Cantidad),
 		}
-
-		if err := db.Create(&newItem).Error; err != nil {
-			return c.JSON(http.StatusInternalServerError, ResponseMessage{
-				Status:  "error",
-				Message: fmt.Sprintf("Error inesperado al agregar '%s' al pedido.", producto.Nombre),
-			})
-		}
+		totalPedido += newItem.Subtotal
+		newItems = append(newItems, *newItem)
 	}
+
+	if err := tx.Create(&newItems).Error; err != nil {
+		tx.Rollback()
+		return c.JSON(http.StatusInternalServerError, ResponseMessage{
+			Status:  "error",
+			Message: "Error al procesar los productos.",
+		})
+	}
+
+	newPedido.Total = totalPedido
+	if err := tx.Updates(&newPedido).Error; err != nil {
+		tx.Rollback()
+		return c.JSON(http.StatusInternalServerError, ResponseMessage{
+			Status:  "error",
+			Message: "Error al guardar el total del pedido.",
+		})
+	}
+
+	tx.Commit()
 
 	return c.JSON(http.StatusOK, ResponseMessage{
 		Status:  "success",

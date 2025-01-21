@@ -24,6 +24,38 @@ type Data struct {
 
 func GetAll(c echo.Context) error {
 	db := database.GetDb()
+	searchValue := c.QueryParam("searchValue")
+	searchedColumn := c.QueryParam("searchedColumn")
+
+	switch searchedColumn {
+	case "subcategoria":
+		db = db.Joins("INNER JOIN subcategorias ON productos.id = subcategorias.id").
+			Where("subcaterogias.nombre = ?", searchValue)
+	}
+
+	if searchValue != "" {
+		db = db.Where(`
+			productos.nombre like ?
+		`, "%"+c.QueryParam("searchValue")+"%")
+	}
+
+	var totalDataSize int64 = 0
+	db.Table("productos").Count(&totalDataSize)
+
+	var productos []models.Productos
+	db.Select("productos.*").
+		Preload("Subcategoria.Categoria").
+		Find(&productos)
+
+	data := Data{Productos: productos, TotalDataSize: totalDataSize}
+	return c.JSON(http.StatusOK, ResponseMessage{
+		Status: "success",
+		Data:   data,
+	})
+}
+
+/* func GetAll(c echo.Context) error {
+	db := database.GetDb()
 
 	var totalDataSize int64 = 0
 	var productos []models.Productos
@@ -32,10 +64,10 @@ func GetAll(c echo.Context) error {
 
 	data := Data{Productos: productos, TotalDataSize: totalDataSize}
 	return c.JSON(http.StatusOK, ResponseMessage{
-		Status:	"success",
-		Data:		data,
+		Status: "success",
+		Data:   data,
 	})
-}
+} */
 
 func Get(c echo.Context) error {
 	db := database.GetDb()
@@ -45,15 +77,15 @@ func Get(c echo.Context) error {
 	db.Preload("Subcategoria").First(&producto, productoID)
 	if producto.ID == 0 {
 		return c.JSON(http.StatusNotFound, ResponseMessage{
-			Status: 	"error",
-			Message:	"Producto no encontrado.",
+			Status:  "error",
+			Message: "Producto no encontrado.",
 		})
 	}
 
 	data := Data{Producto: producto}
 	return c.JSON(http.StatusOK, ResponseMessage{
-		Status:	"success",
-		Data:		data,
+		Status: "success",
+		Data:   data,
 	})
 }
 
@@ -63,8 +95,8 @@ func Create(c echo.Context) error {
 
 	if err := c.Bind(&payload); err != nil {
 		return c.JSON(http.StatusBadRequest, ResponseMessage{
-			Status:		"error",
-			Message:	"Invalid request body: " + err.Error(),
+			Status:  "error",
+			Message: "Invalid request body: " + err.Error(),
 		})
 	}
 
@@ -77,32 +109,32 @@ func Create(c echo.Context) error {
 	}
 
 	newProducto := &models.Productos{
-		Idsubcategoria:	payload.Idsubcategoria,
-		Nombre:					payload.Nombre,
-		Descripcion:		payload.Descripcion,
-		Precio:					payload.Precio,
-		Stock:					payload.Stock,
-		ImgUrl:					payload.ImgUrl,
+		Idsubcategoria: payload.Idsubcategoria,
+		Nombre:         payload.Nombre,
+		Descripcion:    payload.Descripcion,
+		Precio:         payload.Precio,
+		Stock:          payload.Stock,
+		ImgUrl:         payload.ImgUrl,
 	}
 
 	// Creamos el producto
 	if err := db.Create(&newProducto).Error; err != nil {
 		if mysqlErr, ok := err.(*mysql.MySQLError); ok && mysqlErr.Number == 1062 {
 			return c.JSON(http.StatusBadRequest, ResponseMessage{
-				Status:		"error",
-				Message:	fmt.Sprintf("Ya posees el producto '%v'.", newProducto.Nombre),
+				Status:  "error",
+				Message: fmt.Sprintf("Ya posees el producto '%v'.", newProducto.Nombre),
 			})
 		} else {
 			return c.JSON(http.StatusInternalServerError, ResponseMessage{
-				Status:		"error",
-				Message:	"Error inesperado al crear el producto.",
+				Status:  "error",
+				Message: "Error inesperado al crear el producto.",
 			})
 		}
 	}
 
 	return c.JSON(http.StatusOK, ResponseMessage{
-		Status:		"success",
-		Message:	"¡Producto creado con éxito!.",
+		Status:  "success",
+		Message: "¡Producto creado con éxito!.",
 	})
 }
 
@@ -113,8 +145,8 @@ func Update(c echo.Context) error {
 
 	if err := c.Bind(&request); err != nil {
 		return c.JSON(http.StatusBadRequest, ResponseMessage{
-			Status:		"error",
-			Message:	"Invalid request body: " + err.Error(),
+			Status:  "error",
+			Message: "Invalid request body: " + err.Error(),
 		})
 	}
 
@@ -123,20 +155,20 @@ func Update(c echo.Context) error {
 	db.First(&producto, productoID)
 	if producto.ID == 0 {
 		return c.JSON(http.StatusNotFound, ResponseMessage{
-			Status: 	"error",
-			Message:	"Producto no encontrado.",
+			Status:  "error",
+			Message: "Producto no encontrado.",
 		})
 	}
 
 	if err := db.Where("id = ?", producto.ID).Updates(&request).Error; err != nil {
 		return c.JSON(http.StatusInternalServerError, ResponseMessage{
-			Status:		"error",
-			Message:	"Error inesperado al actualizar el producto.",
+			Status:  "error",
+			Message: "Error inesperado al actualizar el producto.",
 		})
 	}
 
 	return c.JSON(http.StatusOK, ResponseMessage{
-		Status:		"success",
-		Message:	"¡Producto actualizado con éxito!.",
+		Status:  "success",
+		Message: "¡Producto actualizado con éxito!.",
 	})
 }

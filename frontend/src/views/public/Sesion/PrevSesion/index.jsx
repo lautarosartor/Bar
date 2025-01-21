@@ -27,7 +27,7 @@ const PrevSesion = () => {
   }, [openIdentificarse, param?.qr, storedDNI]);
   
   return (
-    <Box p={4} minH="100vh" className="fondo-sesion">
+    <Box minH="100vh" className="fondo-sesion">
       {openIdentificarse &&
         <Identificate
           closeModal={() => {

@@ -1,15 +1,17 @@
-import { AbsoluteCenter, Box, Divider, Heading, Image, Text } from "@chakra-ui/react";
+import { AbsoluteCenter, Box, Divider, Grid, IconButton, Image, Stack, Text } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 import './components/styles.css'
 import useCarrito from "./useCarrito";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import moment from "moment-timezone";
-import DrawerCarrito from "../Carrito/DrawerCarrito";
+import { FaCartShopping } from "react-icons/fa6";
+import Carrito from "../Carrito";
 
 const Sesion = ({ sesion }) => {
   const storedDNI = localStorage.getItem("dni");
   const { carrito, fetchCarrito } = useCarrito();
   const bottomRef = useRef(null);
+  const [openCarrito, setOpenCarrito] = useState(false);
   
   const totalPropio = carrito?.reduce((acc, pedido) => {
     if (storedDNI === pedido?.cliente?.dni) {
@@ -36,112 +38,118 @@ const Sesion = ({ sesion }) => {
   }, [carrito]);
   
   return (
-    <Box>
-      <div className="flex justify-between mb-10">
-        <Heading color="#fff">
-          Bienvenido a la {sesion?.mesa?.nombre_mesa}
-        </Heading>
-
-        {/* <BtnCerrarSesion /> */}
-      </div>
-
-      <Box gap={4} p={4} rounded="xl" shadow="xl" minH="30vh" maxW="1000px"
-        display="flex" flexDirection="column" justifyContent="space-between"
-        backgroundColor="#FFFFFFAA"
-        className="mx-auto"
-      >
-        <div className="flex justify-between flex-wrap text-lg font-black pb-4 gap-4 border-b-2">
-          <Text textColor="#009C63">Carrito de pedidos en grupo</Text>
-          <Text>
+    <Box shadow="xl" h="100vh" maxW="1000px" bg="#202C33"
+      display="flex" flexDirection="column" mx="auto"
+    >
+      <Box p={4}>
+        <Box className="flex justify-between flex-wrap">
+          <Text fontWeight="bold" textColor="#E6EAEC">
+            Pedidos en grupo
+          </Text>
+          <Text color="#AEBAC1">
             Total ${new Intl.NumberFormat('es-ES').format(totalGrupal)}
           </Text>
-        </div>
-
-        <Text>
-          Mis gastos: <strong>${new Intl.NumberFormat('es-ES').format(totalPropio)}</strong>
-        </Text>
-
-        <Text as="small">
-          {totalItems} items en el carrito
-        </Text>
-
-        <Box rounded="xl" height="60vh" className="fondo-carrito-grupal">
-          <Box h="100%" p={4} overflowY="auto">
-            {carrito?.map((pedido) => (
-              <React.Fragment key={pedido.id}>
-                {pedido?.items?.map((item) => (
-                  <Box
-                    key={item.id}
-                    p={2} m={2} rounded="xl"
-                    position="relative"
-                    textColor="#FFF"
-                    display="flex"
-                    flexDirection="column"
-                    justifySelf={storedDNI === pedido.cliente?.dni ? "end" : "start"}
-                    backgroundColor={storedDNI === pedido.cliente?.dni ? "#005C4B" : "#1f3442"}
-                    sx={{
-                      maxW: '500px',
-                      _after: {
-                        content: '""',
-                        position: 'absolute',
-                        top: '0px',
-                        [storedDNI === pedido.cliente?.dni ? "right" : "left"]: "-10px",
-                        clipPath: `polygon(${storedDNI === pedido.cliente?.dni ? "0 0, 100% 0, 0 100%" : "0 0, 100% 0, 100% 100%"})`,
-                        backgroundColor: `${storedDNI === pedido.cliente?.dni ? "#005C4B" : "#1f3442"}`,
-                        width: '20px',
-                        height: '20px',
-                        zIndex: 1
-                      },
-                    }}
-                  >
-                    <Box display="flex" flexWrap="wrap">
-                      <Image 
-                        src={item.producto?.img_url} 
-                        alt={item.producto?.nombre}
-                        h="80px"
-                        w="80px"
-                        m="auto"
-                        objectFit="cover"
-                        objectPosition="left"
-                        className="rounded-xl"
-                      />
-
-                      <Box px={2} minW={200}>
-                        <Text as="small">
-                          <i>{pedido.cliente?.nombre} {pedido.cliente?.apellido}</i>
-                        </Text>
-                        <Text fontWeight="medium">{item.producto?.nombre}</Text>
-                        <Text as="small" fontSize={11}>{item.producto?.descripcion}</Text>
-                      </Box>
-                    </Box>
-                    
-                    <Box position="relative" p={4}>
-                      <Divider border="1px solid #009C63" />
-                      <AbsoluteCenter display="flex" alignItems="center" rounded="xl" bg="#009C63" px={4}>
-                        <Text as="small" whiteSpace="nowrap">
-                          {pedido?.estado.descripcion}
-                          {pedido.delivered_at && ` - ${moment(pedido.delivered_at).clone().local().format("HH:mm")}`}
-                        </Text>
-                      </AbsoluteCenter>
-                      <Text as="small" fontSize={11} position="absolute" bottom={-1} left={0}>
-                        x{item.cantidad}
-                      </Text>
-                      <Text as="small" fontSize={11} position="absolute" bottom={-1} right={0}>
-                        {moment(pedido.created_at).clone().local().format("HH:mm")}
-                      </Text>
-                    </Box>
-                  </Box>
-                ))}
-              </React.Fragment>
-            ))}
-            <div ref={bottomRef} />
-          </Box>
         </Box>
-
-        <Box display="flex" justifyContent="center">
-          <DrawerCarrito />
-        </Box>
+        <Text as="small" color="#8696A0">
+          Mis gastos: <strong>${new Intl.NumberFormat('es-ES').format(totalPropio)}</strong>, {totalItems} items en el carrito
+        </Text>
       </Box>
+
+      <Box p={4} className="fondo-carrito-grupal" overflowY="auto">
+        {carrito?.map((pedido, index) => (
+          <React.Fragment key={index}>
+            {pedido?.items?.map((item) => (
+              <Box
+                key={item.id}
+                p={2} m={2} rounded="xl"
+                position="relative"
+                textColor="#FFF"
+                display="flex"
+                flexDirection="column"
+                justifySelf={storedDNI === pedido?.cliente?.dni ? "end" : "start"}
+                backgroundColor={storedDNI === pedido?.cliente?.dni ? "#005C4B" : "#202C33"}
+                sx={{
+                  maxW: '500px',
+                  _after: {
+                    content: '""',
+                    position: 'absolute',
+                    top: '0px',
+                    [storedDNI === pedido?.cliente?.dni ? "right" : "left"]: "-10px",
+                    clipPath: `polygon(${storedDNI === pedido.cliente?.dni ? "0 0, 100% 0, 0 100%" : "0 0, 100% 0, 100% 100%"})`,
+                    backgroundColor: `${storedDNI === pedido.cliente?.dni ? "#005C4B" : "#202C33"}`,
+                    width: '20px',
+                    height: '20px',
+                    zIndex: 1
+                  },
+                }}
+              >
+                <Grid templateColumns="80px 1fr">
+                  <Image 
+                    src={item.producto?.img_url} 
+                    alt={item.producto?.nombre}
+                    h="80px"
+                    w="80px"
+                    m="auto"
+                    objectFit="cover"
+                    objectPosition="left"
+                    className="rounded-xl"
+                    zIndex={2}
+                  />
+
+                  <Box px={2} minW={200}>
+                    <Text fontSize={14}>
+                      {pedido?.cliente?.nombre} {pedido?.cliente?.apellido}
+                    </Text>
+                    <Text fontWeight="medium">
+                      {item.producto?.nombre}
+                    </Text>
+                    <Stack spacing={1}>
+                      <Text fontSize={11}>
+                        {item.producto?.descripcion}
+                      </Text>
+                    </Stack>
+                  </Box>
+                </Grid>
+                
+                <Box position="relative" p={4}>
+                  <Divider border="1px solid #009C63" />
+                  <AbsoluteCenter display="flex" alignItems="center" rounded="xl" bg="#009C63" px={4}>
+                    <Text as="small" whiteSpace="nowrap">
+                      {pedido?.estado?.descripcion}
+                      {pedido?.delivered_at && ` - ${moment(pedido.delivered_at).clone().local().format("HH:mm")}`}
+                    </Text>
+                  </AbsoluteCenter>
+                  <Text as="small" fontSize={11} position="absolute" bottom={-1} left={0}>
+                    x{item.cantidad}
+                  </Text>
+                  <Text as="small" fontSize={11} position="absolute" bottom={-1} right={0}>
+                    {moment(pedido.created_at).clone().local().format("HH:mm")}
+                  </Text>
+                </Box>
+              </Box>
+            ))}
+          </React.Fragment>
+        ))}
+        <div ref={bottomRef} />
+      </Box>
+
+      <Box p={4} textAlign="center" bg="#202C33">
+        <IconButton
+          isRound={true}
+          h={16} w={16}
+          aria-label="Carrito"
+          icon={<FaCartShopping fontSize={25} />}
+          colorScheme="teal"
+          onClick={() => setOpenCarrito(true)}
+        />
+      </Box>
+      {openCarrito && 
+        <Carrito
+          closeDrawer={() => {
+            setOpenCarrito(false);
+          }}
+        />
+      }
     </Box>
   );
 }
