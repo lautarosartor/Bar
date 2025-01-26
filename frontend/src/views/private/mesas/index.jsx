@@ -12,7 +12,7 @@ import {
 } from '@chakra-ui/react'
 import { CloseIcon, EditIcon, InfoIcon, SearchIcon } from '@chakra-ui/icons'
 import { useEffect, useState } from 'react';
-import { URL_BASE } from 'services/config';
+import { config } from 'services/config';
 import BtnAgregar from 'components/BtnAgregar';
 import QRCode from "react-qr-code";
 import NotFound from 'components/NotFound';
@@ -121,7 +121,7 @@ import Nuevo from './Nuevo';
 
               <div className="flex justify-center items-center" style={{height: "100px"}}>
                 {m.codigo_qr
-                  ? <QRCode size={100} value={`${URL_BASE}/sesion/${m.codigo_qr}`} />
+                  ? <QRCode size={100} value={`${config.URL_BASE}/sesion/${m.codigo_qr}`} />
                   :
                   <Tooltip label="Debes generar un QR - Dirigite a los detalles" aria-label='QR help' borderRadius="lg">
                     <InfoIcon fontSize={40} color="#3B341F" />

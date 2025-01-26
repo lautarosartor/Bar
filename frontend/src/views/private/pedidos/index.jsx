@@ -16,6 +16,7 @@ import {
   Tooltip,
   UnorderedList,
   ListItem,
+  Tag,
 } from '@chakra-ui/react'
 import React, { useState } from 'react';
 import moment from 'moment-timezone';
@@ -56,8 +57,8 @@ const PedidosPage = () => {
             <Th textAlign="center" maxW={50}>Lista</Th>
             <Th minW={300}>Mesa</Th>
             <Th textAlign="center" maxW={200}>Pedido</Th>
-            <Th textAlign="center" maxW={200}>Entregado</Th>
             <Th textAlign="center" maxW={150}>Estado</Th>
+            <Th textAlign="center" maxW={200}>Entregado</Th>
             <Th textAlign="center" maxW={150}>Total</Th>
             <Th textAlign="center" maxW={50}></Th>
           </Tr>
@@ -118,13 +119,24 @@ const PedidosPage = () => {
               </Td>
 
               <Td textAlign="center">
+                <Tag
+                  variant="solid"
+                  borderRadius='full'
+                  bg={
+                    p.estado?.descripcion === 'Entregado' ? 'green.500'
+                    : p.estado?.descripcion === 'En preparación' ? 'yellow.500' : 'red.500'
+                  }
+                >
+                  {p.estado?.descripcion}
+                </Tag>
+              </Td>
+
+              <Td textAlign="center">
                 {p.delivered_at
                   ? moment(p.delivered_at).clone().local().format("HH:mm [h]")
                   : 'No aún'
                 }
               </Td>
-
-              <Td textAlign="center">{p.estado?.descripcion}</Td>
 
               <Td textAlign="center" fontWeight="bold">$ {p.total}</Td>
 

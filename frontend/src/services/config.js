@@ -1,11 +1,13 @@
-export const config = {
-  URL_API:    "http://localhost:7001/api",
-  URL_PUBLIC: "http://localhost:7001/public",
-}
-
 /* export const config = {
-  URL_API:    "https://gone-remains-based-near.trycloudflare.com/api",
-  URL_PUBLIC: "https://gone-remains-based-near.trycloudflare.com/public",
+URL_API:    "https://gone-remains-based-near.trycloudflare.com/api",
+URL_PUBLIC: "https://gone-remains-based-near.trycloudflare.com/public",
 } */
+ 
+ export const config = {
+    URL_BASE:   "http://localhost:5173",
+    
+    URL_API:    "http://localhost:7001/api",
+    URL_PUBLIC: "http://localhost:7001/public",
 
-export const URL_BASE = "http://localhost:5173";
+    URL_SOCKET: "http://localhost:8080",
+ }

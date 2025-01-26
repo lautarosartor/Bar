@@ -27,7 +27,7 @@ type PedidoRequest struct {
 	Dni string `json:"dni"`
 }
 
-func GetAll(c echo.Context) error {
+func GetAllPaginated(c echo.Context) error {
 	db := database.GetDb()
 
 	var totalDataSize int64 = 0
@@ -176,5 +176,27 @@ func Create(c echo.Context) error {
 	return c.JSON(http.StatusOK, ResponseMessage{
 		Status:  "success",
 		Message: "¡Pedido realizado con éxito!.",
+	})
+}
+
+func GetAllPublic(c echo.Context) error {
+	db := database.GetDb()
+	sesionID := c.Param("id")
+
+	db = db.Where("idsesion = ?", sesionID)
+
+	var totalDataSize int64
+	db.Table("pedidos").Count(&totalDataSize)
+
+	var pedidos []models.Pedidos
+	db.Preload("Cliente").
+		Preload("Estado").
+		Preload("Items.Producto").
+		Find(&pedidos)
+
+	data := Data{Pedidos: pedidos}
+	return c.JSON(http.StatusOK, ResponseMessage{
+		Status: "success",
+		Data:   data,
 	})
 }

@@ -60,7 +60,7 @@ const Carrito = ({ closeDrawer }) => {
       <DrawerOverlay />
       <DrawerContent>
         <DrawerCloseButton />
-        <DrawerHeader>Carrito de pedidos</DrawerHeader>
+        <DrawerHeader>Productos</DrawerHeader>
 
         <DrawerBody>
           <Box display="flex" gap={2}>
@@ -87,9 +87,13 @@ const Carrito = ({ closeDrawer }) => {
                   className="rounded-xl"
                 />
 
-                <Box>
-                  <Text fontWeight="medium">{item.nombre}</Text>
-                  <Text as="small">{item.descripcion}</Text>
+                <Box minW={100}>
+                  <Text fontWeight="medium" fontSize={15}>
+                    {item.nombre}
+                  </Text>
+                  <Text fontSize={11} className="leading-4">
+                    {item.descripcion}
+                  </Text>
                 </Box>
 
                 <Box

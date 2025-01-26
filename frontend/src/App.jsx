@@ -11,7 +11,7 @@ import Menu from "views/landing/Menu"
 import Contact from "views/landing/Contact"
 import NotFound from "components/NotFound"
 import Loading from "components/Loading";
-import Chat from "./Chat";
+import Chat from "./views/public/Sesion/Chat";
 
 const LoginPage = lazy(() => import("./views/private/auth/login"));
 const RegisterPage = lazy(() => import("./views/private/auth/register"));

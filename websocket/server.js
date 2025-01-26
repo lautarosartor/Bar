@@ -14,39 +14,38 @@ const io = socketIo(server, {
   cors: {
     origin: "*",
     credentials: false,
-    // methods: ["GET", "POST"],
   },
-  path: "/socket"
+  path: "/socket",
+  transports: ['websocket'],
 });
 
 // middleware
 app.use(express.json());
 app.use(cors());
 
-// Array para almacenar los mensajes (opcional, si deseas guardar el historial)
-let messages = [];
-
-// Conexión con cada cliente
 io.on('connection', (socket) => {
-  console.log('Un cliente se conectó');
+  console.log(`Connected: ${socket.id}`);
 
-  // Enviar los mensajes previos al cliente que se conecta
-  socket.emit('chat history', messages);
-
-  // Escuchar los mensajes enviados desde los clientes
-  socket.on('chat message', (msg) => {
-    console.log('Mensaje recibido:', msg);
-
-    // Guardar el mensaje en el historial (opcional)
-    messages.push(msg);
-
-    // Emitir el mensaje a todos los clientes conectados
-    io.emit('chat message', msg);
+  socket.on('join', (room) => {
+    console.log(`Socket ${socket.id} joining to sesion: ${room}`);
+    socket.join(room);
   });
 
-  // Manejar desconexiones
+  socket.on('chat', (data) => {
+    const { room, message } = data;
+
+    console.log(`
+      sender: ${message.sender}
+      msg: ${message.text}
+      time: ${message.time}
+      room: ${room}
+    `);
+
+    io.to(room).emit('chat', message);
+  });
+
   socket.on('disconnect', () => {
-    console.log('Un cliente se desconectó');
+    console.log(`Disconnected: ${socket.id}`)
   });
 });
 

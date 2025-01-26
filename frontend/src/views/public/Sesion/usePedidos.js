@@ -1,23 +1,23 @@
 import useQuery from "hooks/useQuery";
-import { getCarrito } from "./api";
+import { getSesionPedidos } from "./api";
 import { useToast } from "@chakra-ui/react";
 import { showErrorToastify } from "utils";
 
-const useCarrito = (sesionId) => {
+const usePedidos = (sesionId) => {
   const toast = useToast();
 
   const { data, refetch, loading } = useQuery({
     autoFetch: false,
-    queryFn: getCarrito,
+    queryFn: getSesionPedidos,
     onError: (err) => showErrorToastify({ toast, err }),
     args: [sesionId],
   });
 
   return {
-    carrito: data?.data?.carrito,
+    pedidos: data?.data?.pedidos,
     loading,
-    fetchCarrito: refetch,
+    fetchPedidos: refetch,
   }
 }
 
-export default useCarrito;
+export default usePedidos;
