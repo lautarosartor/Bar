@@ -7,10 +7,11 @@ import { FaCartShopping } from "react-icons/fa6";
 import Carrito from "../Carrito";
 import Chat from "./Chat";
 import usePedidos from "./usePedidos";
-import { disconnectSocket, initiateSocket, subscribeToChat } from "./Chat/useSocket";
+import { disconnectSocket, initiateSocket, subscribeToChat, subscribeToChatHistory } from "./Chat/useSocket";
+import { CLIENTE, COLOR_CLIENTE, DNI } from "utils";
 
 const Sesion = ({ sesion }) => {
-  const storedDNI = localStorage.getItem("dni");
+  const storedDNI = DNI;
   const { pedidos, fetchPedidos } = usePedidos();
   const [openCarrito, setOpenCarrito] = useState(false);
   const [messages, setMessages] = useState([]);
@@ -35,12 +36,14 @@ const Sesion = ({ sesion }) => {
 
     fetchPedidos(sesion.id);
     initiateSocket(sesion.id);
+    
+    subscribeToChatHistory((err, msgs) => {
+      if (err) return;
+      setMessages(msgs);
+    });
 
     subscribeToChat((err, msg) => {
       if (err) return console.error(err);
-
-      console.log('Mensaje recibido:', msg);
-
       setMessages((prevMessages) => [...prevMessages, msg]);
     });
 
@@ -92,8 +95,8 @@ const Sesion = ({ sesion }) => {
                       position: 'absolute',
                       top: '0px',
                       [storedDNI === pedido?.cliente?.dni ? "right" : "left"]: "-10px",
-                      clipPath: `polygon(${storedDNI === pedido.cliente?.dni ? "0 0, 100% 0, 0 100%" : "0 0, 100% 0, 100% 100%"})`,
-                      backgroundColor: `${storedDNI === pedido.cliente?.dni ? "#005C4B" : "#202C33"}`,
+                      clipPath: `polygon(${storedDNI === pedido?.cliente?.dni ? "0 0, 100% 0, 0 100%" : "0 0, 100% 0, 100% 100%"})`,
+                      backgroundColor: `${storedDNI === pedido?.cliente?.dni ? "#005C4B" : "#202C33"}`,
                       width: '10px',
                       height: '10px',
                       zIndex: 1
@@ -174,8 +177,8 @@ const Sesion = ({ sesion }) => {
               templateColumns="1fr 30px"
               position="relative"
               textColor="#FFF"
-              justifySelf={storedDNI === msg?.sender ? "end" : "start"}
-              backgroundColor={storedDNI === msg?.sender ? "#005C4B" : "#202C33"}
+              justifySelf={storedDNI === msg.sender?.dni ? "end" : "start"}
+              backgroundColor={storedDNI === msg.sender?.dni ? "#005C4B" : "#202C33"}
               sx={{
                 maxW: '500px',
                 minH: '33px',
@@ -183,20 +186,19 @@ const Sesion = ({ sesion }) => {
                   content: '""',
                   position: 'absolute',
                   top: '0px',
-                  [storedDNI === msg?.sender ? "right" : "left"]: "-10px",
-                  clipPath: `polygon(${storedDNI === msg?.sender ? "0 0, 100% 0, 0 100%" : "0 0, 100% 0, 100% 100%"})`,
-                  backgroundColor: `${storedDNI === msg?.sender ? "#005C4B" : "#202C33"}`,
+                  [storedDNI === msg.sender?.dni ? "right" : "left"]: "-10px",
+                  clipPath: `polygon(${storedDNI === msg.sender?.dni ? "0 0, 100% 0, 0 100%" : "0 0, 100% 0, 100% 100%"})`,
+                  backgroundColor: `${storedDNI === msg.sender?.dni ? "#005C4B" : "#202C33"}`,
                   width: '10px',
                   height: '10px',
                   zIndex: 1
                 },
-                [storedDNI === msg?.sender ? "roundedTopRight" : "roundedTopLeft"]: "none",
+                [storedDNI === msg.sender?.dni ? "roundedTopRight" : "roundedTopLeft"]: "none",
               }}
             >
               <Text
                 p={1}
                 fontSize={14}
-                color="#FFF"
                 whiteSpace="wrap"
                 wordBreak="break-word"
               >
@@ -235,10 +237,12 @@ const Sesion = ({ sesion }) => {
           />
         </Box>
         <Chat
-          room={sesion.id}
-          messages={messages}
-          setMessages={setMessages}
-          sender={storedDNI}
+          room={sesion?.id}
+          sender={{
+            dni: storedDNI,
+            nombre: CLIENTE,
+            color: COLOR_CLIENTE,
+          }}
         />
       </Box>
 

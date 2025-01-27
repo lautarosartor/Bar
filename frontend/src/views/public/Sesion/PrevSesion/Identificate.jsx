@@ -1,4 +1,4 @@
-import { FormControl, FormLabel, Input, Text, useToast } from "@chakra-ui/react";
+import { Box, FormControl, FormLabel, Input, Text, useToast } from "@chakra-ui/react";
 import CustomModal from "components/Modal";
 import useMutation from "hooks/useMutation";
 import PropTypes from "prop-types";
@@ -9,16 +9,24 @@ import { createClient } from "./api";
 
 const Identificate = ({ closeModal }) => {
   const navigate = useNavigate();
+  const toast = useToast();
   const [nombre, setNombre] = useState("");
   const [apellido, setApellido] = useState("");
   const [dni, setDni] = useState("");
-  const toast = useToast();
+  const [color, setColor] = useState("#DDFFAA");
 
   const create = useMutation({
     mutationFn: createClient,
     onSuccess: (res) => {
+      localStorage.setItem("cliente", nombre + " " + apellido);
+      localStorage.setItem("color", color);
       localStorage.setItem("dni", dni);
-      showSuccessToastify({ toast, res: nombre + ", " + res.message });
+
+      showSuccessToastify({
+        toast,
+        res: nombre + ", " + res.message
+      });
+
       setTimeout(() => {
         closeModal();
       }, 700);
@@ -54,29 +62,31 @@ const Identificate = ({ closeModal }) => {
       as="form"
       closeOnEsc={false}
     >
-      <FormControl isRequired>
-        <FormLabel>Nombre</FormLabel>
-        <Input
-          type="text"
-          name="nombre"
-          placeholder="Nombre"
-          value={nombre || ''}
-          onChange={(e) => setNombre(e.target.value)}
-          autoComplete="off"
-        />
-      </FormControl>
+      <Box display="flex" gap={4}>
+        <FormControl isRequired>
+          <FormLabel>Nombre</FormLabel>
+          <Input
+            type="text"
+            name="nombre"
+            placeholder="Nombre"
+            value={nombre || ''}
+            onChange={(e) => setNombre(e.target.value)}
+            autoComplete="off"
+          />
+        </FormControl>
 
-      <FormControl isRequired mt={4}>
-        <FormLabel>Apellido</FormLabel>
-        <Input
-          type="text"
-          name="apellido"
-          placeholder="Apellido"
-          value={apellido || ''}
-          onChange={(e) => setApellido(e.target.value)}
-          autoComplete="off"
-        />
-      </FormControl>
+        <FormControl isRequired>
+          <FormLabel>Apellido</FormLabel>
+          <Input
+            type="text"
+            name="apellido"
+            placeholder="Apellido"
+            value={apellido || ''}
+            onChange={(e) => setApellido(e.target.value)}
+            autoComplete="off"
+          />
+        </FormControl>
+      </Box>
 
       <FormControl isRequired mt={4}>
         <FormLabel>Documento</FormLabel>
@@ -87,6 +97,17 @@ const Identificate = ({ closeModal }) => {
           value={dni || ''}
           onChange={(e) => setDni(e.target.value)}
           autoComplete="off"
+        />
+      </FormControl>
+
+      <FormControl mt={4}>
+        <FormLabel>Elegí tu color</FormLabel>
+        <Input
+        width={20}
+          type="color"
+          name="color"
+          value={color || ''}
+          onChange={(e) => setColor(e.target.value)}
         />
       </FormControl>
 

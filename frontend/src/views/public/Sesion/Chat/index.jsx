@@ -10,7 +10,14 @@ const Chat = ({ room, sender }) => {
 
   const handleSendMessage = () => {
     if (input.trim()) {
-      sendMessage(room, { text: input, sender: sender, time: now });
+      sendMessage(
+        room,
+        {
+          text: input,
+          time: now,
+          sender: sender,
+        }
+      );
       setInput('');
     }
   };
@@ -51,8 +58,6 @@ const Chat = ({ room, sender }) => {
 // Validacion de props
 Chat.propTypes = {
   room: PropTypes.any,
-  messages: PropTypes.array,
-  setMessages: PropTypes.array,
   sender: PropTypes.any,
 };
 

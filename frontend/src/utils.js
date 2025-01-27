@@ -36,3 +36,7 @@ export const showErrorToastify = ({ toast, title, err }) => {
     position: 'top-center',
   });
 };
+
+export const DNI = localStorage.getItem("dni");
+export const CLIENTE = localStorage.getItem("cliente");
+export const COLOR_CLIENTE = localStorage.getItem("color");

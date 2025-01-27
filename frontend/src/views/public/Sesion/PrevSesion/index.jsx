@@ -5,10 +5,11 @@ import Identificate from "./Identificate";
 import Checkout from "./Checkout";
 import Sesion from "../";
 import useSesion from "./useSesion";
+import { DNI } from "utils";
 
 const PrevSesion = () => {
   const param = useParams();
-  const storedDNI = localStorage.getItem("dni");
+  const storedDNI = DNI;
   const [openIdentificarse, setOpenIdentificarse] = useState(!storedDNI);
   const [openCheckout, setOpenCheckout] = useState(!openIdentificarse);
   const { sesion, message200, message400, loading, fetchSesion } = useSesion();

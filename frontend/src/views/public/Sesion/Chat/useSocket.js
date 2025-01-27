@@ -18,10 +18,17 @@ export const disconnectSocket = () => {
   if(socket) socket.disconnect();
 }
 
+export const subscribeToChatHistory = (cb) => {
+  if (!socket) return(true);
+  socket.on('chat history', msgs => {
+    console.log('Historial del chat recibido :)');
+    return cb(null, msgs);
+  });
+}
+
 export const subscribeToChat = (cb) => {
   if (!socket) return(true);
   socket.on('chat', msg => {
-    console.log('Websocket event received!');
     return cb(null, msg);
   });
 }

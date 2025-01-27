@@ -23,16 +23,28 @@ const io = socketIo(server, {
 app.use(express.json());
 app.use(cors());
 
+let messages = {};
+
 io.on('connection', (socket) => {
   console.log(`Connected: ${socket.id}`);
 
   socket.on('join', (room) => {
     console.log(`Socket ${socket.id} joining to sesion: ${room}`);
     socket.join(room);
+    if (messages[room]) {
+      socket.emit('chat history', messages[room]);
+    } else {
+      messages[room] = [];
+    }
   });
 
   socket.on('chat', (data) => {
     const { room, message } = data;
+
+    if (!messages[room]) {
+      messages[room] = [];
+    }
+    messages[room].push(message);
 
     console.log(`
       sender: ${message.sender}
