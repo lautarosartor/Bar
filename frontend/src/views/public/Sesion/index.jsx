@@ -97,8 +97,8 @@ const Sesion = ({ sesion }) => {
                       [storedDNI === pedido?.cliente?.dni ? "right" : "left"]: "-10px",
                       clipPath: `polygon(${storedDNI === pedido?.cliente?.dni ? "0 0, 100% 0, 0 100%" : "0 0, 100% 0, 100% 100%"})`,
                       backgroundColor: `${storedDNI === pedido?.cliente?.dni ? "#005C4B" : "#202C33"}`,
-                      width: '10px',
-                      height: '10px',
+                      width: '12px',
+                      height: '12px',
                       zIndex: 1
                     },
                     [storedDNI === pedido?.cliente?.dni ? "roundedTopRight" : "roundedTopLeft"]: "none",
@@ -171,17 +171,22 @@ const Sesion = ({ sesion }) => {
           </React.Fragment>
         ))}
         {messages.map((msg, index) => (
-          <Box key={index} m={2}>
+          <Box key={index} mt={msg.sender?.dni !== messages[index - 1]?.sender?.dni ? 2 : 1}>
             <Grid
-              px={1} rounded="md"
-              templateColumns="1fr 30px"
+              rounded="md"
               position="relative"
               textColor="#FFF"
+              columnGap={4}
+              templateRows="repeat(3, auto)"
+              templateColumns="1fr 30px"
+              alignItems="center"
               justifySelf={storedDNI === msg.sender?.dni ? "end" : "start"}
               backgroundColor={storedDNI === msg.sender?.dni ? "#005C4B" : "#202C33"}
               sx={{
                 maxW: '500px',
                 minH: '33px',
+                px: '2',
+                py: '1',
                 _after: {
                   content: '""',
                   position: 'absolute',
@@ -189,15 +194,26 @@ const Sesion = ({ sesion }) => {
                   [storedDNI === msg.sender?.dni ? "right" : "left"]: "-10px",
                   clipPath: `polygon(${storedDNI === msg.sender?.dni ? "0 0, 100% 0, 0 100%" : "0 0, 100% 0, 100% 100%"})`,
                   backgroundColor: `${storedDNI === msg.sender?.dni ? "#005C4B" : "#202C33"}`,
-                  width: '10px',
-                  height: '10px',
+                  width: '12px',
+                  height: '12px',
                   zIndex: 1
                 },
                 [storedDNI === msg.sender?.dni ? "roundedTopRight" : "roundedTopLeft"]: "none",
               }}
             >
+              {msg.sender?.dni !== messages[index - 1]?.sender?.dni &&
+                <Text
+                  fontSize={12}
+                  fontWeight="bold"
+                  color={msg.sender?.color || "gray.300"}
+                  justifySelf="start"
+                  alignSelf="start"
+                  gridColumn="1 / -1"
+                >
+                  {msg.sender?.nombre}
+                </Text>
+              }
               <Text
-                p={1}
                 fontSize={14}
                 whiteSpace="wrap"
                 wordBreak="break-word"

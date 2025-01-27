@@ -18,9 +18,9 @@ const Identificate = ({ closeModal }) => {
   const create = useMutation({
     mutationFn: createClient,
     onSuccess: (res) => {
+      localStorage.setItem("dni", dni);
       localStorage.setItem("cliente", nombre + " " + apellido);
       localStorage.setItem("color", color);
-      localStorage.setItem("dni", dni);
 
       showSuccessToastify({
         toast,

@@ -47,7 +47,7 @@ io.on('connection', (socket) => {
     messages[room].push(message);
 
     console.log(`
-      sender: ${message.sender}
+      sender: ${message.sender.nombre}
       msg: ${message.text}
       time: ${message.time}
       room: ${room}
